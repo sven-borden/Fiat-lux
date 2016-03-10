@@ -2,8 +2,8 @@
 #define TOOLS_H
 
 //prototypes
-typedef struct Point point;
-typedef struct Vector vector;
+typedef struct Point POINT;
+typedef struct Vector VECTOR;
 
 struct Point
 {
@@ -17,6 +17,6 @@ struct Vector
     Point ptFin;
 };
 
-double distanceTwoPoint(Point, Point);
-double longueurVecteur(Vector)
+double distanceTwoPoint(POINT, POINT);
+double longueurVecteur(VECTOR)
 #endif
