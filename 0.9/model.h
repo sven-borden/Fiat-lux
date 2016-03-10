@@ -1,5 +1,5 @@
-#ifndef SIMULATION_H
-#define SIMULATION_H
+#ifndef MODEL_H
+#define MODEL_H
 
 void startSimulation();//demarre la simulation
 void pauseSimulation();//met la simulation en pause
