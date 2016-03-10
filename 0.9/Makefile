@@ -20,25 +20,31 @@ OFILES = $(CFILES:.c=.o)
 all: projet.x
 
 absorbor.o  : absorbor.c absorbor.h error.h tools.h
-    $(CC) $(CFLAGS) -c $< -o $@
+    
+	$(CC) $(CFLAGS) -c $< -o $@
 
 photon.o    : photon.c photon.h error.h tools.h
-    $(CC) $(CFLAGS) -c $< -o $@
+    
+	$(CC) $(CFLAGS) -c $< -o $@
 
 reflector.o : reflector.c reflector.h error.h tools.h
-    $(CC) $(CFLAGS) -c $< -o $@
+    
+	$(CC) $(CFLAGS) -c $< -o $@
 
 emmit.o     : emmit.c emmit.h error.h tools.h
-    $(CC) $(CFLAGS) -c $< -o $@
+    
+	$(CC) $(CFLAGS) -c $< -o $@
     
 error.o     : error.c error.h
-    $(CC) $(CFLAGS) -c $< -o $@
+   
+	$(CC) $(CFLAGS) -c $< -o $@
 
 model.o: model.c model.h absorbor.h photon.h reflector.h emmit.h
 
 projet.x    : $(OFILES)
-    $(CC) $(OFILES) -o $@
     
-clean       :
-    @echo "***cleaning all objects and executables***"
-    @/bin/rm -f *.o *.x *.c~ *.h~
+	$(CC) $(OFILES) -o $@
+    
+clean:
+	@echo "***cleaning all objects and executables***"
+	@/bin/rm -f *.o *.x *.c~ *.h~
