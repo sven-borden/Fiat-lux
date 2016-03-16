@@ -20,7 +20,7 @@ depend:
 	@mv Makefile.new Makefile
     
 clean:
-	@echo " *** MODULES ObjeTS ET EXECUTABLES EFFACE ***"
+	@echo " *** MODULES OBJETS ET EXECUTABLES EFFACE ***"
 	@/bin/rm -f *.o *.x *.c~ *.h~
     
 ###Règles automatiques

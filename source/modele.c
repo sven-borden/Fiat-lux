@@ -64,9 +64,10 @@ int readProj(FILE *pFile)
 						return ERROR;
 			}
 
-			if(sscanf("%lf %lf %lf", &tabProjecteur[i].pos.x, 
+			if(sscanf(line, "%lf %lf %lf", &tabProjecteur[i].pos.x, 
 				&tabProjecteur[i].pos.y, &tabProjecteur[i].alpha) != 3)
 			error_lecture_elements();
+            
 			i++;
 		}
 		else	{ error_fichier_incomplet(); }
@@ -80,12 +81,74 @@ int readProj(FILE *pFile)
 
 int readRefl(FILE *pFile)
 {
-
+    char line[130];
+    int nb = 0, i = 0;
+    
+    while(fgets(line, 130, pFile) != NULL)
+    {
+        if(skipLine(line) == SKIP)
+            continue;
+        /*lecture du nbRefl*/
+        sscanf(line, "%d", &nb);
+        break;
+    }
+    /*lecture des refl*/
+    while(i < nb)
+    {
+        if(fgets(line, 130, pFile) != NULL)
+        {
+            switch(skipLine(line))
+            {
+                case SKIP: continue;
+                case FINLISTE: //TODO ERROR FINLISTE   
+                    return ERROR;
+            }
+            
+            if(sscanf(line, "%lf %lf %lf %lf", &tabReflecteur[i].a.x,
+                &tabReflecteur[i].a.y, &tabProjecteur[i].b.x, 
+                &tabProjecteur.b.y) != 4)
+            error_lecture_elements();
+            
+            i++;
+        }
+        else    { error_fichier_incomplet(); }
+    }
+    fgets(line, 130, pFILE)
+    if(line == "FINLISTE")
+        return SUCCESS;
+    error_lecture_elements();
+    return ERROR;
 }
 
 int readAbs(FILE *pFile)
 {
-
+    char line[130];
+    int nb = 0, i = 0;
+    int nbPts = 0;
+    while(fgets(line, 130, pFile) != NULL)
+    {
+        if(skipLine(line) == SKIP)
+            continue;
+        /*lecture du nbAbs*/
+        sscanf(line, "%d", &nb);
+        break;
+    }
+    
+    /*lecture des abs*/
+    while(i < nb)
+    {
+        if(fgets(line, 130, pFile) != NULL)
+        {
+            switch(skipLine(line))
+            {
+                case SKIP: continue;
+                case FINLISTE: //TODO ERROR FINLISTE
+                    return ERROR;
+            }
+            
+            
+        }
+    }
 }
 
 int readPhot(FILE *pFile)
