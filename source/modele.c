@@ -11,6 +11,7 @@
 #include "photon.h"
 #include "projecteur.h"
 #include "error.h"
+#include "constantes.h"
 
 #define SUCCESS 0
 #define ERROR	1
@@ -53,7 +54,7 @@ int readProj(FILE *pFile)
 {
 	char line[MAX_LINE];
 	int nb = 0, i = 0;
-    POINT pos;
+	POINT pos;
 	double alpha = 0.0;
 	while(fgets(line, MAX_LINE, pFile) != NULL)
 	{
@@ -83,7 +84,7 @@ int readProj(FILE *pFile)
 		}
 		else	{ error_fichier_incomplet(); }
 	}
-	fgets(line, MAX_LINE, pFile)
+	fgets(line, MAX_LINE, pFile);
 	if(line == "FINLISTE")
 		return SUCCESS;
 	error_lecture_elements();
@@ -124,7 +125,7 @@ int readRefl(FILE *pFile)
         }
         else    { error_fichier_incomplet(); }
     }
-    fgets(line, MAX_LINE, pFILE);
+    fgets(line, MAX_LINE, pFile);
     if(line == "FIN_LISTE")
         return SUCCESS;
     error_lecture_elements();
@@ -136,8 +137,9 @@ int readAbs(FILE *pFile)
     char line[MAX_LINE];
     int nb = 0, i = 0, j = 0, nbPts = 0;
     POINT points[MAX_PT];
-    char* start = NULL, end = NULL;
-    
+    char* start = line;
+    char* end = NULL;
+	 
     while(fgets(line, MAX_LINE, pFile) != NULL)
     {
         if(skipLine(line) == SKIP)
@@ -164,11 +166,11 @@ int readAbs(FILE *pFile)
             
             for(j = 0; j < nbPts; j++)
             {
-                points[j].x = strtod(&start, &end);
+                points[j].x = strtod(start, &end);
                 if(start == end)
                     ;//call error
                 start = end;
-                points[j].y = strtod(&start, &end);
+                points[j].y = strtod(start, &end);
                 if(start == end)
                     ;//call error
                 start = end;
