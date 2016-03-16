@@ -36,10 +36,14 @@ int modeleLecture(char fileName[80])
 		return ERROR;
 	}
 	
-	readProj(pFile);	
-	readRefl(pFile);
-	readAbs(pFile);
-	readPhot(pFile);
+	if(readProj(pFile) != SUCCESS)
+        return ERROR;	
+	if(readRefl(pFile) != SUCCESS)
+        return ERROR;
+	if(readAbs(pFile) != SUCCESS)
+        return ERROR;
+	if(readPhot(pFile)!= SUCCESS)
+        return ERROR;
 	
 	error_success();
 	return SUCCESS;
@@ -47,10 +51,11 @@ int modeleLecture(char fileName[80])
 
 int readProj(FILE *pFile)
 {
-	char line[130];
+	char line[MAX_LINE];
 	int nb = 0, i = 0;
-	
-	while(fgets(line, 130, pFile) != NULL)
+    POINT pos;
+	double alpha = 0.0;
+	while(fgets(line, MAX_LINE, pFile) != NULL)
 	{
 		if(skipLine(line) == SKIP)
 			continue;
@@ -61,7 +66,7 @@ int readProj(FILE *pFile)
 	/*lecture des Proj*/
 	while(i < nb)
 	{
-		if(fgets(line, 130, pFile) != NULL)
+		if(fgets(line, MAX_LINE, pFile) != NULL)
 		{
 			switch(skipLine(line))
 			{
@@ -70,15 +75,15 @@ int readProj(FILE *pFile)
 						return ERROR;
 			}
 
-			if(sscanf(line, "%lf %lf %lf", &tabProjecteur[i].pos.x, 
-				&tabProjecteur[i].pos.y, &tabProjecteur[i].alpha) != 3)
-			error_lecture_elements();
-            
+			if(sscanf(line, "%lf %lf %lf", &pos.x, &pos.y, &alpha) != 3)
+			    error_lecture_elements();
+                
+            setProjecteur(pos, alpha);
 			i++;
 		}
 		else	{ error_fichier_incomplet(); }
 	}
-	fgets(line, 130, pFile)
+	fgets(line, MAX_LINE, pFile)
 	if(line == "FINLISTE")
 		return SUCCESS;
 	error_lecture_elements();
@@ -87,10 +92,11 @@ int readProj(FILE *pFile)
 
 int readRefl(FILE *pFile)
 {
-    char line[130];
+    char line[MAX_LINE];
     int nb = 0, i = 0;
+    POINT a, b;
     
-    while(fgets(line, 130, pFile) != NULL)
+    while(fgets(line, MAX_LINE, pFile) != NULL)
     {
         if(skipLine(line) == SKIP)
             continue;
@@ -101,7 +107,7 @@ int readRefl(FILE *pFile)
     /*lecture des refl*/
     while(i < nb)
     {
-        if(fgets(line, 130, pFile) != NULL)
+        if(fgets(line, MAX_LINE, pFile) != NULL)
         {
             switch(skipLine(line))
             {
@@ -110,17 +116,16 @@ int readRefl(FILE *pFile)
                     return ERROR;
             }
             
-            if(sscanf(line, "%lf %lf %lf %lf", &tabReflecteur[i].a.x,
-                &tabReflecteur[i].a.y, &tabProjecteur[i].b.x, 
-                &tabProjecteur.b.y) != 4)
-            error_lecture_elements();
+            if(sscanf(line, "%lf %lf %lf %lf", &a.x, &a.y, &b.x, &b.y) != 4)
+                error_lecture_elements();
+            setReflecteur(a, b);
             
             i++;
         }
         else    { error_fichier_incomplet(); }
     }
-    fgets(line, 130, pFILE)
-    if(line == "FINLISTE")
+    fgets(line, MAX_LINE, pFILE);
+    if(line == "FIN_LISTE")
         return SUCCESS;
     error_lecture_elements();
     return ERROR;
@@ -128,10 +133,12 @@ int readRefl(FILE *pFile)
 
 int readAbs(FILE *pFile)
 {
-    char line[130];
-    int nb = 0, i = 0;
-    int nbPts = 0;
-    while(fgets(line, 130, pFile) != NULL)
+    char line[MAX_LINE];
+    int nb = 0, i = 0, j = 0, nbPts = 0;
+    POINT points[MAX_PT];
+    char* start = NULL, end = NULL;
+    
+    while(fgets(line, MAX_LINE, pFile) != NULL)
     {
         if(skipLine(line) == SKIP)
             continue;
@@ -143,7 +150,7 @@ int readAbs(FILE *pFile)
     /*lecture des abs*/
     while(i < nb)
     {
-        if(fgets(line, 130, pFile) != NULL)
+        if(fgets(line, MAX_LINE, pFile) != NULL)
         {
             switch(skipLine(line))
             {
@@ -152,17 +159,76 @@ int readAbs(FILE *pFile)
                     return ERROR;
             }
             
+            nbPts = (int)strtod(line, &end);
+            start = end;
             
+            for(j = 0; j < nbPts; j++)
+            {
+                points[j].x = strtod(&start, &end);
+                if(start == end)
+                    ;//call error
+                start = end;
+                points[j].y = strtod(&start, &end);
+                if(start == end)
+                    ;//call error
+                start = end;
+            }
+            
+            setAbsorbeur(nbPts, points);
+            i++;
         }
+        else    {error_fichier_incomplet(); }
     }
+    fgets(line, MAX_LINE, pFile);
+    if(line == "FIN_LISTE")
+        return SUCCESS;
+    error_lecture_elements();
+    return ERROR;    
 }
 
 int readPhot(FILE *pFile)
 {
-
+    char line[MAX_LINE];
+    int nb = 0, i = 0;
+    POINT pos;
+    double alpha;
+    
+    while(fgets(line, MAX_LINE, pFile) != NULL)
+    {
+        if(skipLine(line) == SKIP)
+            continue;
+        /*lecture du phot*/
+        sscanf(line, "%d", &nb);
+        break;
+    }
+    /*lecture des photon*/
+    while(i < nb)
+    {
+        if(fgets(line, MAX_LINE, pFile) != NULL)
+        {
+            switch(skipLine(line))
+            {
+                case SKIP: continue;
+                case FINLISTE: //TODO ERROR FINLISTE
+                    return ERROR;
+            }
+            
+            if(sscanf(line, "%lf %lf %lf", &pos.x, &pos.y, &alpha) != 3)
+                error_lecture_elements();
+            setPhoton(pos, alpha);
+            
+            i++;
+        }
+        else    { error_fichier_incomplet(); }
+    }
+    fgets(line, MAX_LINE, pFile);
+    if(line == "FIN_LISTE")
+        return SUCCESS;
+    error_lecture_elements();
+    return ERROR;
 }
 
-int skipLine(char line[130])
+int skipLine(char line[MAX_LINE])
 {
 	if(line == "FIN_LISTE")
 		return FINLISTE;
