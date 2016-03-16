@@ -1,0 +1,29 @@
+# Fiat Lux! 2015-16
+#
+# F02 : parcours avec réflecteurs multiples
+#
+
+#projecteur
+1
+0. 0. 0.
+FIN_LISTE
+
+#reflecteur
+5
+0.01 -0.01 0.03 0.01
+0.03 0.05 0.01 0.07
+0.0 0.07 -0.02 0.05
+-0.02 -0.01 0. -0.03
+0.01 -0.03 0.03 -0.01
+FIN_LISTE
+
+#absorbeur
+2
+2 0.01 0.01  0.01 0.05
+2 0.05 -0.03  0.05 0.07
+FIN_LISTE
+
+#photon
+0
+
+FIN_LISTE
