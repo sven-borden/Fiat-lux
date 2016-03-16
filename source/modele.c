@@ -1,3 +1,9 @@
+/*
+    Autheur: Alix Nepveux & Sven Borden
+    Date : 16 mars 2016
+    Version: 0.9
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "absorbeur.h"
