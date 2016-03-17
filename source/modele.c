@@ -55,7 +55,6 @@ int modeleLecture(char fileName[80])
 int readProj(FILE *pFile)
 {
 	char line[MAX_LINE];
-	char finliste[] = "FIN_LISTE", tmp[10];
 	int nb = 0, i = 0;
 	POINT pos;
 	double alpha = 0.0;
@@ -135,7 +134,8 @@ int readRefl(FILE *pFile)
                 return ERROR;
             }
             
-            setReflecteur(a, b);
+            if(!setReflecteur(a, b))
+		return ERROR;
             
             i++;
         }
@@ -279,7 +279,7 @@ int readPhot(FILE *pFile)
 int skipLine(char line[MAX_LINE])
 {
 	printf("%s", line);
-	if(line == "FIN_LISTE")
+	if(strncmp(line, "FIN_LISTE", 10))
 		return FINLISTE;
 	
 	if(line[0] == '#' || line[0] == '\n' || line[0] == '\r')

@@ -14,5 +14,5 @@ double distance2Points(POINT a, POINT b)
 {
     double xLen = b.x - a.y;
     double yLen = b.y - a.y;
-    return sqrt(xLen*xlen + yLen* yLen);
+    return sqrt(xLen*xLen + yLen* yLen);
 }

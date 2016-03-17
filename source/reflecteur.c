@@ -3,6 +3,7 @@
 #include "utilitaire.h"
 #include "constantes.h"
 #include "reflecteur.h"
+#include "error.h"
 
 #define OK 0
 #define NO 1
@@ -17,6 +18,8 @@ struct Reflecteur
 
 static REFLECTEUR tabReflecteur[MAX_RENDU1];
 static int n = 0;
+
+static int distanceRequise(POINT, POINT);
 
 int setReflecteur(POINT _a, POINT _b)
 {

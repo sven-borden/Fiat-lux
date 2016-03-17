@@ -2,6 +2,6 @@
 #define REFLECTEUR_H
 #include "utilitaire.h"
 
-void setReflecteur(POINT, POINT);
+int setReflecteur(POINT, POINT);
 
 #endif

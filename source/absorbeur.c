@@ -19,6 +19,8 @@ struct Absorbeur
 static ABSORBEUR tabAbsorbeur[MAX_RENDU1];
 static int n = 0;
 
+static int distanceRequise(POINT, POINT);
+
 int setAbsorbeur(int _nbPt, POINT _tabPt[MAX_PT])
 {
     tabAbsorbeur[n].nbPt = _nbPt;
