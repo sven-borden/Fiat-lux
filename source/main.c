@@ -5,9 +5,9 @@
 
 int main(int argc, char *argv[])
 {
-	if(argc == 2)
+	if(argc == 3)
 	{
-		if(modeleLecture(argv[1]) == 1)
+		if(modeleLecture(argv[2]) == 1)
 			EXIT_FAILURE;
 		else
 			EXIT_SUCCESS;

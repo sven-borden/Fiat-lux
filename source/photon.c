@@ -14,12 +14,12 @@ struct Photon
 };
 
 static PHOTON tabPhoton[MAX_RENDU1];
-static n = 0;
+static int n = 0;
 
 void setPhoton(POINT _pos, double _alpha)
 {
-	tab[n].pos.x = _pos.x;
-	tab[n].pos.y = _pos.y;
-	tab[n].alpha = _alpha;
+	tabPhoton[n].pos.x = _pos.x;
+	tabPhoton[n].pos.y = _pos.y;
+	tabPhoton[n].alpha = _alpha;
 	n++;
 }

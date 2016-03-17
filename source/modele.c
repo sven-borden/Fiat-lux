@@ -74,7 +74,7 @@ int readProj(FILE *pFile)
 			{
 				case SKIP:	continue;
 				case FINLISTE:
-                    error_lecture_elements(ERR_PROJECTEUR, ERR_PAS_ASSEZ)
+                    error_lecture_elements(ERR_PROJECTEUR, ERR_PAS_ASSEZ);
 					return ERROR;
 			}
 
@@ -122,7 +122,7 @@ int readRefl(FILE *pFile)
             {
                 case SKIP: continue;
                 case FINLISTE:  
-                    error_lecture_elements(ERR_PROJECTEUR, ERR_PAS_ASSEZ)
+                    error_lecture_elements(ERR_PROJECTEUR, ERR_PAS_ASSEZ);
 					return ERROR;
             }
             
@@ -175,7 +175,7 @@ int readAbs(FILE *pFile)
             {
                 case SKIP: continue;
                 case FINLISTE:
-                    error_lecture_elements(ERR_ABSORBEUR, ERR_PAS_ASSEZ)
+                    error_lecture_elements(ERR_ABSORBEUR, ERR_PAS_ASSEZ);
 					return ERROR;
             }
             

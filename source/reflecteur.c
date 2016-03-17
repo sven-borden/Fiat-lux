@@ -4,12 +4,12 @@
 #include "constantes.h"
 #include "reflecteur.h"
 
-typedef struct Reflecteur REFLECTEUR
+typedef struct Reflecteur REFLECTEUR;
 
 struct Reflecteur
 {
 	POINT a;
-    POINT b;
+	POINT b;
 };
 
 static REFLECTEUR tabReflecteur[MAX_RENDU1];
