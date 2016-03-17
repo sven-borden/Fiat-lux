@@ -56,6 +56,7 @@ int readProj(FILE *pFile)
 	int nb = 0, i = 0;
 	POINT pos;
 	double alpha = 0.0;
+    
 	while(fgets(line, MAX_LINE, pFile) != NULL)
 	{
 		if(skipLine(line) == SKIP)
@@ -72,22 +73,29 @@ int readProj(FILE *pFile)
 			switch(skipLine(line))
 			{
 				case SKIP:	continue;
-				case FINLISTE: //TODO ERROR FINLISTE
-						return ERROR;
+				case FINLISTE:
+                    error_lecture_elements(ERR_PROJECTEUR, ERR_PAS_ASSEZ)
+					return ERROR;
 			}
 
 			if(sscanf(line, "%lf %lf %lf", &pos.x, &pos.y, &alpha) != 3)
-			    error_lecture_elements();
-                
+            {
+			    error_lecture_elements(ERR_PROJECTEUR, ERR_PAS_ASSEZ);
+                return ERROR;
+            }   
             setProjecteur(pos, alpha);
 			i++;
 		}
-		else	{ error_fichier_incomplet(); }
+		else	
+        { 
+            error_fichier_incomplet();
+            return ERROR; 
+        }
 	}
 	fgets(line, MAX_LINE, pFile);
 	if(line == "FINLISTE")
 		return SUCCESS;
-	error_lecture_elements();
+	error_lecture_elements(ERR_PROJECTEUR, ERR_TROP);
 	return ERROR;
 }
 
@@ -113,22 +121,31 @@ int readRefl(FILE *pFile)
             switch(skipLine(line))
             {
                 case SKIP: continue;
-                case FINLISTE: //TODO ERROR FINLISTE   
-                    return ERROR;
+                case FINLISTE:  
+                    error_lecture_elements(ERR_PROJECTEUR, ERR_PAS_ASSEZ)
+					return ERROR;
             }
             
             if(sscanf(line, "%lf %lf %lf %lf", &a.x, &a.y, &b.x, &b.y) != 4)
-                error_lecture_elements();
+            {
+                error_lecture_elements(ERR_REFLECTEUR, ERR_PAS_ASSEZ);
+                return ERROR;
+            }
+            
             setReflecteur(a, b);
             
             i++;
         }
-        else    { error_fichier_incomplet(); }
+        else	
+        { 
+            error_fichier_incomplet();
+            return ERROR; 
+        }
     }
     fgets(line, MAX_LINE, pFile);
     if(line == "FIN_LISTE")
         return SUCCESS;
-    error_lecture_elements();
+    error_lecture_elements(ERR_REFLECTEUR, ERR_TROP);
     return ERROR;
 }
 
@@ -157,34 +174,50 @@ int readAbs(FILE *pFile)
             switch(skipLine(line))
             {
                 case SKIP: continue;
-                case FINLISTE: //TODO ERROR FINLISTE
-                    return ERROR;
+                case FINLISTE:
+                    error_lecture_elements(ERR_ABSORBEUR, ERR_PAS_ASSEZ)
+					return ERROR;
             }
             
             nbPts = (int)strtod(line, &end);
+            if(nbPts < 2 || nbPts > MAX_PT)
+            {
+                error_lect_nb_points_absorbeur();
+                return ERROR;
+            }
             start = end;
             
             for(j = 0; j < nbPts; j++)
             {
                 points[j].x = strtod(start, &end);
                 if(start == end)
-                    ;//call error
+                {
+                    error_lecture_elements(ERR_ABSORBEUR, ERR_PAS_ASSEZ);
+                    return ERROR;
+                }
                 start = end;
                 points[j].y = strtod(start, &end);
                 if(start == end)
-                    ;//call error
+                {
+                    error_lecture_elements(ERR_ABSORBEUR, ERR_PAS_ASSEZ);
+                    return ERROR;
+                }
                 start = end;
             }
             
             setAbsorbeur(nbPts, points);
             i++;
         }
-        else    {error_fichier_incomplet(); }
+        else	
+        { 
+            error_fichier_incomplet();
+            return ERROR; 
+        }
     }
     fgets(line, MAX_LINE, pFile);
     if(line == "FIN_LISTE")
         return SUCCESS;
-    error_lecture_elements();
+    error_lecture_elements(ERR_ABSORBEUR, ERR_TROP);
     return ERROR;    
 }
 
@@ -211,22 +244,31 @@ int readPhot(FILE *pFile)
             switch(skipLine(line))
             {
                 case SKIP: continue;
-                case FINLISTE: //TODO ERROR FINLISTE
-                    return ERROR;
+                case FINLISTE: 
+                    error_lecture_elements(ERR_PHOTON, ERR_PAS_ASSEZ);
+					return ERROR;
             }
             
             if(sscanf(line, "%lf %lf %lf", &pos.x, &pos.y, &alpha) != 3)
-                error_lecture_elements();
+            {
+                error_lecture_elements(ERR_PHOTON, ERR_PAS_ASSEZ);
+                return ERROR;
+            }
+            
             setPhoton(pos, alpha);
             
             i++;
         }
-        else    { error_fichier_incomplet(); }
+        else	
+        { 
+            error_fichier_incomplet();
+            return ERROR; 
+        }
     }
     fgets(line, MAX_LINE, pFile);
     if(line == "FIN_LISTE")
         return SUCCESS;
-    error_lecture_elements();
+    error_lecture_elements(ERR_PHOTON, ERR_TROP);
     return ERROR;
 }
 
