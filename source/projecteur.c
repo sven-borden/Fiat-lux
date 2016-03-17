@@ -5,7 +5,6 @@
 #include "constantes.h"
 #include "utilitaire.h"
 
-
 typedef struct Projecteur PROJECTEUR;
 
 struct Projecteur

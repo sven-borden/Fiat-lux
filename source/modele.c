@@ -98,7 +98,6 @@ int readProj(FILE *pFile)
 	fgets(line, MAX_LINE, pFile);
 	if(strncmp(line, "FIN_LISTE", 10))
 		return SUCCESS;
-
 		error_lecture_elements(ERR_PROJECTEUR, ERR_TROP);
 	return ERROR;
 }
@@ -147,8 +146,8 @@ int readRefl(FILE *pFile)
         }
     }
     fgets(line, MAX_LINE, pFile);
-    if(line == "FIN_LISTE")
-        return SUCCESS;
+    if(strncmp(line, "FIN_LISTE", 10))
+		return SUCCESS;
     error_lecture_elements(ERR_REFLECTEUR, ERR_TROP);
     return ERROR;
 }
@@ -209,7 +208,8 @@ int readAbs(FILE *pFile)
                 start = end;
             }
             
-            setAbsorbeur(nbPts, points);
+            if(!setAbsorbeur(nbPts, points))
+                return ERROR;
             i++;
         }
         else	
@@ -219,8 +219,8 @@ int readAbs(FILE *pFile)
         }
     }
     fgets(line, MAX_LINE, pFile);
-    if(line == "FIN_LISTE")
-        return SUCCESS;
+    if(strncmp(line, "FIN_LISTE", 10))
+		return SUCCESS;
     error_lecture_elements(ERR_ABSORBEUR, ERR_TROP);
     return ERROR;    
 }
@@ -270,8 +270,8 @@ int readPhot(FILE *pFile)
         }
     }
     fgets(line, MAX_LINE, pFile);
-    if(line == "FIN_LISTE")
-        return SUCCESS;
+    if(strncmp(line, "FIN_LISTE", 10))
+		return SUCCESS;
     error_lecture_elements(ERR_PHOTON, ERR_TROP);
     return ERROR;
 }

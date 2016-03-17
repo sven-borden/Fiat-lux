@@ -16,4 +16,6 @@ struct Vector
 	POINT ptFin;
 };
 
+double normeVector(VECTOR);
+double distance2Points(POINT, POINT);
 #endif
