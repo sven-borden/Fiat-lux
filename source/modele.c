@@ -12,12 +12,14 @@
 #include "projecteur.h"
 #include "error.h"
 #include "constantes.h"
+#include <string.h>
 
-#define SUCCESS 0
-#define ERROR	1
-#define KEEP	0
-#define SKIP	1
-#define FINLISTE 2
+#define SUCCESS 	0
+#define ERROR		1
+#define KEEP		0
+#define SKIP		1
+#define FINLISTE 	2
+
 
 int readProj(FILE *);
 int readRefl(FILE *);
@@ -38,13 +40,13 @@ int modeleLecture(char fileName[80])
 	}
 	
 	if(readProj(pFile) != SUCCESS)
-        return ERROR;	
+	        return ERROR;	
 	if(readRefl(pFile) != SUCCESS)
-        return ERROR;
+        	return ERROR;
 	if(readAbs(pFile) != SUCCESS)
-        return ERROR;
+	        return ERROR;
 	if(readPhot(pFile)!= SUCCESS)
-        return ERROR;
+	        return ERROR;
 	
 	error_success();
 	return SUCCESS;
@@ -53,6 +55,7 @@ int modeleLecture(char fileName[80])
 int readProj(FILE *pFile)
 {
 	char line[MAX_LINE];
+	char finliste[] = "FIN_LISTE", tmp[10];
 	int nb = 0, i = 0;
 	POINT pos;
 	double alpha = 0.0;
@@ -74,28 +77,29 @@ int readProj(FILE *pFile)
 			{
 				case SKIP:	continue;
 				case FINLISTE:
-                    error_lecture_elements(ERR_PROJECTEUR, ERR_PAS_ASSEZ);
+                    			error_lecture_elements(ERR_PROJECTEUR, ERR_PAS_ASSEZ);
 					return ERROR;
 			}
 
 			if(sscanf(line, "%lf %lf %lf", &pos.x, &pos.y, &alpha) != 3)
-            {
-			    error_lecture_elements(ERR_PROJECTEUR, ERR_PAS_ASSEZ);
-                return ERROR;
-            }   
-            setProjecteur(pos, alpha);
+            		{
+				error_lecture_elements(ERR_PROJECTEUR, ERR_PAS_ASSEZ);
+                		return ERROR;
+			}   
+			setProjecteur(pos, alpha);
 			i++;
 		}
-		else	
-        { 
-            error_fichier_incomplet();
-            return ERROR; 
-        }
+		else
+		{ 
+            		error_fichier_incomplet();
+            		return ERROR; 
+        	}
 	}
 	fgets(line, MAX_LINE, pFile);
-	if(line == "FINLISTE")
+	if(strncmp(line, "FIN_LISTE", 10))
 		return SUCCESS;
-	error_lecture_elements(ERR_PROJECTEUR, ERR_TROP);
+
+		error_lecture_elements(ERR_PROJECTEUR, ERR_TROP);
 	return ERROR;
 }
 
@@ -274,6 +278,7 @@ int readPhot(FILE *pFile)
 
 int skipLine(char line[MAX_LINE])
 {
+	printf("%s", line);
 	if(line == "FIN_LISTE")
 		return FINLISTE;
 	
@@ -282,3 +287,4 @@ int skipLine(char line[MAX_LINE])
 	else
 		return KEEP;
 }
+
