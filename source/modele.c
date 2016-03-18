@@ -240,7 +240,7 @@ printf("IN %s, LINE %d\n", __func__, __LINE__);
 }
 
 int skipLine(char line[MAX_LINE])
-{
+{ 
 	printf("%s", line);
 	if(strncmp(line, "FIN_LISTE", 10))
 		return FINLISTE;
