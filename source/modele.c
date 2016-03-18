@@ -66,11 +66,13 @@ int readProj(FILE *pFile)
 		sscanf(line, "%d", &nb);
 		break;
 	}
+    printf("IN %s, LINE %d\n", __func__, __LINE__);
 	/*lecture des Proj*/
 	while(i < nb)
 	{
 		if(fgets(line, MAX_LINE, pFile) != NULL)
 		{
+            printf("IN %s, LINE %d\n", __func__, __LINE__);
 			switch(skipLine(line))
 			{
 				case SKIP:	continue;
@@ -78,7 +80,7 @@ int readProj(FILE *pFile)
                     			error_lecture_elements(ERR_PROJECTEUR, ERR_PAS_ASSEZ);
 					return ERROR;
 			}
-
+            printf("IN %s, LINE %d\n", __func__, __LINE__);
 			if(!setProjecteur(line))
                 return ERROR;
                 
@@ -88,8 +90,9 @@ int readProj(FILE *pFile)
 		{ 
             		error_fichier_incomplet();
             		return ERROR; 
-	        }
+	    }
 	}
+    printf("IN %s, LINE %d\n", __func__, __LINE__);
 	fgets(line, MAX_LINE, pFile);
 	if(strncmp(line, "FIN_LISTE", 10))
 		return SUCCESS;
@@ -99,7 +102,7 @@ int readProj(FILE *pFile)
 
 int readRefl(FILE *pFile)
 {
-	printf("IN %s", __func__);
+	printf("IN %s, LINE %d\n", __func__, __LINE__);
 
     char line[MAX_LINE];
     int nb = 0, i = 0;
@@ -145,7 +148,7 @@ int readRefl(FILE *pFile)
 
 int readAbs(FILE *pFile)
 {
-printf("IN %s", __func__);
+printf("IN %s, LINE %d\n", __func__, __LINE__);
 
     char line[MAX_LINE];
     int nb = 0, i = 0;
@@ -192,7 +195,7 @@ printf("IN %s", __func__);
 
 int readPhot(FILE *pFile)
 {
-printf("IN %s", __func__);
+printf("IN %s, LINE %d\n", __func__, __LINE__);
 
     char line[MAX_LINE];
     int nb = 0, i = 0;
