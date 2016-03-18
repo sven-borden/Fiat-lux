@@ -2,6 +2,6 @@
 #define ABSORBEUR_H
 #include "utilitaire.h"
 
-int setAbsorbeur(int, POINT[]);
+int setAbsorbeur(char[]);
 
 #endif

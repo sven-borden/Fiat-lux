@@ -21,8 +21,41 @@ static int n = 0;
 
 static int distanceRequise(POINT, POINT);
 
-int setAbsorbeur(int _nbPt, POINT _tabPt[MAX_PT])
+int setAbsorbeur(char line[MAX_LINE])
 {
+    int _nbPt, j = 0;
+    char* start = line;
+    char* end = NULL;
+    POINT points[MAX_PT];
+    //lecture
+    
+    nbPts = (int)strtod(line, &end);
+    if(nbPts < 2 || nbPts > MAX_PT)
+    {
+        error_lect_nb_points_absorbeur();
+            return NO;
+    }
+    start = end;
+    
+    for(j = 0; j < nbPts; j++)
+    {
+        points[j].x = strtod(start, &end);
+        if(start == end)
+        {
+            error_lecture_elements(ERR_ABSORBEUR, ERR_PAS_ASSEZ);
+            return ERROR;
+        }
+        start = end;
+        points[j].y = strtod(start, &end);
+        if(start == end)
+        {
+            error_lecture_elements(ERR_ABSORBEUR, ERR_PAS_ASSEZ);
+            return ERROR;
+        }
+        start = end;
+    }
+            
+            
     tabAbsorbeur[n].nbPt = _nbPt;
     int i = 0;
     tabAbsorbeur[n].tabPt[i] = _tabPt[i];

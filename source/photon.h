@@ -2,6 +2,6 @@
 #define PHOTON_H
 #include "constantes.h"
 
-void setPhoton(POINT, double);
+int setPhoton(char[]);
 
 #endif

@@ -2,6 +2,6 @@
 #define PROJECTEUR_H
 #include "utilitaire.h"
 
-void setProjecteur(POINT, double);
+int setProjecteur(char[]);
 
 #endif

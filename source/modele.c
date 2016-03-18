@@ -80,24 +80,21 @@ int readProj(FILE *pFile)
 					return ERROR;
 			}
 
-			if(sscanf(line, "%lf %lf %lf", &pos.x, &pos.y, &alpha) != 3)
-            		{
-				error_lecture_elements(ERR_PROJECTEUR, ERR_PAS_ASSEZ);
-                		return ERROR;
-			}   
-			setProjecteur(pos, alpha);
+			if(!setProjecteur(line))
+                return ERROR;
+                
 			i++;
 		}
 		else
 		{ 
             		error_fichier_incomplet();
             		return ERROR; 
-        	}
+        }
 	}
 	fgets(line, MAX_LINE, pFile);
 	if(strncmp(line, "FIN_LISTE", 10))
 		return SUCCESS;
-		error_lecture_elements(ERR_PROJECTEUR, ERR_TROP);
+    error_lecture_elements(ERR_PROJECTEUR, ERR_TROP);
 	return ERROR;
 }
 
@@ -105,8 +102,7 @@ int readRefl(FILE *pFile)
 {
     char line[MAX_LINE];
     int nb = 0, i = 0;
-    POINT a, b;
-    
+        
     while(fgets(line, MAX_LINE, pFile) != NULL)
     {
         if(skipLine(line) == SKIP)
@@ -128,14 +124,8 @@ int readRefl(FILE *pFile)
 					return ERROR;
             }
             
-            if(sscanf(line, "%lf %lf %lf %lf", &a.x, &a.y, &b.x, &b.y) != 4)
-            {
-                error_lecture_elements(ERR_REFLECTEUR, ERR_PAS_ASSEZ);
-                return ERROR;
-            }
-            
-            if(!setReflecteur(a, b))
-		return ERROR;
+            if(!setReflecteur(line))
+		        return ERROR;
             
             i++;
         }
@@ -155,10 +145,8 @@ int readRefl(FILE *pFile)
 int readAbs(FILE *pFile)
 {
     char line[MAX_LINE];
-    int nb = 0, i = 0, j = 0, nbPts = 0;
-    POINT points[MAX_PT];
-    char* start = line;
-    char* end = NULL;
+    int nb = 0, i = 0;
+
 	 
     while(fgets(line, MAX_LINE, pFile) != NULL)
     {
@@ -180,32 +168,6 @@ int readAbs(FILE *pFile)
                 case FINLISTE:
                     error_lecture_elements(ERR_ABSORBEUR, ERR_PAS_ASSEZ);
 					return ERROR;
-            }
-            
-            nbPts = (int)strtod(line, &end);
-            if(nbPts < 2 || nbPts > MAX_PT)
-            {
-                error_lect_nb_points_absorbeur();
-                return ERROR;
-            }
-            start = end;
-            
-            for(j = 0; j < nbPts; j++)
-            {
-                points[j].x = strtod(start, &end);
-                if(start == end)
-                {
-                    error_lecture_elements(ERR_ABSORBEUR, ERR_PAS_ASSEZ);
-                    return ERROR;
-                }
-                start = end;
-                points[j].y = strtod(start, &end);
-                if(start == end)
-                {
-                    error_lecture_elements(ERR_ABSORBEUR, ERR_PAS_ASSEZ);
-                    return ERROR;
-                }
-                start = end;
             }
             
             if(!setAbsorbeur(nbPts, points))
@@ -253,13 +215,8 @@ int readPhot(FILE *pFile)
 					return ERROR;
             }
             
-            if(sscanf(line, "%lf %lf %lf", &pos.x, &pos.y, &alpha) != 3)
-            {
-                error_lecture_elements(ERR_PHOTON, ERR_PAS_ASSEZ);
+            if(!setPhoton(line)
                 return ERROR;
-            }
-            
-            setPhoton(pos, alpha);
             
             i++;
         }

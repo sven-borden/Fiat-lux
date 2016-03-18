@@ -21,8 +21,15 @@ static int n = 0;
 
 static int distanceRequise(POINT, POINT);
 
-int setReflecteur(POINT _a, POINT _b)
+int setReflecteur(char line[MAX_LINE])
 {
+    POINT _a, _b;
+    if(sscanf(line, "%lf %lf %lf %lf", &a.x, &a.y, &b.x, &b.y) != 4)
+    {
+        error_lecture_elements(ERR_REFLECTEUR, ERR_PAS_ASSEZ);
+        return NO;
+    }
+    
     if(!distanceRequise(_a, _b))
     {
         error_lecture_point_trop_proche(ERR_REFLECTEUR, 1);
