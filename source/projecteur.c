@@ -22,7 +22,7 @@ static int n = 0;
 int setProjecteur(char line[MAX_LINE])
 {
     double x = 0, y = 0, alpha = 0;
-    if(sscanf(line, "%lf %lf %lf", &a, &b, &alpha) != 3)
+    if(sscanf(line, "%lf %lf %lf", &x, &y, &alpha) != 3)
     {
         error_lecture_elements(ERR_PROJECTEUR, ERR_PAS_ASSEZ);
         return NO;

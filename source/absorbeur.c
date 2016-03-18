@@ -26,31 +26,31 @@ int setAbsorbeur(char line[MAX_LINE])
     int _nbPt, j = 0;
     char* start = line;
     char* end = NULL;
-    POINT points[MAX_PT];
+    POINT _points[MAX_PT];
     //lecture
     
-    nbPts = (int)strtod(line, &end);
-    if(nbPts < 2 || nbPts > MAX_PT)
+    _nbPt = (int)strtod(line, &end);
+    if(_nbPt < 2 || _nbPt > MAX_PT)
     {
         error_lect_nb_points_absorbeur();
             return NO;
     }
     start = end;
     
-    for(j = 0; j < nbPts; j++)
+    for(j = 0; j < _nbPt; j++)
     {
-        points[j].x = strtod(start, &end);
+        _points[j].x = strtod(start, &end);
         if(start == end)
         {
             error_lecture_elements(ERR_ABSORBEUR, ERR_PAS_ASSEZ);
-            return ERROR;
+            return NO;
         }
         start = end;
-        points[j].y = strtod(start, &end);
+        _points[j].y = strtod(start, &end);
         if(start == end)
         {
             error_lecture_elements(ERR_ABSORBEUR, ERR_PAS_ASSEZ);
-            return ERROR;
+            return NO;
         }
         start = end;
     }
@@ -58,11 +58,11 @@ int setAbsorbeur(char line[MAX_LINE])
             
     tabAbsorbeur[n].nbPt = _nbPt;
     int i = 0;
-    tabAbsorbeur[n].tabPt[i] = _tabPt[i];
+    tabAbsorbeur[n].tabPt[i] = _points[i];
     
     for(i = 1; i < _nbPt; i++)
     {
-        tabAbsorbeur[n].tabPt[i] = _tabPt[i];
+        tabAbsorbeur[n].tabPt[i] = _points[i];
         if(!distanceRequise(tabAbsorbeur[n].tabPt[i], tabAbsorbeur[n].tabPt[i-1]))
         {
             error_lecture_point_trop_proche(ERR_ABSORBEUR, i);

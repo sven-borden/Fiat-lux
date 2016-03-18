@@ -3,6 +3,7 @@
 #include "utilitaire.h"
 #include "constantes.h"
 #include "photon.h"
+#include "error.h"
 
 #define OK 0
 #define NO 1
@@ -20,7 +21,7 @@ static int n = 0;
 
 int setPhoton(char line[MAX_LINE])
 {
-    POINT _pos; int _alpha;
+    POINT _pos; double _alpha;
     if(sscanf(line, "%lf %lf %lf", &_pos.x, &_pos.y, &_alpha) != 3)
     {
         error_lecture_elements(ERR_PHOTON, ERR_PAS_ASSEZ);
@@ -31,4 +32,5 @@ int setPhoton(char line[MAX_LINE])
 	tabPhoton[n].pos.y = _pos.y;
 	tabPhoton[n].alpha = _alpha;
 	n++;
+	return OK;
 }

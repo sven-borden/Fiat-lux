@@ -54,10 +54,9 @@ int modeleLecture(char fileName[80])
 
 int readProj(FILE *pFile)
 {
+	printf("IN %s, LINE %d\n", __func__, __LINE__);
 	char line[MAX_LINE];
 	int nb = 0, i = 0;
-	POINT pos;
-	double alpha = 0.0;
     
 	while(fgets(line, MAX_LINE, pFile) != NULL)
 	{
@@ -89,7 +88,7 @@ int readProj(FILE *pFile)
 		{ 
             		error_fichier_incomplet();
             		return ERROR; 
-        }
+	        }
 	}
 	fgets(line, MAX_LINE, pFile);
 	if(strncmp(line, "FIN_LISTE", 10))
@@ -100,6 +99,8 @@ int readProj(FILE *pFile)
 
 int readRefl(FILE *pFile)
 {
+	printf("IN %s", __func__);
+
     char line[MAX_LINE];
     int nb = 0, i = 0;
         
@@ -144,6 +145,8 @@ int readRefl(FILE *pFile)
 
 int readAbs(FILE *pFile)
 {
+printf("IN %s", __func__);
+
     char line[MAX_LINE];
     int nb = 0, i = 0;
 
@@ -170,7 +173,7 @@ int readAbs(FILE *pFile)
 					return ERROR;
             }
             
-            if(!setAbsorbeur(nbPts, points))
+            if(!setAbsorbeur(line))
                 return ERROR;
             i++;
         }
@@ -189,10 +192,10 @@ int readAbs(FILE *pFile)
 
 int readPhot(FILE *pFile)
 {
+printf("IN %s", __func__);
+
     char line[MAX_LINE];
     int nb = 0, i = 0;
-    POINT pos;
-    double alpha;
     
     while(fgets(line, MAX_LINE, pFile) != NULL)
     {
@@ -215,7 +218,7 @@ int readPhot(FILE *pFile)
 					return ERROR;
             }
             
-            if(!setPhoton(line)
+            if(!setPhoton(line))
                 return ERROR;
             
             i++;

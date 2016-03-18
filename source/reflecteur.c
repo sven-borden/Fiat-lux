@@ -24,7 +24,7 @@ static int distanceRequise(POINT, POINT);
 int setReflecteur(char line[MAX_LINE])
 {
     POINT _a, _b;
-    if(sscanf(line, "%lf %lf %lf %lf", &a.x, &a.y, &b.x, &b.y) != 4)
+    if(sscanf(line, "%lf %lf %lf %lf", &_a.x, &_a.y, &_b.x, &_b.y) != 4)
     {
         error_lecture_elements(ERR_REFLECTEUR, ERR_PAS_ASSEZ);
         return NO;
