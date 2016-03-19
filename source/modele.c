@@ -97,8 +97,11 @@ int readProj(FILE *pFile)
 	}
     printf("IN %s, LINE %d\nEND OF PROJ\n", __func__, __LINE__);
 	fgets(line, MAX_LINE, pFile);
-	if(strncmp(line, "FIN_LISTE", 10))
+	if(strncmp(line, "FIN_LISTE", 10) == 0)
+    {
+        printf("IN %s, LINE %d FOUND FIN_LISTE", __func__, __LINE__);
 		return SUCCESS;
+    }
     error_lecture_elements(ERR_PROJECTEUR, ERR_TROP);
 	return ERROR;
 }
@@ -253,7 +256,7 @@ int skipLine(char line[MAX_LINE])
 	printf("%s", line);
 	if(strncmp(line, "FIN_LISTE", 10) == 0)
 {
-		printf("FINLISTE\n");
+		printf("DETECTED FINLISTE\n");
 		return FINLISTE;
 }
 	
