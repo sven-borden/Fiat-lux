@@ -21,6 +21,7 @@ static int n = 0;
 
 int setProjecteur(char line[MAX_LINE])
 {
+    printf("IN %s, LINE %d\n", __func__, __LINE__);
     double x = 0, y = 0, alpha = 0;
     if(sscanf(line, "%lf %lf %lf", &x, &y, &alpha) != 3)
     {
