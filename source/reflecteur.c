@@ -23,6 +23,7 @@ static int distanceRequise(POINT, POINT);
 
 int setReflecteur(char line[MAX_LINE])
 {
+    printf("IN %s, LINE %d\n", __func__, __LINE__);
     POINT _a, _b;
     if(sscanf(line, "%lf %lf %lf %lf", &_a.x, &_a.y, &_b.x, &_b.y) != 4)
     {

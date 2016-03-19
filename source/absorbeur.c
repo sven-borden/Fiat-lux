@@ -23,6 +23,7 @@ static int distanceRequise(POINT, POINT);
 
 int setAbsorbeur(char line[MAX_LINE])
 {
+    printf("IN %s, LINE %d\n", __func__, __LINE__);
     int _nbPt, j = 0;
     char* start = line;
     char* end = NULL;

@@ -131,7 +131,7 @@ int readRefl(FILE *pFile)
                     error_lecture_elements(ERR_PROJECTEUR, ERR_PAS_ASSEZ);
 					return ERROR;
             }
-            printf("IN %s, LINE %d\tSetting Reflecteur", __func__, __LINE__);
+            printf("IN %s, LINE %d\tSetting Reflecteur\n", __func__, __LINE__);
             if(setReflecteur(line) != SUCCESS)
 		        return ERROR;
             
@@ -181,7 +181,7 @@ int readAbs(FILE *pFile)
                     error_lecture_elements(ERR_ABSORBEUR, ERR_PAS_ASSEZ);
 					return ERROR;
             }
-            printf("IN %s, LINE %d\tSetting Absorbor", __func__, __LINE__);
+            printf("IN %s, LINE %d\tSetting Absorbeur\n", __func__, __LINE__);
             if(setAbsorbeur(line) != SUCCESS)
                 return ERROR;
             i++;
@@ -228,7 +228,7 @@ int readPhot(FILE *pFile)
                     error_lecture_elements(ERR_PHOTON, ERR_PAS_ASSEZ);
 					return ERROR;
             }
-            printf("IN %s, LINE %d\tSetting Photon", __func__, __LINE__);
+            printf("IN %s, LINE %d\tSetting Photon\n", __func__, __LINE__);
             if(setPhoton(line) != SUCCESS)
                 return ERROR;
             
