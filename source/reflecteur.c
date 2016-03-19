@@ -33,7 +33,7 @@ int setReflecteur(char line[MAX_LINE])
     
     if(!distanceRequise(_a, _b))
     {
-        error_lecture_point_trop_proche(ERR_REFLECTEUR, 1);
+        error_lecture_point_trop_proche(ERR_REFLECTEUR, n);
         return NO;
     }
     tabReflecteur[n].a.x = _a.x;

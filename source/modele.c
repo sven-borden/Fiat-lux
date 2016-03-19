@@ -97,11 +97,9 @@ int readProj(FILE *pFile)
 	}
     printf("IN %s, LINE %d\nEND OF PROJ\n", __func__, __LINE__);
 	fgets(line, MAX_LINE, pFile);
-	if(strncmp(line, "FIN_LISTE", 10) == 0)
-    {
-        printf("IN %s, LINE %d FOUND FIN_LISTE", __func__, __LINE__);
+	skipLine(line);
+	if(strncmp(line, "FIN_LISTE", 9) == 0)
 		return SUCCESS;
-    }
     error_lecture_elements(ERR_PROJECTEUR, ERR_TROP);
 	return ERROR;
 }
@@ -148,7 +146,7 @@ int readRefl(FILE *pFile)
     }
 	printf("IN %s, LINE %d\nEND OF REFL\n", __func__, __LINE__);
     fgets(line, MAX_LINE, pFile);
-    if(strncmp(line, "FIN_LISTE", 10))
+    if(strncmp(line, "FIN_LISTE", 9) == 0)
 		return SUCCESS;
     error_lecture_elements(ERR_REFLECTEUR, ERR_TROP);
     return ERROR;
@@ -197,7 +195,7 @@ int readAbs(FILE *pFile)
     }
 	printf("IN %s, LINE %d\nEND OF ABS\n", __func__, __LINE__);
     fgets(line, MAX_LINE, pFile);
-    if(strncmp(line, "FIN_LISTE", 10))
+    if(strncmp(line, "FIN_LISTE", 9) == 0)
 		return SUCCESS;
     error_lecture_elements(ERR_ABSORBEUR, ERR_TROP);
     return ERROR;    
@@ -245,7 +243,7 @@ int readPhot(FILE *pFile)
     }
 	printf("IN %s, LINE %d\nEND OF PHOT\n", __func__, __LINE__);
     fgets(line, MAX_LINE, pFile);
-    if(strncmp(line, "FIN_LISTE", 10))
+    if(strncmp(line, "FIN_LISTE", 9) == 0)
 		return SUCCESS;
     error_lecture_elements(ERR_PHOTON, ERR_TROP);
     return ERROR;
