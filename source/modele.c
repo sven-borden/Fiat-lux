@@ -251,9 +251,9 @@ int readPhot(FILE *pFile)
 int skipLine(char line[MAX_LINE])
 {
 	printf("%s", line);
-	if(strncmp(line, "FIN_LISTE", 10) == 0)
+	if(!strncmp(line, "FIN_LISTE", 10))
 {
-		printf("FINLISTE\n");
+		printf("DETECTED FINLISTE\n");
 		return FINLISTE;
 }
 	
