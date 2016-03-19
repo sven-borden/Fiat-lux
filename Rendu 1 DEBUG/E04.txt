@@ -1,0 +1,22 @@
+# Fiat Lux! 2015-16
+#
+# E04 : "Erreur : lecture de reflecteur (id: 0): point trop proche"
+#
+
+#projecteur
+0
+FIN_LISTE
+
+#reflecteur
+1
+0. -0.01 0. 0.005
+FIN_LISTE
+
+#absorbeur
+0
+FIN_LISTE
+
+#photon
+1
+0 0 1.5
+FIN_LISTE
