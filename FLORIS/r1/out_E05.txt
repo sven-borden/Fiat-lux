@@ -1,0 +1,15 @@
+*****************Avant boucle lecture***************** 
+*****************Dans boucle lecture*****************
+*****************Nb0*****************
+Erreur : Fichier incomplet (EOF inattendu)
+*****************Nb1*****************
+1 
+Erreur : Fichier incomplet (EOF inattendu)
+*****************Nb2*****************
+Erreur : Fichier incomplet (EOF inattendu)
+Erreur : Fichier incomplet (EOF inattendu)
+Erreur : Fichier incomplet (EOF inattendu)
+Erreur : Fichier incomplet (EOF inattendu)
+*****************Nb3*****************
+*****************Après modèle lecture***************** 
+Fichier correct

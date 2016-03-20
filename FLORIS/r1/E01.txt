@@ -1,0 +1,20 @@
+# Fiat Lux! 2015-16
+#
+# E01: "Fichier correct"
+#
+
+#projecteur
+0
+FIN_LISTE
+
+#reflecteur
+0
+FIN_LISTE
+
+#absorbeur
+0
+FIN_LISTE
+
+#photon
+0
+FIN_LISTE

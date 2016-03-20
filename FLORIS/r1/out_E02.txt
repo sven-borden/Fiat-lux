@@ -1,0 +1,22 @@
+*****************Avant boucle lecture***************** 
+*****************Dans boucle lecture*****************
+*****************Nb0*****************
+Erreur : Fichier incomplet (EOF inattendu)
+Erreur : Fichier incomplet (EOF inattendu)
+Erreur : lecture de reflecteur (id: 5): point trop proche
+Erreur : Fichier incomplet (EOF inattendu)
+Erreur : lecture de reflecteur : trop ou erreur de syntaxe
+Erreur : lecture de reflecteur : trop ou erreur de syntaxe
+Erreur : lecture de reflecteur : trop ou erreur de syntaxe
+Erreur : lecture de reflecteur : trop ou erreur de syntaxe
+Erreur : Fichier incomplet (EOF inattendu)
+Erreur : lecture de reflecteur : trop ou erreur de syntaxe
+Erreur : lecture de reflecteur (id: 10): point trop proche
+Erreur : Fichier incomplet (EOF inattendu)
+Erreur : lecture de reflecteur : trop ou erreur de syntaxe
+Erreur : lecture de reflecteur (id: 11): point trop proche
+Erreur : Fichier incomplet (EOF inattendu)
+Erreur : lecture de reflecteur : trop ou erreur de syntaxe
+Erreur : lecture de reflecteur (id: 12): point trop proche
+*****************Après modèle lecture***************** 
+Fichier correct
