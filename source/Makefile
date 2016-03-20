@@ -31,11 +31,11 @@ main.o: main.c modele.h
 absorbeur.o: absorbeur.c error.h absorbeur.h utilitaire.h constantes.h \
  tolerance.h
 error.o: error.c error.h
-modele.o: modele.c absorbeur.h utilitaire.h reflecteur.h photon.h \
- constantes.h tolerance.h projecteur.h error.h
-photon.o: photon.c utilitaire.h constantes.h tolerance.h photon.h
+modele.o: modele.c absorbeur.h utilitaire.h reflecteur.h constantes.h \
+ tolerance.h photon.h projecteur.h error.h
+photon.o: photon.c utilitaire.h constantes.h tolerance.h photon.h error.h
 projecteur.o: projecteur.c error.h absorbeur.h utilitaire.h constantes.h \
  tolerance.h
 reflecteur.o: reflecteur.c utilitaire.h constantes.h tolerance.h \
- reflecteur.h
-utilitaire.o: utilitaire.c
+ reflecteur.h error.h
+utilitaire.o: utilitaire.c utilitaire.h

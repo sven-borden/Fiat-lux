@@ -65,7 +65,7 @@ int setAbsorbeur(char line[MAX_LINE])
         tabAbsorbeur[n].tabPt[i] = _points[i];
         if(!distanceRequise(tabAbsorbeur[n].tabPt[i], tabAbsorbeur[n].tabPt[i-1]))
         {
-            error_lecture_point_trop_proche(ERR_ABSORBEUR, i+1);
+            error_lecture_point_trop_proche(ERR_ABSORBEUR, n);
             return NO;
         }
     }       

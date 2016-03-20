@@ -4,7 +4,7 @@ SOURCE_FOLDER="../source/"
 RENDU_PATH="../source/rendu1.x"
 
 cp "Makefile" $SOURCE_FOLDER
-make clean
+make -C $SOURCE_FOLDER clean
 make -C $SOURCE_FOLDER depend
 make -C $SOURCE_FOLDER
 cp $RENDU_PATH "."
@@ -22,7 +22,7 @@ then
     done
 
 else
-    echo "File rendu1.x does not exists. Please compile with -c first"
+    echo "File rendu1.x does not exist."
 fi
 
 

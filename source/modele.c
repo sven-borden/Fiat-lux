@@ -228,7 +228,6 @@ int readPhot(FILE *pFile)
 
 int skipLine(char line[MAX_LINE])
 {
-	printf("%s", line);
 	if(!strncmp(line, "FIN_LISTE", 10))
         return FINLISTE;
 	
