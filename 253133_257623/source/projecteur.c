@@ -32,14 +32,14 @@ static int n = 0;
 int projecteurSet(char line[MAX_LINE])
 {
 	double x = 0, y = 0, alpha = 0;
-    if(sscanf(line, "%lf %lf %lf", &x, &y, &alpha) != NB_ELEM)
-    {
+	if(sscanf(line, "%lf %lf %lf", &x, &y, &alpha) != NB_ELEM)
+	{
 		error_lecture_elements(ERR_PROJECTEUR, ERR_PAS_ASSEZ);
 		return NO;
-    }
-    tabProjecteur[n].pos.x = x;
-    tabProjecteur[n].pos.y = y;
-    tabProjecteur[n].alpha = alpha;
-    n++;
-    return OK;
+	}
+	tabProjecteur[n].pos.x = x;
+	tabProjecteur[n].pos.y = y;
+	tabProjecteur[n].alpha = alpha;
+	n++;
+	return OK;
 }

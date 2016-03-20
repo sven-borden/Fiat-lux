@@ -33,8 +33,8 @@ static int n = 0;
 
 int reflecteurSet(char line[MAX_LINE])
 {
-    POINT _a, _b;
-    if(sscanf(line, "%lf %lf %lf %lf", 
+	POINT _a, _b;
+	if(sscanf(line, "%lf %lf %lf %lf", 
 		&_a.x, &_a.y, &_b.x, &_b.y) != NB_ELEM)
 	{
 		error_lecture_elements(ERR_REFLECTEUR, ERR_PAS_ASSEZ);
@@ -56,8 +56,8 @@ int reflecteurSet(char line[MAX_LINE])
 
 static int reflecteurDistanceRequise(POINT _a, POINT _b)
 {
-    if(utilitaireDistance2Points(_a, _b) < EPSIL_CREATION)
-        return OK;
-    else
-        return NO;
+	if(utilitaireDistance2Points(_a, _b) < EPSIL_CREATION)
+		return OK;
+	else
+		return NO;
 }

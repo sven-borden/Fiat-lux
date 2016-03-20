@@ -17,10 +17,13 @@ int main(int argc, char *argv[])
 {
 	if(argc == NB_ARG)
 	{
-		if(modeleLecture(argv[2]) == ERROR)
-			EXIT_FAILURE;
-		else
-			EXIT_SUCCESS;
+		if(strcmp(argv[1], "Error") == 0)
+		{
+			if(modeleLecture(argv[2]) == ERROR)
+				EXIT_FAILURE;
+			else
+				EXIT_SUCCESS;
+		}
 	}
 	
 	return 0;
