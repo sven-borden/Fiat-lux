@@ -1,12 +1,22 @@
+/*
+    Fichier:    photon.c
+    Auteur:     Alix Nepveux & Sven Borden
+    Date :      16 mars 2016
+    Version:    0.9
+    Description:Module photon qui gere la structure photon
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
-#include "utilitaire.h"
-#include "constantes.h"
-#include "photon.h"
-#include "error.h"
 
-#define OK 0
-#define NO 1
+#include "constantes.h"
+#include "error.h"
+#include "utilitaire.h"
+#include "photon.h"
+
+#define OK      0
+#define NO      1
+#define NB_ELEM 3
 
 typedef struct Photon PHOTON;
 
@@ -19,10 +29,10 @@ struct Photon
 static PHOTON tabPhoton[MAX_RENDU1];
 static int n = 0;
 
-int setPhoton(char line[MAX_LINE])
+int photonSet(char line[MAX_LINE])
 {
     POINT _pos; double _alpha;
-    if(sscanf(line, "%lf %lf %lf", &_pos.x, &_pos.y, &_alpha) != 3)
+    if(sscanf(line, "%lf %lf %lf", &_pos.x, &_pos.y, &_alpha) != NB_ELEM)
     {
         error_lecture_elements(ERR_PHOTON, ERR_PAS_ASSEZ);
         return NO;

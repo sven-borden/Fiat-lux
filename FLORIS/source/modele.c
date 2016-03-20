@@ -25,7 +25,7 @@ void modele_lecture(char *nomDuFichier)
                         error_lect_nb_elements(ERR_PROJECTEUR);
                     if(total==0 ){
 						fgets(ligne, MAX_LINE, fichier);
-						if (strcmp(ligne,"FIN_LISTE"))
+						if (strncmp(ligne,"FIN_LISTE", 9))
 							etat=NB1;
 						else error_fichier_incomplet();
 					}
@@ -35,7 +35,7 @@ void modele_lecture(char *nomDuFichier)
                 case PROJECTEUR:
                     projecteur(ligne, i);
                     i++;
-                    if((i==total) && (strcmp(ligne, "FIN_LISTE"))) etat=NB1;
+                    if((i==total) && (strncmp(ligne,"FIN_LISTE", 9))) etat=NB1;
                     break;
                     
                 case NB1:
@@ -45,7 +45,7 @@ void modele_lecture(char *nomDuFichier)
                         error_lect_nb_elements(ERR_REFLECTEUR);
                     if(total==0 ){
 						fgets(ligne,MAX_LINE, fichier);
-						if (strcmp(ligne,"FIN_LISTE"))
+						if (strncmp(ligne,"FIN_LISTE", 9))
 							etat=NB2;
 						else error_fichier_incomplet();
 					}
@@ -55,7 +55,7 @@ void modele_lecture(char *nomDuFichier)
                 case REFLECTEUR:
                     reflecteur(ligne, i);
                     i++;
-                    if((i==total) && (strcmp(ligne, "FIN_LISTE"))) etat=NB2;
+                    if((i==total) && (strncmp(ligne,"FIN_LISTE", 9))) etat=NB2;
                     break;
                     
                 case NB2:
@@ -64,7 +64,7 @@ void modele_lecture(char *nomDuFichier)
                         error_lect_nb_elements(ERR_ABSORBEUR);
                     if(total==0 ){
 						fgets(ligne,MAX_LINE, fichier);
-						if (strcmp(ligne,"FIN_LISTE"))
+						if (strncmp(ligne,"FIN_LISTE", 9))
 							etat=NB3;
 						else error_fichier_incomplet();
 					}
@@ -74,7 +74,7 @@ void modele_lecture(char *nomDuFichier)
                 case ABSORBEUR:
                     absorbeur(ligne, i);
                     i++;
-                    if((i==total) && (strcmp(ligne, "FIN_LISTE"))) etat=NB3;
+                    if((i==total) && (strncmp(ligne,"FIN_LISTE", 9))) etat=NB3;
                     break;
                     
                 case NB3:
@@ -83,7 +83,7 @@ void modele_lecture(char *nomDuFichier)
                         error_lect_nb_elements(ERR_PHOTON);
                     if(total==0 ){
 						fgets(ligne,MAX_LINE, fichier);
-						if (strcmp(ligne,"FIN_LISTE"))
+						if (strncmp(ligne,"FIN_LISTE", 9))
 							etat=NB4;
 						else error_fichier_incomplet();
 					}
@@ -93,7 +93,7 @@ void modele_lecture(char *nomDuFichier)
                 case PHOTON:
                     photon(ligne, i);
                     i++;
-                    if((i==total) && (strcmp(ligne, "FIN_LISTE"))) etat=NB4;
+                    if((i==total) && (strncmp(ligne,"FIN_LISTE", 9))) etat=NB4;
                     break;
                 
                 case NB4:
