@@ -1,0 +1,26 @@
+# Fiat Lux! 2015-16
+#
+# F01 : cas simple avec 2 proj et reéflecteur et deux absorbeurs
+#
+
+#projecteur
+2
+-0.25 -0.25 0.78539816339
+0.2146446609 0.285355339 -2.35619449 
+FIN_LISTE
+
+#reflecteur
+1
+0.0 -0.02 0.0 0.1
+FIN_LISTE
+
+#absorbeur
+2
+2 0.25 -0.25  0.285355339  -0.2146446609 
+2 -0.25 0.25  -0.2146446609 0.285355339  
+FIN_LISTE
+
+#photon
+0
+
+FIN_LISTE
