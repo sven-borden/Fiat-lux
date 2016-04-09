@@ -1,1 +1,2 @@
+0.15 0.03 0.15 0.05
 Erreur : lecture de absorbeur (id: 2): point trop proche

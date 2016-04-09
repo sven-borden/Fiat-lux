@@ -84,7 +84,7 @@ static int modeleReadProj(FILE *pFile)
 				case SKIP:	continue;
 				case FINLISTE:
 					error_lecture_elements(ERR_PROJECTEUR,
-											ERR_PAS_ASSEZ);
+						ERR_PAS_ASSEZ);
 					return ERROR;
 			}
 			if(projecteurSet(line) != SUCCESS)
@@ -115,25 +115,26 @@ static int modeleReadRefl(FILE *pFile)
         
 	while(fgets(line, MAX_LINE, pFile) != NULL)
 	{
-	if(skipLine(line) == SKIP)
-		continue;
-	sscanf(line, "%d", &nb);    /*lecture du nbRefl*/
-	if(nb < 0)
-	{
-		error_lect_nb_elements(ERR_REFLECTEUR);
-		return ERROR;
-	}
-	break;
+		if(skipLine(line) == SKIP)
+			continue;
+		sscanf(line, "%d", &nb);    /*lecture du nbRefl*/
+		if(nb < 0)
+		{
+			error_lect_nb_elements(ERR_REFLECTEUR);
+			return ERROR;
+		}
+		break;
 	}
 	while(i < nb)    /*lecture des refl*/
 	{
 		if(fgets(line, MAX_LINE, pFile) != NULL)
 		{
+			printf("%s", line);
 			switch(skipLine(line))
 			{
 				case SKIP: continue; 
 				case FINLISTE:  
-					error_lecture_elements(ERR_PROJECTEUR, ERR_PAS_ASSEZ);
+					error_lecture_elements(ERR_REFLECTEUR, ERR_PAS_ASSEZ);
 					return ERROR;
 			}
 			if(reflecteurSet(line) != SUCCESS)

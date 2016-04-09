@@ -1,1 +1,4 @@
+0.1 -0.02 0.14 0.02
+0.1 0.02 0.14 0.06
+0.15 0.03 0.15 0.06
 Erreur : lecture de absorbeur : trop ou erreur de syntaxe

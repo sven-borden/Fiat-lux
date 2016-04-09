@@ -1,1 +1,2 @@
+0.1 -0.02 0.14 0.02
 Erreur : lecture de photon : pas assez ou erreur de syntaxe

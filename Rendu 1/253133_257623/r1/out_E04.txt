@@ -1,1 +1,2 @@
+0. -0.01 0. 0.005
 Erreur : lecture de reflecteur (id: 0): point trop proche

@@ -1,6 +1,6 @@
 # Fiat Lux! 2015-16
 #
-# E07 : "Erreur : lecture de reflecteur : trop ou erreur de syntaxe"
+# E08 : "Erreur : lecture de reflecteur : pas assez ou erreur de syntaxe"
 #
 
 #projecteur
@@ -9,9 +9,9 @@
 FIN_LISTE
 
 #reflecteur
-1
+5
 0.1 -0.02 0.14 0.02
-0.1  0.02 0.14 0.06
+0.1 0.02 0.14 0.06
 0.15 0.03 0.15 0.06
 FIN_LISTE
 

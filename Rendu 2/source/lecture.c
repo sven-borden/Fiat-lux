@@ -50,7 +50,7 @@ int lecture(char fileName[MAX_FILE])
 		return ERROR;
 	if(lecturePhot(pFile)!= SUCCESS)
 		return ERROR;
-
+	printListPhoton();
 	error_success();
 	fclose(pFile);
 	return SUCCESS;
@@ -212,7 +212,7 @@ static int lecturePhot(FILE *pFile)
 {
 	char line[MAX_LINE];
 	int nb = 0, i = 0;
-	
+					
 	while(fgets(line, MAX_LINE, pFile) != NULL)
 	{
 		if(skipLine(line) == SKIP)

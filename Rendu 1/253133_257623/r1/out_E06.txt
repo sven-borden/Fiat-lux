@@ -1,1 +1,2 @@
+0.1 0.2 
 Erreur : lecture de reflecteur : pas assez ou erreur de syntaxe

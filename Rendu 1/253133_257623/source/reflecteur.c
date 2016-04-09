@@ -40,7 +40,6 @@ int reflecteurSet(char line[MAX_LINE])
 		error_lecture_elements(ERR_REFLECTEUR, ERR_PAS_ASSEZ);
 		return NO;
 	}
-    
 	if(!reflecteurDistanceRequise(_a, _b))
 	{
 		error_lecture_point_trop_proche(ERR_REFLECTEUR, n);

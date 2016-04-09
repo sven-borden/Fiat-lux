@@ -1,6 +1,6 @@
 # Fiat Lux! 2015-16
 #
-# E07 : "Erreur : lecture de reflecteur : trop ou erreur de syntaxe"
+# E10 : "Erreur : lecture de absorbeur (id: 1): point trop proche"
 #
 
 #projecteur
@@ -9,16 +9,16 @@
 FIN_LISTE
 
 #reflecteur
-1
+3
 0.1 -0.02 0.14 0.02
-0.1  0.02 0.14 0.06
-0.15 0.03 0.15 0.06
+0.1 0.02 0.14 0.06
+0.15 0.03 0.15 0.05
 FIN_LISTE
 
 #absorbeur
 2
 2 0.015 0.01 0.015 0.07
-2 -0.015 -0.01 -0.015 0.07 
+4 -0.015 -0.01 -0.015 0.07 -0.015 -0.07 -0.016 -0.07 
 FIN_LISTE
 
 #photon

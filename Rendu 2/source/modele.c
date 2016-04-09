@@ -28,7 +28,13 @@ int modeleLecture(char fileName[MAX_FILE])
 	if(lecture(fileName) == SUCCESS)
 	{
 		/* TODO TRUCS*/
+		return SUCCESS;
 	}
 	else
 		return ERROR;
 }
+
+int modele_verification_rendu2(void)
+{
+	
+}	

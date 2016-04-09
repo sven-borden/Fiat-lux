@@ -24,12 +24,20 @@ struct Reflecteur
 {
 	POINT a;
 	POINT b;
+	struct REFLECTEUR *next;
 };
 
-static int reflecteurDistanceRequise(POINT, POINT);
+typedef REFLECTEUR *LIST_R; /* type de liste de reflecteur*/
 
-static REFLECTEUR tabReflecteur[MAX_RENDU1];
 static int n = 0;
+static LIST_R list = NULL;
+
+int reflecteurSet(char[]);
+int addReflecteur(POINT, POINT);
+int delReflecteur(int);
+void printListReflecteur(void);
+void delListReflecteur(void);
+static int reflecteurDistanceRequise(POINT, POINT);
 
 int reflecteurSet(char line[MAX_LINE])
 {
@@ -46,12 +54,67 @@ int reflecteurSet(char line[MAX_LINE])
 		error_lecture_point_trop_proche(ERR_REFLECTEUR, n);
 		return NO;
 	}
-	tabReflecteur[n].a.x = _a.x;
-	tabReflecteur[n].a.y = _a.y;
-	tabReflecteur[n].b.x = _b.x;
-	tabReflecteur[n].b.y = _b.y;
-	n++;
+
+	addPhoton(_a, _b);
 	return OK;
+}
+
+int addReflecteur(POINT _ptA, POINT_ptB)
+{
+	/*Crée un nouveau reflecteur*/
+	REFLECTEUR *r = (REFLECTEUR *) malloc(sizeof(REFLECTEUR));
+	if(p != NULL)
+	{
+		/*Alloue la mémoire pour le Reflecteur*/
+		r->a.x = malloc(sizeof(double));
+		r->a.y = malloc(sizeof(double));
+		r->b.x = malloc(sizeof(double));
+		r->b.y = malloc(sizeof(double));
+		r->next = *list;
+		n++;
+	}
+	else
+	{
+		free(p);
+		p = NULL;
+	}
+	return (p != NULL); //retourne 1 (vrai) si est different de NULL
+}
+
+int delReflecteur(int _id)
+{
+	/*TODO*/
+	n--;
+	return OK;
+}
+
+void printListReflecteur(void)
+{
+	REFLECTEUR *r = *list;
+	int i = 1;
+	while(r != NULL)
+	{
+		printf("Reflecteur %d\ta.X = %lf\ta.Y = %lf\tb.X = %lf\tb.Y = %lf\n",
+			i, r->a.x, r->a.y, r->b.x, r->b.y);
+		r = r->next;
+		i++;
+	}	
+	return ;
+}
+
+void delListReflecteur(void)
+{
+	while(*list)
+	{
+		REFLECTEUR *r = *list;
+		*list = r->next;
+		free(r->a.x);
+		free(r->a.y);
+		free(r->b.x);
+		free(r->b.y);
+		free(p);
+	}
+	return ;
 }
 
 static int reflecteurDistanceRequise(POINT _a, POINT _b)

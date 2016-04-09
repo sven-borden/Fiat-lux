@@ -21,7 +21,7 @@ double utilitaireNormeVector(VECTOR v)
 
 double utilitaireDistance2Points(POINT a, POINT b)
 {
-	double xLen = b.x - a.y;
+	double xLen = b.x - a.x;
 	double yLen = b.y - a.y;
 	return sqrt(xLen*xLen + yLen* yLen);
 }
