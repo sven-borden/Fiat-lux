@@ -4,7 +4,7 @@
 
 CC      = gcc
 CFLAGS  = -Wall
-CFILES  = main.cpp absorbeur.c error.c lecture.c modele.c photon.c projecteur.c reflecteur.c utilitaire.c
+CFILES  = main.cpp absorbeur.c error.c graphic.c lecture.c modele.c photon.c projecteur.c reflecteur.c utilitaire.c
 
 OFILES = $(CFILES:.c=.o) 
 
@@ -27,14 +27,16 @@ clean:
 #
 #
 # DO NOT DELETE THIS LINE
-main.o: main.cpp modele.h
+main.o: main.cpp modele.h constantes.h tolerance.h graphic.c graphic.h \
+ utilitaire.h
 absorbeur.o: absorbeur.c constantes.h tolerance.h error.h utilitaire.h \
  absorbeur.h
 error.o: error.c error.h
-lecture.o: lecture.c absorbeur.h constantes.h tolerance.h error.h \
- reflecteur.h photon.h projecteur.h lecture.h
-modele.o: modele.c absorbeur.h constantes.h tolerance.h error.h lecture.h \
- reflecteur.h photon.h projecteur.h modele.h
+graphic.o: graphic.c constantes.h tolerance.h graphic.h utilitaire.h
+lecture.o: lecture.c absorbeur.h utilitaire.h constantes.h tolerance.h \
+ error.h reflecteur.h photon.h projecteur.h lecture.h
+modele.o: modele.c absorbeur.h utilitaire.h constantes.h tolerance.h \
+ error.h lecture.h reflecteur.h photon.h projecteur.h modele.h
 photon.o: photon.c constantes.h tolerance.h error.h utilitaire.h photon.h
 projecteur.o: projecteur.c constantes.h tolerance.h error.h utilitaire.h \
  projecteur.h

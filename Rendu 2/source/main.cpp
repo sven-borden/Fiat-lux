@@ -12,11 +12,13 @@
 #include <GL/glui.h>
 #include <GL/glut.h>
 
-
 namespace
 {
+	int mainWin;
+	int width, height;
 	char editLoadContent[100] = "file.txt";
 	char editSaveContent[100] = "save.txt";
+
 	GLUI_EditText * editFileLoad;
 	GLUI_EditText * editFileSave;
 	
@@ -40,10 +42,17 @@ namespace
 extern "C"
 {
 	#include "modele.h"
+	#include "graphic.c"
+	#include "constantes.h"
 }
 
-#define NB_ARG  3
-#define ERROR   1
+#define NB_ARG  	3
+#define SUCCESS		0
+#define ERROR   	1
+#define MODE_ERROR	0
+#define MODE_VERIF	1
+#define MODE_GRAPH	2
+#define CREATE_WIN	1
 
 /*GLUI control CallBack*/
 
@@ -61,37 +70,116 @@ extern "C"
 #define RADIOGROUP_ACTION_ID	31
 #define RADIOGROUP_ENTITY_ID	32
 
+/*Fonction qui crée le GLUI */
 void createGLUI();
+/*fonction callback du GLUI*/
 void control_cb(int);
-
+/*Fonction qui appelle la bonne simulation en fonction de l'entrée*/
+int call(int, char[]);
+/*Redessine entierement le contenu du widget GLUT*/
+void redrawAll();
+/*Widget callback reshape, when resized*/
+void reshape_cb(int, int);
+/*Widget callback display, when contents have to be redrawn*/
+void display_cb();
+void saveFile(char const*);
+void loadFile(char const*);
 
 int main(int argc, char *argv[])
 {
+	int success = ERROR;
+	int mode = MODE_ERROR;
 	if(argc == NB_ARG)
 	{
 		if(strcmp(argv[1], "Error") == 0)
-		{
-			if(modeleLecture(argv[2]) == ERROR)
-				EXIT_FAILURE;
-			else
-				EXIT_SUCCESS;
-		}
+			mode = MODE_ERROR;
 		if(strcmp(argv[1], "Verification") == 0)
-		{
-			if(modeleLecture(argv[2]) == ERROR)
-				EXIT_FAILURE;
-			else
-				EXIT_SUCCESS;
-		}
+			mode = MODE_VERIF;
 		if(strcmp(argv[1], "Graphic") == 0)
-		{
-			;
-		}
+			mode = MODE_GRAPH;
+		
+		success = call(mode, argv[2]);
 	}
-	glutInit(&argc, argv);
-	createGLUI();
-	glutMainLoop();
-	return 0;
+	else
+	{
+		return EXIT_FAILURE;
+	}
+	if(mode == MODE_ERROR)
+		if(success)
+			return EXIT_SUCCESS;
+		else
+			return EXIT_FAILURE;
+	if(mode == MODE_VERIF)
+		if(success)
+			return EXIT_SUCCESS;
+		else
+			return EXIT_FAILURE;
+	if(mode == MODE_GRAPH)
+	{
+		if(!success)
+			modeleDestroy();
+		glutInit(&argc, argv);
+		glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+		glutInitWindowSize(500, 600);
+		mainWin = glutCreateWindow("Project");
+		glutDisplayFunc(display_cb);//si la fenetre bouge
+		glutReshapeFunc(reshape_cb);//si la taille change
+		createGLUI();
+		glutMainLoop();
+	}
+	return EXIT_SUCCESS;
+}
+
+void redrawAll(void)
+{
+	/*TODO*/
+	/*Efface le contenu de la win*/
+	glClearColor(0.,0.,0.,0.);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	/*Defini le domaine*/
+	glLoadIdentity();
+	glOrtho(-20., 20., -20., 20., -1, 1);
+
+	glutSwapBuffers();
+}
+
+void reshape_cb(int x, int y)
+{
+	width = x;
+	height = y;
+
+	glViewport (0, 0, width, height);
+}
+
+void display_cb() {	redrawAll(); }
+
+int call(int mode, char fileName[])
+{
+	int success = SUCCESS;
+	switch(mode)
+	{
+		case MODE_ERROR:
+			success = modeleLecture(fileName);
+			
+			break;
+		case MODE_VERIF:
+			success = modeleLecture(fileName);
+			if(success != SUCCESS)
+				break;
+			success = modele_verification_rendu2();
+			break;
+		case MODE_GRAPH:
+			success = modeleLecture(fileName);
+			if(success != SUCCESS)
+				break;
+			success = modele_verification_rendu2();
+			break;
+		default:
+			success = ERROR;
+	}
+	
+	return success;
 }
 
 
@@ -135,23 +223,21 @@ void createGLUI()
 	//PANEL INFORMATION
 	GLUI_Panel *panelInformation = glui->add_panel((char*) "Information",
 		GLUI_PANEL_EMBOSSED);
-	
 	editPhoton = glui->add_edittext_to_panel(panelInformation,
-		(char*) "Nb Photons", GLUI_EDITTEXT_TEXT, (char*)"CONTENU",
+		(char*) "Nb Photons", GLUI_EDITTEXT_TEXT, (char*)"0",
 		EDIT_PHOTON_ID, control_cb);
-
+	
 	editProjecteur = glui->add_edittext_to_panel(panelInformation,
-		(char*) "Nb Projecteurs", GLUI_EDITTEXT_TEXT, (char*)"CONTENU",
+		(char*) "Nb Projecteurs", GLUI_EDITTEXT_TEXT, (char*)"0",
 		EDIT_PROJECTEUR_ID, control_cb);
 	
 	editAbsorbeur = glui->add_edittext_to_panel(panelInformation,
-		(char*) "Nb Absorbeurs", GLUI_EDITTEXT_TEXT, (char*)"CONTENU",
+		(char*) "Nb Absorbeurs", GLUI_EDITTEXT_TEXT, (char*)"0",
 		EDIT_ABSORBEUR_ID, control_cb);
 	
 	editReflecteur = glui->add_edittext_to_panel(panelInformation,
-		(char*) "Nb Reflecteurs", GLUI_EDITTEXT_TEXT, (char*)"CONTENU",
+		(char*) "Nb Reflecteurs", GLUI_EDITTEXT_TEXT, (char*)"0",
 		EDIT_REFLECTEUR_ID, control_cb);
-
 	//PANEL MOUSE
 	GLUI_Panel *panelMouse = glui->add_panel((char*)"Mouse panel",
 		GLUI_PANEL_EMBOSSED);
@@ -183,8 +269,10 @@ void control_cb(int control)
 	switch(control)
 	{
 		case (BUTTON_LOAD_ID):
+			loadFile(editFileLoad->get_text());
 			break;
 		case (BUTTON_SAVE_ID):
+			saveFile(editFileSave->get_text());
 			break;
 		case (BUTTON_START_ID):
 			break;
@@ -211,4 +299,15 @@ void control_cb(int control)
 		default:
 			break;
 	}
+}
+
+void saveFile(char const *name)
+{
+	modeleWrite((char*) *name);
+}
+
+void loadFile(char const *name)
+{
+	if(call(MODE_VERIF, (char*)name))
+		//refresh;
 }

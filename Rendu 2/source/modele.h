@@ -8,9 +8,9 @@
 #ifndef MODELE_H
 #define MODELE_H
 
-#define MAX_FILE    80
-
+#include "constantes.h"
 //lis les donnees et dispatch les informations dans les sous modules
-int modeleLecture(char fileName[MAX_FILE]);
-
+int modeleLecture(char fileName[]);
+int modele_verification_rendu2(void);
+void modeleDestroy(void);
 #endif

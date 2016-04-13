@@ -24,22 +24,80 @@ struct Projecteur
 {
 	POINT pos;
 	double alpha;
+	PROJECTEUR * next;
 };
 
-static PROJECTEUR tabProjecteur[MAX_RENDU1];
 static int n = 0;
+static PROJECTEUR * list;
+
+int projecteurSet(char[]);
+int addProjecteur(POINT, double);
+int delProjecteur(int);
+void printListProjecteur(void);
+void delListProjecteur(void);
 
 int projecteurSet(char line[MAX_LINE])
 {
-	double x = 0, y = 0, alpha = 0;
-	if(sscanf(line, "%lf %lf %lf", &x, &y, &alpha) != NB_ELEM)
+	POINT pt;
+	double  alpha = 0;
+	if(sscanf(line, "%lf %lf %lf", &pt.x, &pt.y, &alpha) != NB_ELEM)
 	{
 		error_lecture_elements(ERR_PROJECTEUR, ERR_PAS_ASSEZ);
 		return NO;
 	}
-	tabProjecteur[n].pos.x = x;
-	tabProjecteur[n].pos.y = y;
-	tabProjecteur[n].alpha = alpha;
-	n++;
+
+	addProjecteur(pt, alpha);
 	return OK;
+}
+
+int addProjecteur(POINT _pt, double _alpha)
+{
+	/*Crée un nouveau projecteur*/
+	PROJECTEUR *p = (PROJECTEUR *) malloc(sizeof(PROJECTEUR));
+	if(p!= NULL)
+	{
+		p->pos.x = _pt.x;
+		p->pos.y = _pt.y;
+		p->alpha = _alpha;
+		p->next = list;
+		n++;
+	}	
+	else
+	{
+		free(p);
+		p = NULL;
+	}
+	return (p != NULL);//retourne 1 (vrai) si est différent de NULL
+}
+
+int delProjecteur(int _id)
+{
+	/*TODO*/
+	n--;
+	return OK;
+}
+
+void printListProjecteur(void)
+{
+	PROJECTEUR *p = list;
+	int i = 1;
+	while(p != NULL)
+	{
+		printf("Projecteur %d\tx = %lf\ta.y = %lf\talpha = %lf\n",
+			i, p->pos.x, p->pos.y, p->alpha);
+		p = p->next;
+		i++;
+	}
+	return ;
+}
+
+void delListProjecteur(void)
+{
+	while(list)
+	{
+		PROJECTEUR *p = list;
+		list = p->next;
+		free(p);
+	}
+	return ;
 }

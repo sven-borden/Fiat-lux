@@ -24,13 +24,11 @@ struct Reflecteur
 {
 	POINT a;
 	POINT b;
-	struct REFLECTEUR *next;
+	REFLECTEUR * next;
 };
 
-typedef REFLECTEUR *LIST_R; /* type de liste de reflecteur*/
-
 static int n = 0;
-static LIST_R list = NULL;
+static REFLECTEUR * list;
 
 int reflecteurSet(char[]);
 int addReflecteur(POINT, POINT);
@@ -55,30 +53,29 @@ int reflecteurSet(char line[MAX_LINE])
 		return NO;
 	}
 
-	addPhoton(_a, _b);
+	addReflecteur(_a, _b);
 	return OK;
 }
 
-int addReflecteur(POINT _ptA, POINT_ptB)
+int addReflecteur(POINT _ptA, POINT _ptB)
 {
 	/*Crée un nouveau reflecteur*/
 	REFLECTEUR *r = (REFLECTEUR *) malloc(sizeof(REFLECTEUR));
-	if(p != NULL)
+	if(r != NULL)
 	{
-		/*Alloue la mémoire pour le Reflecteur*/
-		r->a.x = malloc(sizeof(double));
-		r->a.y = malloc(sizeof(double));
-		r->b.x = malloc(sizeof(double));
-		r->b.y = malloc(sizeof(double));
-		r->next = *list;
+		r->a.x = _ptA.x;
+		r->a.y = _ptA.y;
+		r->b.x = _ptB.x;
+		r->b.y = _ptB.y;
+		r->next = list;
 		n++;
 	}
 	else
 	{
-		free(p);
-		p = NULL;
+		free(r);
+		r = NULL;
 	}
-	return (p != NULL); //retourne 1 (vrai) si est different de NULL
+	return (r != NULL); //retourne 1 (vrai) si est different de NULL
 }
 
 int delReflecteur(int _id)
@@ -90,7 +87,7 @@ int delReflecteur(int _id)
 
 void printListReflecteur(void)
 {
-	REFLECTEUR *r = *list;
+	REFLECTEUR *r = list;
 	int i = 1;
 	while(r != NULL)
 	{
@@ -104,15 +101,11 @@ void printListReflecteur(void)
 
 void delListReflecteur(void)
 {
-	while(*list)
+	while(list)
 	{
-		REFLECTEUR *r = *list;
-		*list = r->next;
-		free(r->a.x);
-		free(r->a.y);
-		free(r->b.x);
-		free(r->b.y);
-		free(p);
+		REFLECTEUR *r = list;
+		list = r->next;
+		free(r);
 	}
 	return ;
 }

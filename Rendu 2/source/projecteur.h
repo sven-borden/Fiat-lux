@@ -8,8 +8,9 @@
 #ifndef PROJECTEUR_H
 #define PROJECTEUR_H
 
-#include "constantes.h"
-
 int projecteurSet(char[]);
-
+int addProjecteur(POINT, double);/*ajoute un projecteur dans la liste*/
+int delProjecteur(int);/*supprime un projecteur de la liste*/
+void printListProjecteur(void);/*imprime la liste des projecteurs*/
+void delListReflecteur(void);/*nettoie la memoire*/
 #endif

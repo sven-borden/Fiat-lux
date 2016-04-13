@@ -13,7 +13,7 @@
 //verifie les valeurs et les enregistre dans la structure
 int photonSet(char[]);/*ajoute un photon a partir d'une ligne*/
 int addPhoton(POINT, double);/*ajoute un photon dans la liste*/
-int delPhoton(POINT, double);/*supprime un photon pas encore fonctionnel*/
+int delPhoton(int);/*supprime un photon pas encore fonctionnel*/
 void printListPhoton(void); /*imprime la liste des photons en mémoire*/
-void delListPhoton(void); /* nettoie la mémoire en supprimant la liste de photon*/s
+void delListPhoton(void); /* nettoie la mémoire en supprimant la liste de photon*/
 #endif

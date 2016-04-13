@@ -32,9 +32,15 @@ int modeleLecture(char fileName[MAX_FILE])
 	}
 	else
 		return ERROR;
+	return ERROR;
 }
 
 int modele_verification_rendu2(void)
 {
-	
+	return SUCCESS;;	
 }	
+
+void modeleDestroy(void)
+{
+
+}

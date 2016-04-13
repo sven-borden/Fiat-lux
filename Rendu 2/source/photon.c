@@ -24,13 +24,11 @@ struct Photon
 {
 	POINT pos;	/*position du photon*/
 	double alpha;	/*angle du photon*/
-	struct PHOTON *next;	/*Pointeur sur le suivant*/
+	PHOTON * next;	/*Pointeur sur le suivant*/
 };
 
-typedef PHOTON *LIST_P; /* type de liste de photons*/
-
 static int n = 0;
-static LIST_P list = NULL;
+static PHOTON * list = NULL;
 
 int photonSet(char[]);
 int addPhoton(POINT, double);
@@ -58,30 +56,21 @@ int addPhoton(POINT _pt, double _alpha)
 	PHOTON *p = (PHOTON *) malloc(sizeof(PHOTON));
 	if(p != NULL)
 	{
-		/*Alloue la mémoire pour le photon*/
-		p->pos.x = malloc(sizeof(double));
-		p->pos.y = malloc(sizeof(double));
-		p->alpha = malloc(sizeof(double));
-
-		if(p->pos.x && p->pos.y && p->alpha)
-		{	
-			/*copie dans le photon*/
-			p->pos.x = _pt.x;
-			p->pos.y = _pt.y;
-			p->pos.alpha = _alpha;
-			p->next = *list;
-			n++;
-		}
-		else
-		{
-			free(p);
-			p = NULL;
-		}
+		p->pos.x = _pt.x;
+		p->pos.y = _pt.y;
+		p->alpha = _alpha;
+		p->next = list;
+		n++;
+	}
+	else
+	{
+		free(p);
+		p = NULL;
 	}
 	return (p != NULL);//retourne 1 (vrai) si est différent de NULL
 } 
 
-int delPhoton(int _id);
+int delPhoton(int _id)
 {
 	/*TODO*/
 	n--;
@@ -90,7 +79,7 @@ int delPhoton(int _id);
 
 void printListPhoton(void)
 {
-	PHOTON *p = *list;
+	PHOTON *p = list;
 	int i = 1;
 	while(p)
 	{
@@ -104,13 +93,10 @@ void printListPhoton(void)
 
 void delListPhoton(void)
 {
-	while(*list)
+	while(list)
 	{
-		PHOTON *p = *list;
-		*list = p->next;
-		free(p->pos.x);
-		free(p->pos.y);
-		free(p->alpha);
+		PHOTON *p = list;
+		list = p->next;
 		free(p);
 	}
 	return ;

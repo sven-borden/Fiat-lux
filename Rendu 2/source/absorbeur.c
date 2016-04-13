@@ -23,18 +23,26 @@ struct Absorbeur
 {
 	int nbPt;
 	POINT tabPt[MAX_PT];
+	ABSORBEUR * next;
 };
+
+int absorbeurSet(char[]);
+int addAbsorbeur(int, POINT[]);
+int delAbsorbeur(int);
+void printListAbsorbeur(void);
+void delListAbsorbeur(void);
 
 static int absorbeurDistanceRequise(POINT, POINT);
 
-static ABSORBEUR tabAbsorbeur[MAX_RENDU1];
 static int n = 0;
+static ABSORBEUR * list;
 
 int absorbeurSet(char line[MAX_LINE])
 {
 	int _nbPt, j = 0, i = 0;
 	char* start = line; char * end = NULL;
 	POINT _points[MAX_PT];
+
 	//lecture
 	_nbPt = (int)strtod(line, &end);
 	if(_nbPt < MIN_PT || _nbPt > MAX_PT)
@@ -61,21 +69,78 @@ int absorbeurSet(char line[MAX_LINE])
 		}
 		start = end;
 	}
-	tabAbsorbeur[n].nbPt = _nbPt;
-	tabAbsorbeur[n].tabPt[i] = _points[i];
-	i++;
-	for(; i < _nbPt; i++)
+	//vérifies les points
+	for(i = 1;i < _nbPt; i++)
 	{
-		tabAbsorbeur[n].tabPt[i] = _points[i];
 		if(!absorbeurDistanceRequise(
-			tabAbsorbeur[n].tabPt[i], 
-			tabAbsorbeur[n].tabPt[i-1]))
+			_points[i], _points[i-1]))
 		{
 			error_lecture_point_trop_proche(ERR_ABSORBEUR, n);
 			return NO;
 		}
-	}       
-	n++;    return OK;
+	}
+	addAbsorbeur(_nbPt, _points);
+	return OK;
+}
+
+int addAbsorbeur(int _nb, POINT tab[_nb])
+{
+	/*crée une nouveau absorbeur*/
+	ABSORBEUR *a = (ABSORBEUR *) malloc(sizeof(ABSORBEUR));
+	if(a != NULL)
+	{
+		int i = 0;
+		a->nbPt = _nb;
+		for(; i < _nb; i++)
+		{
+			a->tabPt[i].x = tab[i].x;
+			a->tabPt[i].y = tab[i].y;
+		}
+		a->next = list;
+		n++;
+	}
+	else
+	{
+		free(a);
+		a = NULL;
+	}
+	return (a != NULL);
+}
+
+int delAbsorbeur(int _id)
+{
+	/*TODO*/
+	n--;
+	return OK;
+}
+
+void printListAbsorbeur(void)
+{
+	ABSORBEUR *a = list;
+	int i = 0, j = 0;
+	while(a != NULL)
+	{
+		printf("ABSORBEUR %d\n", i);
+		for(j = 0; j < a->nbPt; j++)
+		{
+			printf("\tPT : %d\tx = %lf\ty = %lf\n", 
+				j, a->tabPt[j].x, a->tabPt[j].y);
+		}
+		a = a->next;
+		i++;
+	}
+	return ;
+}
+
+void delListAbsorbeur(void)
+{
+	while(list)
+	{
+		ABSORBEUR *a = list;
+		list = a->next;
+		free(a);
+	}
+	return ;
 }
 
 static int absorbeurDistanceRequise(POINT _a, POINT _b)

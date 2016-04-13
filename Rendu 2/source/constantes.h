@@ -22,5 +22,6 @@
 #define MAX_PT			6
 #define MAX_LINE		130
 #define MAX_RENDU1		5
+#define MAX_FILE		80
 
 #endif

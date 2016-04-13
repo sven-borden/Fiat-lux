@@ -9,7 +9,11 @@
 #ifndef ABSORBEUR_H
 #define ABSORBEUR_H
 
+#include "utilitaire.h"
 //verifie les valeurs et les enregistre dans la structure
 int absorbeurSet(char[]);
-
+int addAbsorbeur(int, POINT[]);
+int delAbsorveur(int);
+void printListAbsorbeur(void);
+void delListAbsorbeur(void);
 #endif
