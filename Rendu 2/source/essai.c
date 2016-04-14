@@ -1,14 +1,16 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include "utilitaire.h"
 
-modeleParallelisme ( VECTOR x, VECTOR y)
+
+int modeleParallelisme ( VECTOR x, VECTOR y)
 {
-nx = utilitaireNormeVector (x) ;
-ny = utilitaireNormeVector (y) ;
-VECTOR ux = { x.ptDeb/nx ,x.ptFin/nx)};
+double nx = utilitaireNormeVector (x) ;
+double ny = utilitaireNormeVector (y) ;
+VECTOR ux = { x.ptDeb/nx ,x.ptFin/nx};
 VECTOR uy = { y.ptDeb/ny ,y.ptFin/ny};
-VECTOR nx = { -ux.ptFin , ux.ptDeb}; 
-VECTOR ny = { -uy.ptFin , uy.ptDeb}; 
+VECTOR nux = { -ux.ptFin , ux.ptDeb}; 
+VECTOR nuy = { -uy.ptFin , uy.ptDeb}; 
 VECTOR vd1d2 = { y.ptDeb-a.ptDeb , y.ptDeb- x.ptDeb};
 nvd1d2 = utilitaireNormeVector(vd1d2);
 VECTOR ud1d2 = { vd1d2.ptDeb/nvd1d2 , vd1d2.ptFin/nvd1d2};
@@ -30,12 +32,12 @@ else return 1;
 // detection d'une éventuelle intersection pour des segments non parallèles
 int modeleIntersection ( VECTOR x, VECTOR y)
 {
-nx = utilitaireNormeVector (x) ;
-ny = utilitaireNormeVector (y) ;
-VECTOR ux = { x.ptDeb/nx ,x.ptFin/nx)} ;
+double nx = utilitaireNormeVector (x) ;
+double ny = utilitaireNormeVector (y) ;
+VECTOR ux = { x.ptDeb/nx ,x.ptFin/nx} ;
 VECTOR uy = { y.ptDeb/ny ,y.ptFin/ny};
-VECTOR nx = { -ux.ptFin , ux.ptDeb}; 
-VECTOR ny = { -uy.ptFin , uy.ptDeb}; 
+VECTOR nux = { -ux.ptFin , ux.ptDeb}; 
+VECTOR nuy = { -uy.ptFin , uy.ptDeb}; 
 VECTOR vd1d2 = { y.ptDeb-a.ptDeb , y.ptDeb- x.ptDeb};
 nvd1d2 = utilitaireNormeVector(vd1d2);
 VECTOR ud1d2 = { vd1d2.ptDeb/nvd1d2 , vd1d2.ptFin/nvd1d2};
@@ -52,12 +54,12 @@ if (fabs(projette_vd1d2_n1 < EPSIL_CONTACT))|| (fabs(projette_vd1f2_n1) < EPSIL_
 
 POINT modelePointIntersection (VECTOR x,VECTOR y )
 {
-nx = utilitaireNormeVector (x) ;
-ny = utilitaireNormeVector (y) ;
-VECTOR ux = { x.ptDeb/nx ,x.ptFin/nx) ;
+double nx = utilitaireNormeVector (x) ;
+double ny = utilitaireNormeVector (y) ;
+VECTOR ux = { x.ptDeb/nx ,x.ptFin/nx} ;
 VECTOR uy = { y.ptDeb/ny ,y.ptFin/ny};
-VECTOR nx = { -ux.ptFin , ux.ptDeb}; 
-VECTOR ny = { -uy.ptFin , uy.ptDeb}; 
+VECTOR nux = { -ux.ptFin , ux.ptDeb}; 
+VECTOR nuy = { -uy.ptFin , uy.ptDeb}; 
 VECTOR vd1d2 = { y.ptDeb-a.ptDeb , y.ptDeb- x.ptDeb};
 nvd1d2 = utilitaireNormeVector(vd1d2);
 VECTOR ud1d2 = { vd1d2.ptDeb/nvd1d2 , vd1d2.ptFin/nvd1d2};
@@ -70,8 +72,8 @@ projette_vd1d2_n2 = utilitaireProduitScalaire( VECTOR n1, VECTOR vd1d2);
 if (fabs(projette_vd1d2_n1 < EPSIL_CONTACT))|| (fabs(projette_vd1f2_n1) < EPSIL_CONTACT) || (projette_vd1d2_n1*projette_vd1f2_n1<0 )
 	if (fabs(projette_vd1d2_n1 < EPSIL_CONTACT))|| (fabs(projette_vd1f2_n1) < EPSIL_CONTACT) || (projette_vd1d2_n2*projette_vd1f2_n2<0 )
 	
-POINT  P = { x.ptDeb.x + [( utilitaireProduitVectoriel(uy, vd1d2)/ utilitaireProduitVectoriel (uy, ux)]*ux.ptDeb,
-	          x.ptDeb.y + [( utilitaireProduitVectoriel(uy, vd1d2)/ utilitaireProduitVectoriel (uy, ux)]*ux.ptFin} ;
+POINT  P = { x.ptDeb.x + [( utilitaireProduitVectoriel(uy, vd1d2)/ utilitaireProduitVectoriel (uy, ux))]*ux.ptDeb,
+	          x.ptDeb.y + [( utilitaireProduitVectoriel(uy, vd1d2)/ utilitaireProduitVectoriel (uy, ux))]*ux.ptFin} ;
 }
 
 

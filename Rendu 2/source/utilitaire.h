@@ -1,5 +1,5 @@
 /*
-    Fichier:    main.c
+    Fichier:    utilitaire.c
     Auteur:     Alix Nepveux & Sven Borden
     Date :      16 mars 2016
     Version:    0.9
@@ -23,6 +23,8 @@ struct Vector
 {
 	POINT ptDeb;
 	POINT ptFin;
+	double normeX;
+	double normeY;
 };
 
 //retourne la norme d'un vecteur

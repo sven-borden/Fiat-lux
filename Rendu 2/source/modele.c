@@ -19,6 +19,8 @@
 #include "projecteur.h"
 #include "modele.h"
 
+//tmp
+#include "essai.c"
 
 #define SUCCESS		0
 #define ERROR		1
