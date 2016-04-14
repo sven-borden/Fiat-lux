@@ -13,4 +13,10 @@
 int modeleLecture(char fileName[]);
 int modele_verification_rendu2(void);
 void modeleDestroy(void);
+void modeleWrite(char*);
+void update(void);
+int modeleNbPhot(void);
+int modeleNbRefl(void);
+int modeleNbAbso(void);
+int modeleNbProj(void);
 #endif

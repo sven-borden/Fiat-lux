@@ -42,7 +42,7 @@ namespace
 extern "C"
 {
 	#include "modele.h"
-	#include "graphic.c"
+	#include "graphic.h"
 	#include "constantes.h"
 }
 
@@ -122,6 +122,7 @@ int main(int argc, char *argv[])
 		glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 		glutInitWindowSize(500, 600);
 		mainWin = glutCreateWindow("Project");
+		glutIdleFunc(idle);
 		glutDisplayFunc(display_cb);//si la fenetre bouge
 		glutReshapeFunc(reshape_cb);//si la taille change
 		createGLUI();
@@ -130,17 +131,23 @@ int main(int argc, char *argv[])
 	return EXIT_SUCCESS;
 }
 
+void idle(void)
+{
+	glutSetWindow(mainWin);
+	glutPostRedisplay();
+}
+
 void redrawAll(void)
 {
 	/*TODO*/
 	/*Efface le contenu de la win*/
-	glClearColor(0.,0.,0.,0.);
+	glClearColor(1.,1.,1.,1.);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	/*Defini le domaine*/
 	glLoadIdentity();
 	glOrtho(-20., 20., -20., 20., -1, 1);
-
+	update();
 	glutSwapBuffers();
 }
 
@@ -182,6 +189,13 @@ int call(int mode, char fileName[])
 	return success;
 }
 
+void updateGLUI()
+{
+	editPhoton->set_int_val(modeleNbPhot());
+	editReflecteur->set_int_val(modeleNbRefl());
+	editAbsorbeur->set_int_val(modeleNbAbso());
+	editProjecteur->set_int_val(modeleNbProj());
+}
 
 void createGLUI()
 {
@@ -224,19 +238,19 @@ void createGLUI()
 	GLUI_Panel *panelInformation = glui->add_panel((char*) "Information",
 		GLUI_PANEL_EMBOSSED);
 	editPhoton = glui->add_edittext_to_panel(panelInformation,
-		(char*) "Nb Photons", GLUI_EDITTEXT_TEXT, (char*)"0",
+		(char*) "Nb Photons", GLUI_EDITTEXT_INT, 0,
 		EDIT_PHOTON_ID, control_cb);
 	
 	editProjecteur = glui->add_edittext_to_panel(panelInformation,
-		(char*) "Nb Projecteurs", GLUI_EDITTEXT_TEXT, (char*)"0",
+		(char*) "Nb Projecteurs", GLUI_EDITTEXT_INT, 0,
 		EDIT_PROJECTEUR_ID, control_cb);
 	
 	editAbsorbeur = glui->add_edittext_to_panel(panelInformation,
-		(char*) "Nb Absorbeurs", GLUI_EDITTEXT_TEXT, (char*)"0",
+		(char*) "Nb Absorbeurs", GLUI_EDITTEXT_INT, 0,
 		EDIT_ABSORBEUR_ID, control_cb);
 	
 	editReflecteur = glui->add_edittext_to_panel(panelInformation,
-		(char*) "Nb Reflecteurs", GLUI_EDITTEXT_TEXT, (char*)"0",
+		(char*) "Nb Reflecteurs", GLUI_EDITTEXT_INT, 0,
 		EDIT_REFLECTEUR_ID, control_cb);
 	//PANEL MOUSE
 	GLUI_Panel *panelMouse = glui->add_panel((char*)"Mouse panel",
@@ -303,11 +317,11 @@ void control_cb(int control)
 
 void saveFile(char const *name)
 {
-	modeleWrite((char*) *name);
+	modeleWrite((char*) name);
 }
 
 void loadFile(char const *name)
 {
-	if(call(MODE_VERIF, (char*)name))
-		//refresh;
+	if(call(MODE_VERIF, (char*) name))
+		;//refresh;
 }

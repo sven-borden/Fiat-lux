@@ -114,6 +114,23 @@ int delAbsorbeur(int _id)
 	return OK;
 }
 
+void writeAbsorbeur(FILE *file)
+{
+	int i = 0;
+	ABSORBEUR *a = list;
+	fprintf(file, "#absorbeur\n%d\n", n);
+	while(a != NULL)
+	{
+		fprintf(file, "%d", a->nbPt);
+		for(i = 0; i < a->nbPt; i++)
+			fprintf(file, "%lf %lf",
+				a->tabPt[i].x, a->tabPt[i].y);
+		fprintf(file, "\n");
+		a = a->next;
+	}
+	fprintf(file, "FIN_LISTE\n\n");
+}
+
 void printListAbsorbeur(void)
 {
 	ABSORBEUR *a = list;
@@ -150,3 +167,5 @@ static int absorbeurDistanceRequise(POINT _a, POINT _b)
 	else
 		return NO;
 }
+
+int nbAbso(void) { return n; }

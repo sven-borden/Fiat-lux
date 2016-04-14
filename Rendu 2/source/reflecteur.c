@@ -11,6 +11,7 @@
 
 #include "constantes.h"
 #include "error.h"
+#include "graphic.h"
 #include "utilitaire.h"
 #include "reflecteur.h"
 
@@ -30,11 +31,6 @@ struct Reflecteur
 static int n = 0;
 static REFLECTEUR * list;
 
-int reflecteurSet(char[]);
-int addReflecteur(POINT, POINT);
-int delReflecteur(int);
-void printListReflecteur(void);
-void delListReflecteur(void);
 static int reflecteurDistanceRequise(POINT, POINT);
 
 int reflecteurSet(char line[MAX_LINE])
@@ -85,6 +81,18 @@ int delReflecteur(int _id)
 	return OK;
 }
 
+void writeReflecteur(FILE *file)
+{
+	REFLECTEUR *r = list;
+	fprintf(file, "#reflecteur\n%d\n", n);
+	while(r != NULL)
+	{
+		fprintf(file, "%lf %lf %lf %lf\n", r->a.x, r->a.y, r->b.x, r->b.y);
+		r = r->next;
+	}
+	fprintf(file, "FIN_LISTE\n\n");
+}
+
 void printListReflecteur(void)
 {
 	REFLECTEUR *r = list;
@@ -117,3 +125,5 @@ static int reflecteurDistanceRequise(POINT _a, POINT _b)
 	else
 		return NO;
 }
+
+int nbRefl(void) { return n; }

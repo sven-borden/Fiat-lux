@@ -11,6 +11,7 @@
 
 #include "constantes.h"
 #include "error.h"
+#include "graphic.h"
 #include "utilitaire.h"
 #include "photon.h"
 
@@ -29,12 +30,6 @@ struct Photon
 
 static int n = 0;
 static PHOTON * list = NULL;
-
-int photonSet(char[]);
-int addPhoton(POINT, double);
-int delPhoton(int);
-void printListPhoton(void);
-void delListPhoton(void);
 
 int photonSet(char line[MAX_LINE])
 {
@@ -77,6 +72,28 @@ int delPhoton(int _id)
 	return OK;
 }
 
+void writePhoton(FILE * file)
+{
+	PHOTON *p = list;
+	fprintf(file, "#photon\n%d\n", n);
+	while(p != NULL)
+	{
+		fprintf(file, "%lf %lf %lf\n", p->pos.x, p->pos.y, p->alpha);
+		p = p->next;
+	}
+	fprintf(file, "FIN_LISTE\n\n");
+}
+
+void drawPhot(void)
+{
+	PHOTON *p = list;
+	while(p != NULL)
+	{
+		graphicDrawPhoton(p->pos, p->alpha);
+		p = p->next;
+	}
+}
+
 void printListPhoton(void)
 {
 	PHOTON *p = list;
@@ -101,3 +118,5 @@ void delListPhoton(void)
 	}
 	return ;
 }
+
+int nbPhot(void) { return n; }

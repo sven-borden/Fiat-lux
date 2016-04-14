@@ -44,3 +44,35 @@ void modeleDestroy(void)
 {
 
 }
+
+void update()
+{
+	drawPhot();
+	//drawRefl();
+	//drawAbso();
+	//drawProj();	
+}
+
+int modeleNbPhot(void) { return nbPhot(); }
+int modeleNbRefl(void) { return nbRefl(); }
+int modeleNbAbso(void) { return nbAbso(); }
+int modeleNbProj(void) { return nbProj(); }
+
+void modeleWrite(char * nom)
+{
+	FILE * file;
+
+	if(!(file = fopen(nom, "w")))
+		return ;
+	
+	/*ecriture photons*/
+	fprintf(file, "#Fiat Lux Alix Nepveux & Sven Borden\n");
+	fprintf(file, "#\n#fichier:\t%s\n#\n", nom);
+
+	writeProjecteur(file);
+	writeReflecteur(file);
+	writeAbsorbeur(file);
+	writePhoton(file);
+	
+	fclose(file);
+}

@@ -30,12 +30,6 @@ struct Projecteur
 static int n = 0;
 static PROJECTEUR * list;
 
-int projecteurSet(char[]);
-int addProjecteur(POINT, double);
-int delProjecteur(int);
-void printListProjecteur(void);
-void delListProjecteur(void);
-
 int projecteurSet(char line[MAX_LINE])
 {
 	POINT pt;
@@ -77,6 +71,18 @@ int delProjecteur(int _id)
 	return OK;
 }
 
+void writeProjecteur(FILE * file)
+{
+	PROJECTEUR *p = list;
+	fprintf(file, "#projecteur\n%d\n", n);
+	while(p != NULL)
+	{
+		fprintf(file, "%lf %lf %lf\n", p->pos.x, p->pos.y, p->alpha);
+		p = p->next;
+	}
+	fprintf(file, "FIN_LISTE\n\n");
+}
+
 void printListProjecteur(void)
 {
 	PROJECTEUR *p = list;
@@ -101,3 +107,5 @@ void delListProjecteur(void)
 	}
 	return ;
 }
+
+int nbProj(void) { return n; }
