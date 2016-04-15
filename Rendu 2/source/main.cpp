@@ -84,6 +84,7 @@ void reshape_cb(int, int);
 void display_cb();
 void saveFile(char const*);
 void loadFile(char const*);
+void idle(void);
 
 int main(int argc, char *argv[])
 {
@@ -126,6 +127,7 @@ int main(int argc, char *argv[])
 		glutDisplayFunc(display_cb);//si la fenetre bouge
 		glutReshapeFunc(reshape_cb);//si la taille change
 		createGLUI();
+		modeleDraw();
 		glutMainLoop();
 	}
 	return EXIT_SUCCESS;
@@ -133,7 +135,9 @@ int main(int argc, char *argv[])
 
 void idle(void)
 {
-	glutSetWindow(mainWin);
+	if(glutGetWindow() != mainWin)
+		glutSetWindow(mainWin);
+
 	glutPostRedisplay();
 }
 
@@ -147,7 +151,7 @@ void redrawAll(void)
 	/*Defini le domaine*/
 	glLoadIdentity();
 	glOrtho(-20., 20., -20., 20., -1, 1);
-	update();
+	modeleUpdate();
 	glutSwapBuffers();
 }
 
@@ -276,6 +280,8 @@ void createGLUI()
 		(char*) "Reflecteur");
 	glui->add_radiobutton_to_group(radiogroupEntity,
 		(char*) "Absorbeur");
+	
+	glui->set_main_gfx_window(mainWin);
 }
 
 void control_cb(int control)

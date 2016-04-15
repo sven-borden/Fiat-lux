@@ -19,8 +19,6 @@
 #include "projecteur.h"
 #include "modele.h"
 
-//tmp
-#include "essai.c"
 
 #define SUCCESS		0
 #define ERROR		1
@@ -28,10 +26,7 @@
 int modeleLecture(char fileName[MAX_FILE])
 {
 	if(lecture(fileName) == SUCCESS)
-	{
-		/* TODO TRUCS*/
 		return SUCCESS;
-	}
 	else
 		return ERROR;
 	return ERROR;
@@ -39,6 +34,7 @@ int modeleLecture(char fileName[MAX_FILE])
 
 int modele_verification_rendu2(void)
 {
+	
 	return SUCCESS;;	
 }	
 
@@ -47,9 +43,15 @@ void modeleDestroy(void)
 
 }
 
-void update()
+void modeleDraw()
 {
+	printf("modeleDraw\n");
 	drawPhot();
+}
+
+void modeleUpdate()
+{
+	//drawPhot();
 	//drawRefl();
 	//drawAbso();
 	//drawProj();	

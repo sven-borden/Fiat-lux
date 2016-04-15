@@ -54,7 +54,11 @@ int addPhoton(POINT _pt, double _alpha)
 		p->pos.x = _pt.x;
 		p->pos.y = _pt.y;
 		p->alpha = _alpha;
-		p->next = list;
+		if(list != NULL)
+			p->next = list;
+		else
+			p->next = NULL;
+		list = p;
 		n++;
 	}
 	else

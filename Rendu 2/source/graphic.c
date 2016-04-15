@@ -6,11 +6,11 @@
 #include "utilitaire.h"
 #include "graphic.h"
 
-static float 	black[]	= {0.,0.,0.},
+static float 	//black[]	= {0.,0.,0.},
 				white[]	= {1.,1.,1.},
-				green[]	= {0.,1.,0.},
-				red[]	= {1.,0.,0.},
-				yellow[]= {1.,1.,0.},
+				//green[]	= {0.,1.,0.},
+				//red[]	= {1.,0.,0.},
+				//yellow[]= {1.,1.,0.},
 				blue[]	= {0.,0.,1.};
 
 void graphicDrawPhoton(POINT pt, double alpha)
@@ -20,7 +20,7 @@ void graphicDrawPhoton(POINT pt, double alpha)
 	double angle = 0;
 	const int SIDES = 50, diam = EPSIL_PROJ/2;
 	
-	glColor3f(blue);
+	glColor3fv(blue);
 	glBegin(GL_LINE_LOOP);
 
 	for(; i < SIDES; i++)
@@ -30,7 +30,7 @@ void graphicDrawPhoton(POINT pt, double alpha)
 	}
 	glEnd();
 	
-	glColor3f(white);
+	glColor3fv(white);
 	return ;
 }
 
