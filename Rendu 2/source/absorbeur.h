@@ -16,6 +16,7 @@ int absorbeurSet(char[]);
 int addAbsorbeur(int, POINT[]);
 int delAbsorveur(int);
 void writeAbsorbeur(FILE *);
+void drawAbso(void);
 void printListAbsorbeur(void);
 void delListAbsorbeur(void);
 int nbAbso(void);

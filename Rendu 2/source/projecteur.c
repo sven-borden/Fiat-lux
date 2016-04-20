@@ -53,7 +53,11 @@ int addProjecteur(POINT _pt, double _alpha)
 		p->pos.x = _pt.x;
 		p->pos.y = _pt.y;
 		p->alpha = _alpha;
-		p->next = list;
+		if(list != NULL)
+			p->next = list;
+		else
+			p->next = NULL;
+		list = p;
 		n++;
 	}	
 	else
@@ -69,6 +73,16 @@ int delProjecteur(int _id)
 	/*TODO*/
 	n--;
 	return OK;
+}
+
+void drawProj(void)
+{
+	PROJECTEUR *p = list;
+	while(p != NULL)
+	{
+		graphicDrawProjecteur(p->pos, p->alpha);
+		p = p->next;
+	}
 }
 
 void writeProjecteur(FILE * file)

@@ -63,7 +63,11 @@ int addReflecteur(POINT _ptA, POINT _ptB)
 		r->a.y = _ptA.y;
 		r->b.x = _ptB.x;
 		r->b.y = _ptB.y;
-		r->next = list;
+		if(list != NULL)
+			r->next = list;
+		else
+			r->next = NULL;
+		list = r;
 		n++;
 	}
 	else
@@ -92,6 +96,16 @@ void writeReflecteur(FILE *file)
 	}
 	fprintf(file, "FIN_LISTE\n\n");
 }
+
+void drawRefl(void)
+{
+	REFLECTEUR *r = list;
+	while(r != NULL)
+	{
+		graphicDrawReflecteur(r->a, r->b);
+		r = r->next;
+	}
+}	
 
 void printListReflecteur(void)
 {

@@ -50,7 +50,10 @@ int lecture(char fileName[MAX_FILE])
 		return ERROR;
 	if(lecturePhot(pFile)!= SUCCESS)
 		return ERROR;
-	printListPhoton();
+	//printListPhoton();
+	//printListAbsorbeur();
+	//printListReflecteur();
+	//printListProjecteur();
 	error_success();
 	fclose(pFile);
 	return SUCCESS;

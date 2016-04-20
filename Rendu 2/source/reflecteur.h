@@ -16,6 +16,7 @@ int reflecteurSet(char[]);/*ajoute un photon a partir d'une ligne*/
 int addReflecteur(POINT, POINT);/*ajoute un photon dans la liste*/
 int delReflecteur(int);/*supprime un photon de la liste*/
 void writeReflecteur(FILE *);
+void drawRefl(void);
 void printListReflecteur(void);/*imprime la liste des reflecteurs*/
 void delListReflecteur(void);/*nettoir la memoire en supprimant refle*/
 int nbRefl(void);

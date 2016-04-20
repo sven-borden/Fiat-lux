@@ -18,7 +18,10 @@ namespace
 	int width, height;
 	char editLoadContent[100] = "file.txt";
 	char editSaveContent[100] = "save.txt";
-
+	char buttonStartText[10] = "Start!";
+	char buttonStopText[10] = "Stop!";
+	bool simulationRunning = false;		
+	static GLfloat ratio;
 	GLUI_EditText * editFileLoad;
 	GLUI_EditText * editFileSave;
 	
@@ -70,6 +73,13 @@ extern "C"
 #define RADIOGROUP_ACTION_ID	31
 #define RADIOGROUP_ENTITY_ID	32
 
+/*GLUI CONSTANT*/
+#define SELECTION_VAL 	0
+#define CREATION_VAL	1
+#define PROJECTEUR_VAL	0
+#define REFLECTEUR_VAL	1
+#define ABSORBEUR_VAL	2
+
 /*Fonction qui crée le GLUI */
 void createGLUI();
 /*fonction callback du GLUI*/
@@ -85,7 +95,12 @@ void display_cb();
 void saveFile(char const*);
 void loadFile(char const*);
 void idle(void);
-
+void startPressed(void);
+void stepPressed(void);
+void exitPressed(void);
+void actionPressed(int);
+void entityPressed(int);
+void updateGLUI(void);
 int main(int argc, char *argv[])
 {
 	int success = ERROR;
@@ -103,7 +118,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		return EXIT_FAILURE;
+		mode = MODE_GRAPH;
 	}
 	if(mode == MODE_ERROR)
 		if(success)
@@ -121,8 +136,10 @@ int main(int argc, char *argv[])
 			modeleDestroy();
 		glutInit(&argc, argv);
 		glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-		glutInitWindowSize(500, 600);
+		glutInitWindowSize(800, 1000);
+		ratio = (GLfloat)800 / (GLfloat)1000;
 		mainWin = glutCreateWindow("Project");
+		glClearColor(1.,0.5,1.,0.);
 		glutIdleFunc(idle);
 		glutDisplayFunc(display_cb);//si la fenetre bouge
 		glutReshapeFunc(reshape_cb);//si la taille change
@@ -143,14 +160,23 @@ void idle(void)
 
 void redrawAll(void)
 {
-	/*TODO*/
 	/*Efface le contenu de la win*/
-	glClearColor(1.,1.,1.,1.);
 	glClear(GL_COLOR_BUFFER_BIT);
-
+	printf("REDRAW\n");	
 	/*Defini le domaine*/
 	glLoadIdentity();
-	glOrtho(-20., 20., -20., 20., -1, 1);
+	if(ratio <= 1.)
+		glOrtho(-4., 4., -4./ratio, 4./ratio, -1., 1.);
+	else
+		glOrtho(-4./ratio, 4./ratio, -4., 4., -1., 1.);
+	glColor3f(1.,1.,0.);
+	glLineWidth(1.);
+	glBegin(GL_POLYGON);
+	glVertex2d(0.0, 0.0);
+	glVertex2d(3.3, 3.3);
+	glVertex2d(1.1, 1.1);
+	glEnd();
+
 	modeleUpdate();
 	glutSwapBuffers();
 }
@@ -161,9 +187,17 @@ void reshape_cb(int x, int y)
 	height = y;
 
 	glViewport (0, 0, width, height);
+		
+	ratio = (GLfloat)x / (GLfloat) y;
+
+	glutPostRedisplay();
 }
 
-void display_cb() {	redrawAll(); }
+void display_cb() 
+{
+	redrawAll(); 
+	updateGLUI();
+}
 
 int call(int mode, char fileName[])
 {
@@ -281,6 +315,10 @@ void createGLUI()
 	glui->add_radiobutton_to_group(radiogroupEntity,
 		(char*) "Absorbeur");
 	
+
+	editFileLoad->set_text(editLoadContent);
+	editFileSave->set_text(editSaveContent);
+
 	glui->set_main_gfx_window(mainWin);
 }
 
@@ -295,10 +333,13 @@ void control_cb(int control)
 			saveFile(editFileSave->get_text());
 			break;
 		case (BUTTON_START_ID):
-			break;
+			startPressed();
+			break;		
 		case (BUTTON_STEP_ID):
+			stepPressed();
 			break;
 		case (BUTTON_EXIT_ID):
+			exitPressed();
 			break;
 		case (EDIT_FILE_LOAD_ID):
 			break;
@@ -313,8 +354,10 @@ void control_cb(int control)
 		case (EDIT_REFLECTEUR_ID):
 			break;
 		case (RADIOGROUP_ACTION_ID):
+			actionPressed(radiogroupAction->get_int_val());
 			break;
 		case (RADIOGROUP_ENTITY_ID):
+			entityPressed(radiogroupEntity->get_int_val());
 			break;
 		default:
 			break;
@@ -330,4 +373,53 @@ void loadFile(char const *name)
 {
 	if(call(MODE_VERIF, (char*) name))
 		;//refresh;
+}
+
+void startPressed(void) 
+{
+	if(simulationRunning == false)
+	{
+		buttonStart->set_text(buttonStopText);
+		printf("Start simulation\n"); 
+	}
+	else
+	{
+		buttonStart->set_text(buttonStartText);
+		printf("Stop simulation\n");
+	}
+	simulationRunning = !simulationRunning;
+}
+
+void stepPressed(void) { printf("Step by one\n"); }
+
+void exitPressed(void) { exit(1); }
+
+void actionPressed(int val)
+{
+	switch(val)
+	{
+		case SELECTION_VAL:
+			printf("Selection selected\n");
+			break;
+		case CREATION_VAL:
+			printf("Creation selected\n");
+			break;
+	}
+}
+
+void entityPressed(int val)
+{
+
+	switch(val)
+	{
+		case PROJECTEUR_VAL:
+			printf("Selected Projecteur\n");
+			break;
+		case REFLECTEUR_VAL:
+			printf("Selected Reflecteur\n");
+			break;
+		case ABSORBEUR_VAL:
+			printf("Selected Absorbeur\n");
+			break;
+	}
 }

@@ -6,6 +6,8 @@
 #include "utilitaire.h"
 #include "graphic.h"
 
+#define PISURDEUX M_PI/2
+
 static float 	//black[]	= {0.,0.,0.},
 				white[]	= {1.,1.,1.},
 				//green[]	= {0.,1.,0.},
@@ -59,6 +61,15 @@ void graphicDrawReflecteur(POINT a, POINT b)
 
 void graphicDrawProjecteur(POINT a, double alpha)
 {
-	/*TODO*/
+	POINT b;
+	b.x = (cos(alpha + PISURDEUX)*(NBPH-1)*EPSIL_PROJ) + a.x;
+	b.y = (sin(alpha + PISURDEUX)*(NBPH-1)*EPSIL_PROJ) + a.y;
+	
+	glBegin(GL_LINE);
+	
+	glVertex2d(a.x, a.y);
+	glVertex2d(b.x, b.y);
+
+	glEnd();
 	return ;
 }

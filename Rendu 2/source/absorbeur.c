@@ -96,7 +96,11 @@ int addAbsorbeur(int _nb, POINT tab[_nb])
 			a->tabPt[i].x = tab[i].x;
 			a->tabPt[i].y = tab[i].y;
 		}
-		a->next = list;
+		if(list != NULL)
+			a->next = list;
+		else
+			a->next = NULL;
+		list = a;
 		n++;
 	}
 	else
@@ -129,6 +133,16 @@ void writeAbsorbeur(FILE *file)
 		a = a->next;
 	}
 	fprintf(file, "FIN_LISTE\n\n");
+}
+
+void drawAbso(void)
+{
+	ABSORBEUR *a = list;
+	while(a != NULL)
+	{
+		graphicDrawAbsorbeur(a->nbPt, a->tabPt);
+		a = a->next;
+	}
 }
 
 void printListAbsorbeur(void)

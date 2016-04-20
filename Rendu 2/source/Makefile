@@ -8,7 +8,7 @@ CFILES  = main.cpp absorbeur.c error.c graphic.c lecture.c modele.c photon.c pro
 OFILES = $(CFILES:.c=.o) 
 
 rendu2.x: $(OFILES)
-	$(CC) $(OFILES) -lm -lstdc++ -lglut -Llib -lglui -lGL -o rendu2.x
+	$(CC) $(OFILES) -lm -lglut -lGL -lGLU -Llib -L/usr/X11R6/lib -lX11 -lXext -lXmu -lXi -lstdc++ -lglui -o rendu2.x
     
 depend:
 	@echo " *** MISE A JOUR DES DEPENDANCES ***"

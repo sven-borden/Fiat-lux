@@ -47,14 +47,17 @@ void modeleDraw()
 {
 	printf("modeleDraw\n");
 	drawPhot();
+	drawRefl();
+	drawAbso();
+	drawProj();
 }
 
 void modeleUpdate()
 {
-	//drawPhot();
-	//drawRefl();
-	//drawAbso();
-	//drawProj();	
+	drawPhot();
+	drawRefl();
+	drawAbso();
+	drawProj();	
 }
 
 int modeleNbPhot(void) { return nbPhot(); }
