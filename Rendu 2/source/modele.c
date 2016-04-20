@@ -34,13 +34,25 @@ int modeleLecture(char* fileName)
 
 int modele_verification_rendu2(void)
 {
-	
-	return SUCCESS;;	
+/*
+	if(reflecteurSelfInter() == ERROR)
+		return ERROR;
+	if(absoInterProj() == ERROR)
+		return ERROR;
+	if(absoInterRefl() == ERROR)
+		return ERROR;
+	if(projInterRefl() == ERROR)
+		return ERROR;
+*/	
+	return SUCCESS;
 }	
 
 void modeleDestroy(void)
 {
-
+	delListPhoton();
+	delListAbsorbeur();
+	delListProjecteur();
+	delListReflecteur();
 }
 
 void modeleDraw()
@@ -78,4 +90,15 @@ void modeleWrite(char * nom)
 	writePhoton(file);
 	
 	fclose(file);
+}
+
+void modeleDestroyEntity(void)
+{
+	printf("Destroy Entity NOT IMPLEMENTED YET\n");
+}
+
+void modeleDestroyExtPhot(void)
+{
+	delListPhoton();
+	printf("Destroy all photons not on screen NOT IMPLEMENTED YET\n");
 }

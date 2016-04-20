@@ -17,6 +17,6 @@ int delProjecteur(int);/*supprime un projecteur de la liste*/
 void writeProjecteur(FILE *);
 void drawProj(void);
 void printListProjecteur(void);/*imprime la liste des projecteurs*/
-void delListReflecteur(void);/*nettoie la memoire*/
+void delListProjecteur(void);/*nettoie la memoire*/
 int nbProj(void);
 #endif

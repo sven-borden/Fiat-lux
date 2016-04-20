@@ -119,6 +119,7 @@ void delListProjecteur(void)
 		list = p->next;
 		free(p);
 	}
+	n = 0;
 	return ;
 }
 

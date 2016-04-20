@@ -171,6 +171,7 @@ void delListAbsorbeur(void)
 		list = a->next;
 		free(a);
 	}
+	n = 0;
 	return ;
 }
 

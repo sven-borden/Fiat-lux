@@ -96,7 +96,6 @@ void graphicDrawZoom(double x1, double x2, double y1, double y2)
 		utilitaireSwap(&x1, &x2);
 	if(y1 > y2)
 		utilitaireSwap(&y1, &y2);
-	printf("POINTS \n%lf\t%lf\n%lf\t%lf\n", x1, y1, x2, y2);
 	glLineWidth(3.);
 	glColor3fv(turquoise);
 	glBegin(GL_LINE_LOOP);

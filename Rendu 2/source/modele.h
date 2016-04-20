@@ -20,4 +20,6 @@ int modeleNbPhot(void);
 int modeleNbRefl(void);
 int modeleNbAbso(void);
 int modeleNbProj(void);
+void modeleDestroyEntity(void);
+void modeleDestroyExtPhot(void);
 #endif

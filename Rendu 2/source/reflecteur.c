@@ -129,6 +129,7 @@ void delListReflecteur(void)
 		list = r->next;
 		free(r);
 	}
+	n = 0;
 	return ;
 }
 

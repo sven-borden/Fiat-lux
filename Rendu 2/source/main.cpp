@@ -113,6 +113,7 @@ void entityPressed(int);
 void updateGLUI(void);
 void mouseClick(int , int, int, int);
 void motionClick(int, int);
+void keyNormalClick(unsigned char, int, int);
 
 int main(int argc, char *argv[])
 {
@@ -158,7 +159,7 @@ int main(int argc, char *argv[])
 		glutReshapeFunc(reshape_cb);//si la taille change
 		glutMouseFunc(mouseClick);
 		glutMotionFunc(motionClick);	
-	
+		glutKeyboardFunc(keyNormalClick);	
 		createGLUI();
 		modeleDraw();
 		glutMainLoop();
@@ -170,6 +171,9 @@ void idle(void)
 {
 	if(glutGetWindow() != mainWin)
 		glutSetWindow(mainWin);
+
+	if(simulationRunning == true)
+		printf("simulate\n");
 
 	glutPostRedisplay();
 }
@@ -186,7 +190,7 @@ void redrawAll(void)
 	modeleUpdate();
 	if(leftButtonDown == true)
 		graphicDrawZoom(clickX,relachX,clickY,relachY);
-	printf("draw\n");
+	
 	glutSwapBuffers();
 }
 
@@ -224,6 +228,23 @@ void display_cb()
 	updateGLUI();
 }
 
+void keyNormalClick(unsigned char key, int x, int y)
+{
+	switch(key)
+	{
+		case 'r'://reset zoom
+			xMin = X_MIN;	yMin = Y_MIN;
+			xMax = X_MAX;	yMax = Y_MAX;
+			break;
+		case 'd':
+			modeleDestroyEntity();
+			break;
+		case 'k':
+			modeleDestroyExtPhot();
+			break;
+	}
+}
+
 void zoomIn(double x1, double y1, double x2, double y2)
 {
 	glLoadIdentity();
@@ -236,10 +257,6 @@ void zoomIn(double x1, double y1, double x2, double y2)
 
 	double _w = fabs(x1 - x2);
 	double _h = fabs(y1 - y2);
-	if(_w < EPSIL_CREATION)
-		_w = EPSIL_CREATION;
-	if(_h < EPSIL_CREATION)
-		_h = EPSIL_CREATION;
 
 	GLfloat _ratio = (GLfloat) _w / (GLfloat) _h;
 	if(ratio < _ratio)
@@ -319,7 +336,14 @@ void mouseClick(int button, int state, int x, int y)
 			{
 				leftButtonDown = false;
 				relachX = _x; relachY = _y;
-				zoomIn(clickX, clickY, relachX, relachY);
+				
+				VECTOR diagonale;
+				diagonale.ptDeb.x = clickX;
+				diagonale.ptDeb.y = clickY;
+				diagonale.ptFin.x = relachX;
+				diagonale.ptDeb.y = relachY;
+				if(utilitaireNormeVector(diagonale) > EPSIL_CREATION)
+					zoomIn(clickX, clickY, relachX, relachY);
 			}
 		}
 		
@@ -500,14 +524,13 @@ void loadFile(char const *name)
 void startPressed(void) 
 {
 	if(simulationRunning == false)
-	{
-		buttonStart->set_text(buttonStopText);
-		printf("Start simulation\n"); 
+	{	
+		buttonStart->set_text("STOP!");
 	}
 	else
 	{
-		buttonStart->set_text(buttonStartText);
-		printf("Stop simulation\n");
+		printf("STOP\n");
+		buttonStart->set_text("START!");
 	}
 	simulationRunning = !simulationRunning;
 }
