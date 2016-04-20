@@ -32,7 +32,7 @@ static int lectureAbs(FILE *);
 static int lecturePhot(FILE *);
 static int skipLine(char[]);
 
-int lecture(char fileName[MAX_FILE])
+int lecture(char * fileName)
 {
 	FILE *pFile;
 	pFile = fopen(fileName, "r");

@@ -42,4 +42,6 @@ int utilitaireParalelisme(VECTOR, VECTOR);
 int utilitaireIntersection(VECTOR, VECTOR);
 //retourne el point d'intersection de deux vecteurs
 POINT utilitaireIntersectionPt(VECTOR, VECTOR);
+//swap
+void utilitaireSwap(double*, double*);
 #endif

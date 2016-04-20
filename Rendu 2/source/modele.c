@@ -23,7 +23,7 @@
 #define SUCCESS		0
 #define ERROR		1
 
-int modeleLecture(char fileName[MAX_FILE])
+int modeleLecture(char* fileName)
 {
 	if(lecture(fileName) == SUCCESS)
 		return SUCCESS;

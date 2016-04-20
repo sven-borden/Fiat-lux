@@ -11,9 +11,9 @@
 
 #include "constantes.h"
 #include "error.h"
+#include "graphic.h"
 #include "utilitaire.h"
 #include "projecteur.h"
-
 #define OK      0
 #define NO      1
 #define NB_ELEM 3

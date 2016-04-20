@@ -125,7 +125,7 @@ void writeAbsorbeur(FILE *file)
 	fprintf(file, "#absorbeur\n%d\n", n);
 	while(a != NULL)
 	{
-		fprintf(file, "%d", a->nbPt);
+		fprintf(file, "%d ", a->nbPt);
 		for(i = 0; i < a->nbPt; i++)
 			fprintf(file, "%lf %lf",
 				a->tabPt[i].x, a->tabPt[i].y);

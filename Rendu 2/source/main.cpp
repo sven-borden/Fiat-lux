@@ -5,7 +5,7 @@
 	Version:    0.9
 	Description:Point d'entree du projet 
 */
-
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,12 +16,16 @@ namespace
 {
 	int mainWin;
 	int width, height;
+	GLfloat ratio, xMin, xMax, yMin, yMax;
+
 	char editLoadContent[100] = "file.txt";
 	char editSaveContent[100] = "save.txt";
 	char buttonStartText[10] = "Start!";
 	char buttonStopText[10] = "Stop!";
 	bool simulationRunning = false;		
-	static GLfloat ratio;
+	bool leftButtonDown = false;
+	float clickX, clickY, relachX, relachY;
+
 	GLUI_EditText * editFileLoad;
 	GLUI_EditText * editFileSave;
 	
@@ -80,18 +84,24 @@ extern "C"
 #define REFLECTEUR_VAL	1
 #define ABSORBEUR_VAL	2
 
+/*window*/
+#define X_MIN	-DMAX
+#define X_MAX	DMAX
+#define Y_MIN	-DMAX
+#define Y_MAX	DMAX
+
 /*Fonction qui crée le GLUI */
 void createGLUI();
 /*fonction callback du GLUI*/
 void control_cb(int);
 /*Fonction qui appelle la bonne simulation en fonction de l'entrée*/
-int call(int, char[]);
+int call(int, char*);
 /*Redessine entierement le contenu du widget GLUT*/
 void redrawAll();
 /*Widget callback reshape, when resized*/
 void reshape_cb(int, int);
 /*Widget callback display, when contents have to be redrawn*/
-void display_cb();
+void display_cb(void);
 void saveFile(char const*);
 void loadFile(char const*);
 void idle(void);
@@ -101,6 +111,9 @@ void exitPressed(void);
 void actionPressed(int);
 void entityPressed(int);
 void updateGLUI(void);
+void mouseClick(int , int, int, int);
+void motionClick(int, int);
+
 int main(int argc, char *argv[])
 {
 	int success = ERROR;
@@ -113,7 +126,6 @@ int main(int argc, char *argv[])
 			mode = MODE_VERIF;
 		if(strcmp(argv[1], "Graphic") == 0)
 			mode = MODE_GRAPH;
-		
 		success = call(mode, argv[2]);
 	}
 	else
@@ -140,9 +152,13 @@ int main(int argc, char *argv[])
 		ratio = (GLfloat)800 / (GLfloat)1000;
 		mainWin = glutCreateWindow("Project");
 		glClearColor(1.,1.,1.,0.);
+		
 		glutIdleFunc(idle);
 		glutDisplayFunc(display_cb);//si la fenetre bouge
 		glutReshapeFunc(reshape_cb);//si la taille change
+		glutMouseFunc(mouseClick);
+		glutMotionFunc(motionClick);	
+	
 		createGLUI();
 		modeleDraw();
 		glutMainLoop();
@@ -164,25 +180,42 @@ void redrawAll(void)
 	glClear(GL_COLOR_BUFFER_BIT);
 	/*Defini le domaine*/
 	glLoadIdentity();
-	if(ratio <= 1.)
-		glOrtho(-1., 1., -1./ratio, 1./ratio, -1., 1.);
-	else
-		glOrtho(-1./ratio, 1./ratio, -1., 1., -1., 1.);
+
+	glOrtho(xMin, xMax, yMin, yMax, -1., 1.);
 
 	modeleUpdate();
+	if(leftButtonDown == true)
+		graphicDrawZoom(clickX,relachX,clickY,relachY);
+	printf("draw\n");
 	glutSwapBuffers();
 }
 
 void reshape_cb(int x, int y)
 {
-	width = x;
-	height = y;
-
-	glViewport (0, 0, width, height);
-		
-	ratio = (GLfloat)x / (GLfloat) y;
-
+	if(x < EPSIL_CREATION)
+		x = EPSIL_CREATION;
+	if(y < EPSIL_CREATION)
+		y = EPSIL_CREATION;
+	glViewport(0, 0, x, y);
+	width = x;	height = y;
+	if(height == 0)
+		height = 1;
+	
+	ratio = (GLfloat) width / (GLfloat) height;
+	if(ratio <= 1.)
+	{
+		xMin = X_MIN;	xMax = X_MAX;
+		yMin = Y_MIN / ratio;
+		yMax = Y_MAX / ratio;
+	}
+	else
+	{
+		xMin = X_MIN * ratio;
+		xMax = X_MAX * ratio;
+		yMin = Y_MIN;	yMax = Y_MAX;
+	}
 	glutPostRedisplay();
+
 }
 
 void display_cb() 
@@ -191,9 +224,54 @@ void display_cb()
 	updateGLUI();
 }
 
-int call(int mode, char fileName[])
+void zoomIn(double x1, double y1, double x2, double y2)
+{
+	glLoadIdentity();
+
+	/*swap pour que x1 < x2 et y1 < y2*/
+	if(x1 > x2)
+		utilitaireSwap(&x1, &x2);
+	if(y1 > y2)
+		utilitaireSwap(&y1, &y2);
+
+	double _w = fabs(x1 - x2);
+	double _h = fabs(y1 - y2);
+	if(_w < EPSIL_CREATION)
+		_w = EPSIL_CREATION;
+	if(_h < EPSIL_CREATION)
+		_h = EPSIL_CREATION;
+
+	GLfloat _ratio = (GLfloat) _w / (GLfloat) _h;
+	if(ratio < _ratio)
+		_h = _w/ratio;
+	if(ratio > _ratio)
+		_w = ratio*_h;
+
+	double diff = _w - fabs(x1 - x2);
+
+	if(diff > 0)
+	{
+		x1 -= diff/2;
+		x2 += diff/2;
+	}
+
+	diff = _h - fabs(y1 - y2);
+
+	if(diff > 0)
+	{
+		y1 -= diff/2;
+		y2 += diff/2;
+	}
+
+	/*on peut mtn recadrer*/
+	xMin = x1; xMax = x2; 
+	yMin = y1; yMax = y2;	
+}
+
+int call(int mode, char* fileName)
 {
 	int success = SUCCESS;
+	
 	switch(mode)
 	{
 		case MODE_ERROR:
@@ -215,8 +293,45 @@ int call(int mode, char fileName[])
 		default:
 			success = ERROR;
 	}
-	
 	return success;
+}
+
+void mouseClick(int button, int state, int x, int y)
+{
+	double _x, _y;
+	_x = ((double)x/width)*(xMax - xMin) + xMin;
+	_y = ((double)(height - y)/height)*(yMax - yMin) + yMin;
+	
+	if(button == GLUT_LEFT_BUTTON)
+	{
+		if(state == GLUT_DOWN)
+		{
+			if(leftButtonDown == false)
+			{
+				leftButtonDown = true;
+				clickX = _x; clickY = _y;
+				relachX = clickX; relachY = clickY;
+			}
+		}
+		else
+		{
+			if(leftButtonDown == true)//button relaché
+			{
+				leftButtonDown = false;
+				relachX = _x; relachY = _y;
+				zoomIn(clickX, clickY, relachX, relachY);
+			}
+		}
+		
+	}
+}
+
+void motionClick(int x, int y)
+{
+	double _x, _y;
+	_x = ((double)x/width)*(xMax - xMin) + xMin;
+	_y = ((double)(height - y)/height)*(yMax - yMin) + yMin;
+	relachX = _x; relachY = _y;
 }
 
 void updateGLUI()
@@ -364,7 +479,22 @@ void saveFile(char const *name)
 void loadFile(char const *name)
 {
 	if(call(MODE_VERIF, (char*) name))
+	{
+		if(ratio <= 1.)
+		{
+			xMin = X_MIN;	xMax = X_MAX;
+			yMin = Y_MIN / ratio;
+			yMax = Y_MAX / ratio;
+		}
+		else
+		{
+			xMin = X_MIN * ratio;
+			xMax = X_MAX * ratio;
+			yMin = Y_MIN;	yMax = Y_MAX;
+		}
+		glutPostRedisplay();
 		redrawAll();;//refresh;
+	}
 }
 
 void startPressed(void) 

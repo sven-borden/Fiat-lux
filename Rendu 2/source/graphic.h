@@ -7,5 +7,5 @@ void graphicDrawPhoton(POINT, double);
 void graphicDrawAbsorbeur(int, POINT[]);
 void graphicDrawReflecteur(POINT, POINT);
 void graphicDrawProjecteur(POINT, double);
-
+void graphicDrawZoom(double, double, double, double);
 #endif

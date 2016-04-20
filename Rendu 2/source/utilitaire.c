@@ -53,4 +53,12 @@ POINT utilitaireIntersectionPt(VECTOR v1, VECTOR v2)
 {
 	POINT a;
 	return a;
+}
+
+void utilitaireSwap(double *a, double *b)
+{
+	double c = *a;
+	*a = *b;
+	*b = c;
+	return ;
 }	

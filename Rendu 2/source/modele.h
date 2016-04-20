@@ -10,7 +10,7 @@
 
 #include "constantes.h"
 //lis les donnees et dispatch les informations dans les sous modules
-int modeleLecture(char fileName[]);
+int modeleLecture(char* fileName);
 int modele_verification_rendu2(void);
 void modeleDestroy(void);
 void modeleWrite(char*);
