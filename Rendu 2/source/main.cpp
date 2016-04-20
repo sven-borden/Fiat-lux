@@ -139,7 +139,7 @@ int main(int argc, char *argv[])
 		glutInitWindowSize(800, 1000);
 		ratio = (GLfloat)800 / (GLfloat)1000;
 		mainWin = glutCreateWindow("Project");
-		glClearColor(1.,0.5,1.,0.);
+		glClearColor(1.,1.,1.,0.);
 		glutIdleFunc(idle);
 		glutDisplayFunc(display_cb);//si la fenetre bouge
 		glutReshapeFunc(reshape_cb);//si la taille change
@@ -162,20 +162,12 @@ void redrawAll(void)
 {
 	/*Efface le contenu de la win*/
 	glClear(GL_COLOR_BUFFER_BIT);
-	printf("REDRAW\n");	
 	/*Defini le domaine*/
 	glLoadIdentity();
 	if(ratio <= 1.)
-		glOrtho(-4., 4., -4./ratio, 4./ratio, -1., 1.);
+		glOrtho(-1., 1., -1./ratio, 1./ratio, -1., 1.);
 	else
-		glOrtho(-4./ratio, 4./ratio, -4., 4., -1., 1.);
-	glColor3f(1.,1.,0.);
-	glLineWidth(1.);
-	glBegin(GL_POLYGON);
-	glVertex2d(0.0, 0.0);
-	glVertex2d(3.3, 3.3);
-	glVertex2d(1.1, 1.1);
-	glEnd();
+		glOrtho(-1./ratio, 1./ratio, -1., 1., -1., 1.);
 
 	modeleUpdate();
 	glutSwapBuffers();
@@ -372,7 +364,7 @@ void saveFile(char const *name)
 void loadFile(char const *name)
 {
 	if(call(MODE_VERIF, (char*) name))
-		;//refresh;
+		redrawAll();;//refresh;
 }
 
 void startPressed(void) 

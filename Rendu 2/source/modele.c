@@ -45,7 +45,6 @@ void modeleDestroy(void)
 
 void modeleDraw()
 {
-	printf("modeleDraw\n");
 	drawPhot();
 	drawRefl();
 	drawAbso();
@@ -54,10 +53,7 @@ void modeleDraw()
 
 void modeleUpdate()
 {
-	drawPhot();
-	drawRefl();
-	drawAbso();
-	drawProj();	
+	modeleDraw();
 }
 
 int modeleNbPhot(void) { return nbPhot(); }
