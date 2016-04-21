@@ -2,7 +2,7 @@
 	Fichier:	modele.c
 	Auteur:		Alix Nepveux & Sven Borden
 	Date :		20 mars 2016
-	Version:	1.0
+	Version:	1.1
 	Description:Module de simulation du projet de programation II MT
 */
 
@@ -18,8 +18,8 @@
 #include "projecteur.h"
 #include "lecture.h"
 
-#define SUCCESS		0
-#define ERROR		1
+#define SUCCESS		1
+#define ERROR		0
 #define KEEP		0
 #define SKIP		1
 #define FINLISTE	2

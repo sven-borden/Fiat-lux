@@ -1,8 +1,8 @@
 /*
     Fichier:   	photon.h
     Auteur:     Alix Nepveux & Sven Borden
-    Date :      30 mars 2016
-    Version:    1.0
+    Date :      20 avril 2016
+    Version:    1.1
     Description:Module photon qui gere la structure photon 
 */
 
@@ -11,13 +11,21 @@
 
 #include <stdio.h>
 #include "utilitaire.h"
-//verifie les valeurs et les enregistre dans la structure
-int photonSet(char[]);/*ajoute un photon a partir d'une ligne*/
-int addPhoton(POINT, double);/*ajoute un photon dans la liste*/
-int delPhoton(int);/*supprime un photon pas encore fonctionnel*/
+
+/*Ajoute un photon par une ligne*/
+int photonSet(char[]);
+/*Ajout un photon dans la liste manuellement*/
+int addPhoton(POINT, double);
+/*Supprime un photon de la liste*/
+int delPhoton(int);
+/*Dessine les photons*/
 void drawPhot(void);
+/*Ecrit dans un fichier la liste des photons*/
 void writePhoton(FILE *);
-void printListPhoton(void); /*imprime la liste des photons en mémoire*/
-void delListPhoton(void); /* nettoie la mémoire en supprimant la liste de photon*/
+/*Print en console la liste des photons*/
+void printListPhoton(void); 
+/*Supprime la liste complète de photons*/
+void delListPhoton(void); 
+/*Retourn le nombre de photons*/
 int nbPhot(void);
 #endif

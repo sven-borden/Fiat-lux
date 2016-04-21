@@ -1,8 +1,8 @@
 /*
     Fichier:    reflecteur.c
     Auteur:     Alix Nepveux & Sven Borden
-    Date :      16 mars 2016
-    Version:    0.9
+    Date :      20 avril 2016
+    Version:    1.1
     Description:Module reflecteur qui gere la structure 
 */
 
@@ -15,8 +15,8 @@
 #include "utilitaire.h"
 #include "reflecteur.h"
 
-#define OK      0
-#define NO      1
+#define OK      1
+#define NO      0
 #define NB_ELEM 4
 
 typedef struct Reflecteur REFLECTEUR;
@@ -136,9 +136,9 @@ void delListReflecteur(void)
 static int reflecteurDistanceRequise(POINT _a, POINT _b)
 {
 	if(utilitaireDistance2Points(_a, _b) < EPSIL_CREATION)
-		return OK;
-	else
 		return NO;
+	else
+		return OK;
 }
 
 int nbRefl(void) { return n; }

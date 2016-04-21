@@ -1,8 +1,8 @@
 /*
     Fichier:    absorbeur.c
     Auteur:     Alix Nepveux & Sven Borden
-    Date :      16 mars 2016
-    Version:    0.9
+    Date :      20 avril 2016
+    Version:    1.1
     Description:Module absorbeur qui gere cette structure 
 */
 
@@ -10,11 +10,13 @@
 #include <stdlib.h>
 #include "constantes.h"
 #include "error.h"
+#include "graphic.h"
+#include "graphic.h" 
 #include "utilitaire.h"
 #include "absorbeur.h"
 
-#define OK      0
-#define NO      1
+#define OK      1
+#define NO      0
 #define MIN_PT  2
 
 typedef struct Absorbeur ABSORBEUR;
@@ -113,7 +115,7 @@ int addAbsorbeur(int _nb, POINT tab[_nb])
 
 int delAbsorbeur(int _id)
 {
-	/*TODO*/
+	/*NOT IMPLEMENTED YET*/
 	n--;
 	return OK;
 }
@@ -178,9 +180,9 @@ void delListAbsorbeur(void)
 static int absorbeurDistanceRequise(POINT _a, POINT _b)
 {
 	if(utilitaireDistance2Points(_a, _b) < EPSIL_CREATION)
-		return OK;
-	else
 		return NO;
+	else
+		return OK;
 }
 
 int nbAbso(void) { return n; }

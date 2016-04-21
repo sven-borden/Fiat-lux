@@ -1,8 +1,8 @@
 /*
     Fichier:    reflecteur.h
     Auteur:     Alix Nepveux & Sven Borden
-    Date :      16 mars 2016
-    Version:    1.0
+    Date :      20 avril 2016
+    Version:    1.1
     Description:Module reflecteur qui gere la structure 
 */
 
@@ -11,13 +11,21 @@
 
 #include <stdio.h>
 #include "utilitaire.h"
-//verifie les valeurs et les enregistre dans la structure
-int reflecteurSet(char[]);/*ajoute un photon a partir d'une ligne*/
-int addReflecteur(POINT, POINT);/*ajoute un photon dans la liste*/
-int delReflecteur(int);/*supprime un photon de la liste*/
+
+/*Ajoute un reflecteur par une ligne*/
+int reflecteurSet(char[]);
+/*Ajoute un reflecteur dans la liste manuellement*/
+int addReflecteur(POINT, POINT);
+/*Supprime un reflecteur de la liste*/
+int delReflecteur(int);
+/*Ecrit dans un fichier la liste des reflecteurs*/
 void writeReflecteur(FILE *);
+/*Dessine les reflecteurs*/
 void drawRefl(void);
-void printListReflecteur(void);/*imprime la liste des reflecteurs*/
-void delListReflecteur(void);/*nettoir la memoire en supprimant refle*/
+/*Print en console la liste des reflecteurs*/
+void printListReflecteur(void);
+/*Supprime la liste complète des reflecteurs*/
+void delListReflecteur(void);
+/*Retourne le nombre de reflecteurs*/
 int nbRefl(void);
 #endif

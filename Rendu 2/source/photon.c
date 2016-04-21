@@ -1,8 +1,8 @@
 /*
     Fichier:    photon.c
     Auteur:     Alix Nepveux & Sven Borden
-    Date :      16 mars 2016
-    Version:    0.9
+    Date :      20 avril 2016
+    Version:    1.1
     Description:Module photon qui gere la structure photon
 */
 
@@ -15,8 +15,8 @@
 #include "utilitaire.h"
 #include "photon.h"
 
-#define OK      0
-#define NO      1
+#define OK      1
+#define NO     	0
 #define NB_ELEM 3
 
 typedef struct Photon PHOTON;
@@ -114,13 +114,13 @@ void printListPhoton(void)
 
 void delListPhoton(void)
 {
+	n = 0;
 	while(list)
 	{
 		PHOTON *p = list;
 		list = p->next;
 		free(p);
 	}
-	n = 0;
 	return ;
 }
 

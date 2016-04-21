@@ -1,19 +1,30 @@
+/*
+	Fichier:	graphic.c
+	Auteurs:	Alix Nepveux & Sven Borden
+	Date:		20 avril 2016
+	Version:	1.1
+	Description:	Module qui dessine les entités
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
+
 #include "constantes.h"
 #include "utilitaire.h"
 #include "graphic.h"
 
-#define PISURDEUX M_PI/2
+#define PISURDEUX 	M_PI/2
+#define BASIC_LINE	0.7
+#define MEDIUM_LINE	1.
+#define FAT_LINE	2.
+#define HUGE_LINE	3.
 
-static float 	//black[]	= {0.,0.,0.},
-				white[]	= {1.,1.,1.},
+static float	white[]	= {1.,1.,1.},
 				green[]	= {0.,1.,0.},
 				red[]	= {1.,0.,0.},
-				//yellow[]= {1.,1.,0.},
 				blue[]	= {0.,0.,1.},
 				violet[]= {1.,0.,1.},
 				turquoise[]={0.,1.,1.};
@@ -23,16 +34,16 @@ void graphicDrawPhoton(POINT pt, double alpha)
 	int i = 0;
 	const double conv = M_PI * 2;
 	double angle = 0;
-	const int SIDES = 15;
+	const int sides = 16;
 	double diam = EPSIL_PROJ/2;
 	
-	glLineWidth(0.7);
+	glLineWidth(BASIC_LINE);
 	glColor3fv(violet);
 	glBegin(GL_LINE_LOOP);
 
-	for(; i < SIDES; i++)
+	for(; i < sides; i++)
 	{
-		angle = i * conv / SIDES;
+		angle = i * conv / sides;
 		glVertex2f(pt.x + (cos(angle)*diam), pt.y + (sin(angle)*diam));
 	}
 	glEnd();
@@ -44,9 +55,9 @@ void graphicDrawPhoton(POINT pt, double alpha)
 void graphicDrawAbsorbeur(int nb, POINT tab[MAX_PT])
 {
 	int i = 0;
-	glLineWidth(0.7);
+	glLineWidth(FAT_LINE);
 	glColor3fv(blue);	
-	glBegin(GL_LINES);
+	glBegin(GL_LINE_STRIP);
 	
 	for(;i < nb; i++)
 		glVertex2f(tab[i].x, tab[i].y);
@@ -58,7 +69,7 @@ void graphicDrawAbsorbeur(int nb, POINT tab[MAX_PT])
 
 void graphicDrawReflecteur(POINT a, POINT b)
 {
-	glLineWidth(1.);
+	glLineWidth(MEDIUM_LINE);
 	glColor3fv(red);
 	glBegin(GL_LINES);
 	
@@ -72,7 +83,7 @@ void graphicDrawReflecteur(POINT a, POINT b)
 
 void graphicDrawProjecteur(POINT a, double alpha)
 {
-	glLineWidth(1.);
+	glLineWidth(MEDIUM_LINE);
 	glColor3fv(green);
 
 	POINT b;
@@ -96,7 +107,7 @@ void graphicDrawZoom(double x1, double x2, double y1, double y2)
 		utilitaireSwap(&x1, &x2);
 	if(y1 > y2)
 		utilitaireSwap(&y1, &y2);
-	glLineWidth(3.);
+	glLineWidth(HUGE_LINE);
 	glColor3fv(turquoise);
 	glBegin(GL_LINE_LOOP);
 

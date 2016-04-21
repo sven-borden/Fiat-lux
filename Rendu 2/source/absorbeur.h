@@ -11,13 +11,21 @@
 
 #include <stdio.h>
 #include "utilitaire.h"
-//verifie les valeurs et les enregistre dans la structure
+
+/*Ajoute un absorbeur par une ligne*/
 int absorbeurSet(char[]);
+/*Ajoute un absorbeur dans la liste manuellement*/
 int addAbsorbeur(int, POINT[]);
+/*Supprime un absorbeur de la liste*/
 int delAbsorveur(int);
+/*Ecrit dans un fichier la liste des absorbeurs*/
 void writeAbsorbeur(FILE *);
+/*Dessine les absorbeurs*/
 void drawAbso(void);
+/*Print en console la liste des absorbeurs*/
 void printListAbsorbeur(void);
+/*Supprime la liste complète des absorbeurs*/
 void delListAbsorbeur(void);
+/*Retourne le nombre d'absorbeurs*/
 int nbAbso(void);
 #endif

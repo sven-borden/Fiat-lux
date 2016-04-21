@@ -2,7 +2,7 @@
     Fichier:    modele.c
     Auteur:     Alix Nepveux & Sven Borden
     Date :      20 mars 2016
-    Version:    0.9
+    Version:    1.1
     Description:Module de simulation du projet de Programation II MT 
 */
 
@@ -20,8 +20,8 @@
 #include "modele.h"
 
 
-#define SUCCESS		0
-#define ERROR		1
+#define SUCCESS		1
+#define ERROR		0
 
 int modeleLecture(char* fileName)
 {
@@ -99,6 +99,5 @@ void modeleDestroyEntity(void)
 
 void modeleDestroyExtPhot(void)
 {
-	delListPhoton();
 	printf("Destroy all photons not on screen NOT IMPLEMENTED YET\n");
 }

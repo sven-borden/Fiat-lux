@@ -18,12 +18,16 @@ namespace
 	int width, height;
 	GLfloat ratio, xMin, xMax, yMin, yMax;
 
-	char editLoadContent[100] = "file.txt";
-	char editSaveContent[100] = "save.txt";
+	char editLoadContent[80] = "file.txt";
+	char editSaveContent[80] = "save.txt";
 	char buttonStartText[10] = "Start!";
 	char buttonStopText[10] = "Stop!";
+
 	bool simulationRunning = false;		
+
 	bool leftButtonDown = false;
+	bool rightButtonDown = false;
+
 	float clickX, clickY, relachX, relachY;
 
 	GLUI_EditText * editFileLoad;
@@ -48,9 +52,9 @@ namespace
 
 extern "C"
 {
-	#include "modele.h"
-	#include "graphic.h"
 	#include "constantes.h"
+	#include "graphic.h"
+	#include "modele.h"
 }
 
 #define NB_ARG  	3
@@ -60,9 +64,9 @@ extern "C"
 #define MODE_VERIF	1
 #define MODE_GRAPH	2
 #define CREATE_WIN	1
+#define MAX_BUTTON	10
 
 /*GLUI control CallBack*/
-
 #define BUTTON_LOAD_ID 			11
 #define BUTTON_SAVE_ID 			12
 #define BUTTON_START_ID			13
@@ -89,10 +93,12 @@ extern "C"
 #define X_MAX	DMAX
 #define Y_MIN	-DMAX
 #define Y_MAX	DMAX
+#define INIT_WIDTH	400
+#define INIT_HEIGHT	600
 
 /*Fonction qui crée le GLUI */
 void createGLUI();
-/*fonction callback du GLUI*/
+/*Fonction callback du GLUI*/
 void control_cb(int);
 /*Fonction qui appelle la bonne simulation en fonction de l'entrée*/
 int call(int, char*);
@@ -102,17 +108,28 @@ void redrawAll();
 void reshape_cb(int, int);
 /*Widget callback display, when contents have to be redrawn*/
 void display_cb(void);
+/*Sauvegarde dans un fichier*/
 void saveFile(char const*);
+/*Charge un fichier*/
 void loadFile(char const*);
+/*IDLE*/
 void idle(void);
+/*Button start appuyé*/
 void startPressed(void);
+/*Button Step appuyé*/
 void stepPressed(void);
+/*Quitte le programme*/
 void exitPressed(void);
+/*RadioGroups changé*/
 void actionPressed(int);
 void entityPressed(int);
+/*GLUI mis à jour*/
 void updateGLUI(void);
+/*Gère les clicks de souris*/
 void mouseClick(int , int, int, int);
+/*Gère les mouvements de souris*/
 void motionClick(int, int);
+/*Gère le clavier*/
 void keyNormalClick(unsigned char, int, int);
 
 int main(int argc, char *argv[])
@@ -149,8 +166,8 @@ int main(int argc, char *argv[])
 			modeleDestroy();
 		glutInit(&argc, argv);
 		glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-		glutInitWindowSize(800, 1000);
-		ratio = (GLfloat)800 / (GLfloat)1000;
+		glutInitWindowSize(INIT_WIDTH, INIT_HEIGHT);
+		ratio = (GLfloat)INIT_WIDTH / (GLfloat)INIT_HEIGHT;
 		mainWin = glutCreateWindow("Project");
 		glClearColor(1.,1.,1.,0.);
 		
@@ -206,6 +223,7 @@ void reshape_cb(int x, int y)
 		height = 1;
 	
 	ratio = (GLfloat) width / (GLfloat) height;
+	
 	if(ratio <= 1.)
 	{
 		xMin = X_MIN;	xMax = X_MAX;
@@ -257,7 +275,10 @@ void zoomIn(double x1, double y1, double x2, double y2)
 
 	double _w = fabs(x1 - x2);
 	double _h = fabs(y1 - y2);
-
+	double diag = sqrt((_w*_w) + (_h*_h));
+	if(diag <= EPSIL_CREATION)
+		return;	
+	
 	GLfloat _ratio = (GLfloat) _w / (GLfloat) _h;
 	if(ratio < _ratio)
 		_h = _w/ratio;
@@ -287,8 +308,7 @@ void zoomIn(double x1, double y1, double x2, double y2)
 
 int call(int mode, char* fileName)
 {
-	int success = SUCCESS;
-	
+	int success = SUCCESS;	
 	switch(mode)
 	{
 		case MODE_ERROR:
@@ -321,6 +341,9 @@ void mouseClick(int button, int state, int x, int y)
 	
 	if(button == GLUT_LEFT_BUTTON)
 	{
+		/* vérifie que seul un bouton est pressé*/
+		if(rightButtonDown == true)
+			return;
 		if(state == GLUT_DOWN)
 		{
 			if(leftButtonDown == false)
@@ -348,6 +371,23 @@ void mouseClick(int button, int state, int x, int y)
 		}
 		
 	}
+	if(button == GLUT_RIGHT_BUTTON)
+	{
+		if(leftButtonDown == true)
+			return;
+		if(state == GLUT_DOWN)
+			if(rightButtonDown == false)
+			{
+				if(radiogroupAction->get_int_val() == SELECTION_VAL)
+					printf("Selection\n");
+				else
+					printf("sim_elem_create\n");
+			}
+		if(state == GLUT_UP)
+			if(rightButtonDown == true)
+				rightButtonDown = false;
+				
+	}
 }
 
 void motionClick(int x, int y)
@@ -355,11 +395,13 @@ void motionClick(int x, int y)
 	double _x, _y;
 	_x = ((double)x/width)*(xMax - xMin) + xMin;
 	_y = ((double)(height - y)/height)*(yMax - yMin) + yMin;
-	relachX = _x; relachY = _y;
+	if(leftButtonDown == true)
+		relachX = _x; relachY = _y;
 }
 
 void updateGLUI()
 {
+	
 	editPhoton->set_int_val(modeleNbPhot());
 	editReflecteur->set_int_val(modeleNbRefl());
 	editAbsorbeur->set_int_val(modeleNbAbso());
@@ -502,6 +544,7 @@ void saveFile(char const *name)
 
 void loadFile(char const *name)
 {
+	modeleDestroy();
 	if(call(MODE_VERIF, (char*) name))
 	{
 		if(ratio <= 1.)
@@ -525,12 +568,12 @@ void startPressed(void)
 {
 	if(simulationRunning == false)
 	{	
-		buttonStart->set_text("STOP!");
+		buttonStart->set_name(buttonStopText);
 	}
 	else
 	{
 		printf("STOP\n");
-		buttonStart->set_text("START!");
+		buttonStart->set_name(buttonStartText);
 	}
 	simulationRunning = !simulationRunning;
 }

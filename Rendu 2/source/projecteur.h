@@ -2,6 +2,7 @@
 	Fichiers:	projecteur.h
 	Autheurs:	Alix Nepveux & Sven Borden
 	Date:		10 Avril 2016
+	Version:	1.1
 	Description:Module projecteur qui gere la structure
 */
 
@@ -11,12 +12,20 @@
 #include <stdio.h>
 #include "utilitaire.h"
 
+/*Ajoute un projecteur par une ligne*/
 int projecteurSet(char[]);
-int addProjecteur(POINT, double);/*ajoute un projecteur dans la liste*/
-int delProjecteur(int);/*supprime un projecteur de la liste*/
+/*Ajoute un projecteur dans la liste manuellement*/
+int addProjecteur(POINT, double);
+/*Supprime un projecteur de la liste*/
+int delProjecteur(int);
+/*Ecrit dans un fichier la liste des projecteurs*/
 void writeProjecteur(FILE *);
+/*Dessine les projecteurs*/
 void drawProj(void);
-void printListProjecteur(void);/*imprime la liste des projecteurs*/
-void delListProjecteur(void);/*nettoie la memoire*/
+/*Print en console la liste des projecteurs*/
+void printListProjecteur(void);
+/*Supprime la liste complète des projecteurs*/
+void delListProjecteur(void);
+/*Retourne le nombre de projecteurs*/
 int nbProj(void);
 #endif
