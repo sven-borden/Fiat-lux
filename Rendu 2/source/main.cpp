@@ -18,8 +18,8 @@ namespace
 	int width, height;
 	GLfloat ratio, xMin, xMax, yMin, yMax;
 
-	char editLoadContent[80] = "file.txt";
-	char editSaveContent[80] = "save.txt";
+	char *editLoadContent = (char*) "file.txt";
+	char *editSaveContent = (char*) "save.txt";
 	char buttonStartText[10] = "Start!";
 	char buttonStopText[10] = "Stop!";
 
@@ -138,6 +138,7 @@ int main(int argc, char *argv[])
 	int mode = MODE_ERROR;
 	if(argc == NB_ARG)
 	{
+		editLoadContent = argv[2];
 		if(strcmp(argv[1], "Error") == 0)
 			mode = MODE_ERROR;
 		if(strcmp(argv[1], "Verification") == 0)
