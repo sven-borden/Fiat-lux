@@ -1,0 +1,1 @@
+Erreur : le reflecteur (id: 5) coupe le absorbeur (id: 0).
