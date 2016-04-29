@@ -1,0 +1,22 @@
+# Fiat Lux! 2015-16
+#
+# E06 : "Erreur : lecture de reflecteur : pas assez ou erreur de syntaxe"
+#
+
+#projecteur
+0
+FIN_LISTE
+
+#reflecteur
+1
+0.1 0.2 
+FIN_LISTE
+
+#absorbeur
+1
+2 0.015 0.01   0.1 0.4
+FIN_LISTE
+
+#photon
+0
+FIN_LISTE
