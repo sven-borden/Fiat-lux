@@ -63,20 +63,20 @@ POINT * utilitaireIntersection(VECTOR v1, VECTOR v2)
 					+ (determinant(v1)/v1x);
 		//ici c'est du test
 	
-		if(v1.ptDeb.x <= intersection.x &&
-			intersection.x <= v1.ptFin.x)
+		if(v1.ptDeb.x-EPSIL_CONTACT <= intersection.x &&
+			intersection.x <= v1.ptFin.x+EPSIL_CONTACT)
 			interX = 1;
 	
-		if(v1.ptDeb.x >= intersection.x &&
-			intersection.x >= v1.ptFin.x)
+		if(v1.ptDeb.x+EPSIL_CONTACT >= intersection.x &&
+			intersection.x >= v1.ptFin.x-EPSIL_CONTACT)
 			interX = 1;
 
-		if(v2.ptDeb.x <= intersection.x && 
-			intersection.x <= v2.ptFin.x)
+		if(v2.ptDeb.x-EPSIL_CONTACT <= intersection.x && 
+			intersection.x <= v2.ptFin.x+EPSIL_CONTACT)
 			interY = 1;
 
-		if(v2.ptDeb.x >= intersection.x &&
-			intersection.x >= v2.ptFin.x)
+		if(v2.ptDeb.x+EPSIL_CONTACT >= intersection.x &&
+			intersection.x >= v2.ptFin.x-EPSIL_CONTACT)
 			interY = 1;
 		
 

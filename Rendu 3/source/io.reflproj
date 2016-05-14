@@ -1,0 +1,19 @@
+#refl proj
+
+#proj
+1
+1 -0.01 0
+FIN_LISTE
+
+#refl
+1
+0 0 2 0
+FIN_LISTE
+
+#abso
+0
+FIN_LISTE
+
+#photon
+0
+FIN_LISTE
