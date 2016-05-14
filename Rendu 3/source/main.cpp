@@ -131,6 +131,8 @@ void mouseClick(int , int, int, int);
 void motionClick(int, int);
 /*Gère le clavier*/
 void keyNormalClick(unsigned char, int, int);
+/*Faire le zoom*/
+void zoomIn(double, double, double, double);
 
 int main(int argc, char *argv[])
 {
@@ -217,12 +219,16 @@ void redrawAll(void)
 
 void reshape_cb(int x, int y)
 {
+	double _w = width, _h = height;
+
 	if(x < EPSIL_CREATION)
 		x = EPSIL_CREATION;
 	if(y < EPSIL_CREATION)
 		y = EPSIL_CREATION;
 	glViewport(0, 0, x, y);
 	width = x;	height = y;
+
+
 	if(height == 0)
 		height = 1;
 	

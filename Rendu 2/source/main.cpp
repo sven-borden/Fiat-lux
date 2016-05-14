@@ -131,6 +131,8 @@ void mouseClick(int , int, int, int);
 void motionClick(int, int);
 /*Gère le clavier*/
 void keyNormalClick(unsigned char, int, int);
+/*Timer*/
+void timer(int);
 
 int main(int argc, char *argv[])
 {
@@ -180,7 +182,8 @@ int main(int argc, char *argv[])
 		glutReshapeFunc(reshape_cb);//si la taille change
 		glutMouseFunc(mouseClick);
 		glutMotionFunc(motionClick);	
-		glutKeyboardFunc(keyNormalClick);	
+		glutKeyboardFunc(keyNormalClick);
+		glutTimerFunc(DELTA_T, timer,0);
 		createGLUI();
 		modeleDraw();
 		glutMainLoop();
@@ -248,6 +251,11 @@ void display_cb()
 {
 	redrawAll(); 
 	updateGLUI();
+}
+
+void timer(int value)
+{
+	modeleUpdateValue();
 }
 
 void keyNormalClick(unsigned char key, int x, int y)
