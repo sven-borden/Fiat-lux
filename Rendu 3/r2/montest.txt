@@ -1,0 +1,23 @@
+# Fiat Lux! 2015-16
+#
+# V04: "Erreur : le absorbeur (id: 1) coupe le projecteur (id: 2)."
+#
+
+#projecteur
+1
+0.0306122 -0.0459184 1.5708
+FIN_LISTE
+
+#reflecteur
+0
+FIN_LISTE
+
+#absorbeur
+1
+3 -0.0459 -0.016 0.005 -0.015 0.005 -0.3 
+FIN_LISTE
+
+#photon
+0
+
+FIN_LISTE

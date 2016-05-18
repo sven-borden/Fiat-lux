@@ -147,14 +147,12 @@ int absorbeurExt(VECTOR vE, int idE, int entity)
 
 	while(a != NULL)
 	{
-		printf("\tabsorbeur %d\n", idA);
-		for(i = 1; i < a->nbPt; i++)
+		for(i = 0; i < a->nbPt-1; i++)
 		{
-			printf("\t\tpoint %d\n", i);
-			vA.ptDeb.x = a->tabPt[i-1].x;
-			vA.ptDeb.y = a->tabPt[i-1].y;
-			vA.ptFin.x = a->tabPt[i].x;
-			vA.ptFin.y = a->tabPt[i].y;
+			vA.ptDeb.x = a->tabPt[i].x;
+			vA.ptDeb.y = a->tabPt[i].y;
+			vA.ptFin.x = a->tabPt[i+1].x;
+			vA.ptFin.y = a->tabPt[i+1].y;
 
 			pt = utilitaireIntersection(vA, vE);
 			if(pt != NULL)

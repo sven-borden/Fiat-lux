@@ -123,7 +123,6 @@ int projecteurExt(VECTOR v, int idV)
 	int idP = n-1;
 	while(p != NULL)
 	{
-		printf("\tprojecteur %d\n", idP);
 		vp.ptDeb.x = p->pos.x;
 		vp.ptDeb.y = p->pos.y;
 		vp.ptFin.x = (cos(p->alpha+M_PI/2)*(NBPH-1)*EPSIL_PROJ) + p->pos.x;
@@ -148,7 +147,6 @@ int projInterAbs(void)
 	int id = n-1;
 	while(p != NULL)
 	{
-		printf("projecteur %d\n", id);
 		v.ptDeb.x = p->pos.x;
 		v.ptDeb.y = p->pos.y;
 		v.ptFin.x = (cos(p->alpha+M_PI/2)*(NBPH-1)*EPSIL_PROJ) + p->pos.x;

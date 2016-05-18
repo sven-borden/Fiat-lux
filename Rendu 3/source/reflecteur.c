@@ -187,7 +187,6 @@ int reflInterAbs(void)
 	int id = n-1;
 	while(r != NULL)
 	{
-		printf("reflecteur %d\n", id);
 		a.ptDeb.x = r->a.x;
 		a.ptDeb.y = r->a.y;
 		a.ptFin.x = r->b.x;
@@ -207,7 +206,6 @@ int reflInterProj(void)
 	int id = n-1;
 	while(r != NULL)
 	{
-		printf("reflecteur %d\n", id);
 		a.ptDeb.x = r->a.x;
 		a.ptDeb.y = r->a.y;
 		a.ptFin.x = r->b.x;

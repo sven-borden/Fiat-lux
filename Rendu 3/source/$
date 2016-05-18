@@ -50,12 +50,11 @@ POINT * utilitaireIntersection(VECTOR v1, VECTOR v2)
 	POINT *pInter = NULL;
 	
 	double v1x = v1.ptFin.x - v1.ptDeb.x;
-	if(v1x == 0)
-		v1x = 1e-08;
 	double v1y = v1.ptFin.y - v1.ptDeb.y;
 	double v2x = v2.ptFin.x - v2.ptDeb.x;
 	double v2y = v2.ptFin.y - v2.ptDeb.y;
-	if(fabs(v1x*v2y-v1y*v2x) > EPSIL_PARAL)
+
+	if(!fabs((v1x*v2y-v1y*v2x) <= EPSIL_PARAL))
 	{
 		intersection.x = (v2x * determinant(v1)
 					-v1x*determinant(v2))
@@ -99,7 +98,10 @@ POINT * utilitaireIntersection(VECTOR v1, VECTOR v2)
 
 		if(interX1 && interX2 && interY1 && interY2)
 			pInter = &intersection;	
+	
 	}
+	printf("det v1 %lf", v1x*c2y-v1y*v2xx);
+	printf("PT : %lf, %lf\t%d %d %d %d\n",intersection.x, intersection.y, interX1, interX2, interY1, interY2);
 	return pInter;
 }
 

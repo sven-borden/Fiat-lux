@@ -424,52 +424,39 @@ void createGLUI()
 	//PANEL FILE
 	GLUI_Panel * panelFile = glui->add_panel((char*)"FILE",
 		GLUI_PANEL_EMBOSSED);
-
 	editFileLoad = glui->add_edittext_to_panel(panelFile,
 		(char*)"File Name:", GLUI_EDITTEXT_TEXT, editFileLoad,
 		EDIT_FILE_LOAD_ID, control_cb);
-
 	buttonLoad = glui->add_button_to_panel(panelFile, 
 		(char*) "Load", BUTTON_LOAD_ID, control_cb);
-
 	editFileSave = glui->add_edittext_to_panel(panelFile,
 		(char*)"Save File:", GLUI_EDITTEXT_TEXT, editFileSave,
 		EDIT_FILE_SAVE_ID, control_cb);
-
 	buttonSave = glui->add_button_to_panel(panelFile,
 		(char*) "Save", BUTTON_SAVE_ID, control_cb);
-
 	//PANEL SIMULATION
 	GLUI_Panel * panelSimulation = glui->add_panel((char*)"Simulation",
 		GLUI_PANEL_EMBOSSED);
-
 	buttonStart = glui->add_button_to_panel(panelSimulation,
 		(char*) "Start!", BUTTON_START_ID, control_cb);
-	
 	buttonStep = glui->add_button_to_panel(panelSimulation,
 		(char*) "Step", BUTTON_STEP_ID, control_cb);
-
 	buttonExit = glui->add_button(
 		(char*) "exit", BUTTON_EXIT_ID, control_cb);
-
 	//COLUMN
 	glui->add_column(1);	
-
 	//PANEL INFORMATION
 	GLUI_Panel *panelInformation = glui->add_panel((char*) "Information",
 		GLUI_PANEL_EMBOSSED);
 	editPhoton = glui->add_edittext_to_panel(panelInformation,
 		(char*) "Nb Photons", GLUI_EDITTEXT_INT, 0,
 		EDIT_PHOTON_ID, control_cb);
-	
 	editProjecteur = glui->add_edittext_to_panel(panelInformation,
 		(char*) "Nb Projecteurs", GLUI_EDITTEXT_INT, 0,
 		EDIT_PROJECTEUR_ID, control_cb);
-	
 	editAbsorbeur = glui->add_edittext_to_panel(panelInformation,
 		(char*) "Nb Absorbeurs", GLUI_EDITTEXT_INT, 0,
 		EDIT_ABSORBEUR_ID, control_cb);
-	
 	editReflecteur = glui->add_edittext_to_panel(panelInformation,
 		(char*) "Nb Reflecteurs", GLUI_EDITTEXT_INT, 0,
 		EDIT_REFLECTEUR_ID, control_cb);
@@ -480,15 +467,12 @@ void createGLUI()
 		(char*)"Action selection", GLUI_PANEL_EMBOSSED);
 	GLUI_Panel *panelEntity = glui->add_panel_to_panel(panelMouse,
 		(char*)"Entity selection", GLUI_PANEL_EMBOSSED);
-	
-	
 	radiogroupAction = glui->add_radiogroup_to_panel(panelAction,
 		NULL, RADIOGROUP_ACTION_ID, control_cb);
 	glui->add_radiobutton_to_group(radiogroupAction, 
 		(char*) "Selection");
 	glui->add_radiobutton_to_group(radiogroupAction, 
 		(char*) "Creation");
-		
 	radiogroupEntity = glui->add_radiogroup_to_panel(panelEntity,
 		NULL, RADIOGROUP_ENTITY_ID, control_cb);
 	glui->add_radiobutton_to_group(radiogroupEntity, 
@@ -497,11 +481,8 @@ void createGLUI()
 		(char*) "Reflecteur");
 	glui->add_radiobutton_to_group(radiogroupEntity,
 		(char*) "Absorbeur");
-	
-
 	editFileLoad->set_text(editLoadContent);
 	editFileSave->set_text(editSaveContent);
-
 	glui->set_main_gfx_window(mainWin);
 }
 
