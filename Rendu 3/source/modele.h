@@ -30,7 +30,7 @@ int modeleNbProj(void);
 /*Detruit les entité (renduFinal)*/
 void modeleDestroyEntity(void);
 /*Detruit les photons hors fenetres (renduFinal)*/
-void modeleDestroyExtPhot(void);
+void modeleDestroyExtPhot(double, double, double, double);
 /*Retourne lecture success*/
 void modeleSuccess(void);
 #endif

@@ -45,7 +45,7 @@ double utilitaireProduitScalaire(VECTOR v, VECTOR w)
 POINT * utilitaireIntersection(VECTOR v1, VECTOR v2)
 {
 	POINT intersection;
-	int interX1 = 0, interX2 = 0, interY1 = 0, interY2 = 0;;
+	int interX1 = 0, interX2 = 0, interY1 = 0, interY2 = 0;
 	
 	POINT *pInter = NULL;
 	

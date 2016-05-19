@@ -20,6 +20,7 @@
 #define MIN_PT  2
 #define PROJ	1
 #define REFL	0
+#define PHOT	2
 typedef struct Absorbeur ABSORBEUR;
 
 struct Absorbeur
@@ -168,6 +169,7 @@ int absorbeurExt(VECTOR vE, int idE, int entity)
 					error_lecture_intersection(ERR_REFLECTEUR, idE,
 						ERR_ABSORBEUR, idA);
 					return NO;
+					
 				}
 			}
 		}
@@ -175,6 +177,34 @@ int absorbeurExt(VECTOR vE, int idE, int entity)
 		idA--;
 	}
 	return OK;
+}
+
+POINT * absoProche(VECTOR vE)
+{
+	ABSORBEUR *a = list;
+	VECTOR vA;
+	POINT *pt = NULL;
+	int i = 0;
+	while(a)
+	{
+		for(i = 0; i < a->nbPt-1; i++)
+		{
+			vA.ptDeb.x = a->tabPt[i].x;
+			vA.ptDeb.y = a->tabPt[i].y;
+			vA.ptFin.x = a->tabPt[i+1].x;
+			vA.ptFin.y = a->tabPt[i+1].y;
+
+			pt = utilitaireIntersection(vA, vE);
+
+			if(pt != NULL)
+				break;
+		}
+		if(pt != NULL)
+			break;
+		else
+			a = a->next;
+	}
+	return pt;
 }
 
 void drawAbso(void)

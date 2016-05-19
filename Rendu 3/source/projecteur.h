@@ -32,4 +32,6 @@ int nbProj(void);
 int projecteurExt(VECTOR, int);
 /*Vérifie les projecteur avec les absorbeurs*/
 int projInterAbs(void);
+/*Appelle une fonction qui crée les photons de chaque projecteurs*/
+void updateProjecteur(void);
 #endif

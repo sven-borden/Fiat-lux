@@ -30,4 +30,6 @@ void delListAbsorbeur(void);
 int nbAbso(void);
 /*Vérifie les intersection entre absorbeur et un vecteur*/
 int absorbeurExt(VECTOR, int, int);
+/*Calcule le point de contact pour les photons*/
+POINT * absoProche(VECTOR);
 #endif

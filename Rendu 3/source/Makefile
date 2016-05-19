@@ -7,8 +7,8 @@ CFLAGS  = -Wall
 CFILES  = main.cpp absorbeur.c error.c graphic.c lecture.c modele.c photon.c projecteur.c reflecteur.c utilitaire.c
 OFILES = $(CFILES:.c=.o) 
 
-rendu2.x: $(OFILES)
-	$(CC) $(OFILES) -lm -lglut -lGL -lGLU -Llib -L/usr/X11R6/lib -lX11 -lXext -lXmu -lXi -lstdc++ -lglui -o rendu2.x
+rendu3.x: $(OFILES)
+	$(CC) $(OFILES) -lm -lglut -lGL -lGLU -Llib -L/usr/X11R6/lib -lX11 -lXext -lXmu -lXi -lstdc++ -lglui -o rendu3.x
     
 depend:
 	@echo " *** MISE A JOUR DES DEPENDANCES ***"
@@ -35,8 +35,8 @@ lecture.o: lecture.c absorbeur.h utilitaire.h constantes.h tolerance.h \
  error.h reflecteur.h photon.h projecteur.h lecture.h
 modele.o: modele.c absorbeur.h utilitaire.h constantes.h tolerance.h \
  error.h lecture.h reflecteur.h photon.h projecteur.h modele.h
-photon.o: photon.c constantes.h tolerance.h error.h graphic.h \
- utilitaire.h photon.h
+photon.o: photon.c absorbeur.h utilitaire.h constantes.h tolerance.h \
+ error.h graphic.h reflecteur.h photon.h
 projecteur.o: projecteur.c absorbeur.h utilitaire.h constantes.h \
  tolerance.h error.h graphic.h projecteur.h
 reflecteur.o: reflecteur.c absorbeur.h utilitaire.h constantes.h \

@@ -6,6 +6,7 @@
     Description:Module reflecteur qui gere la structure 
 */
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -197,6 +198,40 @@ int reflInterAbs(void)
 		id--;
 	}
 	return OK;
+}
+
+POINT * reflProche(VECTOR v)
+{
+	REFLECTEUR *r = list;
+	VECTOR vR; POINT pt;
+	double normeMin = 100; double normeTmp;
+	normeTmp = normeMin;
+	POINT * point = NULL;
+	POINT * pointProche = NULL;
+	while(r)
+	{
+		vR.ptDeb.x = r->a.x;
+		vR.ptDeb.y = r->a.y;
+		vR.ptFin.x = r->b.x;
+		vR.ptFin.y = r->b.y;
+
+		point = utilitaireIntersection(vR, v);
+		if(point != NULL)
+		{
+			pt.x = point->x;
+			pt.y = point->y;
+			normeTmp = fabs(utilitaireDistance2Points(pt, v.ptDeb));
+			if(normeTmp < normeMin && pt.x < v.ptDeb.x-EPSIL_CONTACT
+				&& pt.x > v.ptDeb.x+EPSIL_CONTACT)
+			{
+				normeMin = normeTmp;
+				pointProche = point;
+			}
+		}
+		r = r->next;
+	}
+
+	return pointProche;
 }
 
 int reflInterProj(void)

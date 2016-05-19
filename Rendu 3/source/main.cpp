@@ -196,8 +196,9 @@ void idle(void)
 		glutSetWindow(mainWin);
 
 	if(simulationRunning == true)
-		printf("simulate\n");
-
+	{
+		modeleUpdate();
+	}	
 	glutPostRedisplay();
 }
 
@@ -209,8 +210,7 @@ void redrawAll(void)
 	glLoadIdentity();
 
 	glOrtho(xMin, xMax, yMin, yMax, -1., 1.);
-
-	modeleUpdate();
+	modeleDraw();
 	if(leftButtonDown == true)
 		graphicDrawZoom(clickX,relachX,clickY,relachY);
 	
@@ -268,7 +268,7 @@ void keyNormalClick(unsigned char key, int x, int y)
 			modeleDestroyEntity();
 			break;
 		case 'k':
-			modeleDestroyExtPhot();
+			modeleDestroyExtPhot(xMin, xMax, yMin, yMax);
 			break;
 	}
 }
@@ -335,7 +335,7 @@ int call(int mode, char* fileName)
 			success = modeleLecture(fileName);
 			if(success != SUCCESS)
 				break;
-			modele_verification_rendu2();
+			success = modele_verification_rendu2();
 			break;
 		default:
 			success = ERROR;
@@ -569,7 +569,7 @@ void startPressed(void)
 	simulationRunning = !simulationRunning;
 }
 
-void stepPressed(void) { printf("Step by one\n"); }
+void stepPressed(void) { printf("Step by one\n"); modeleUpdate();}
 
 void exitPressed(void) { exit(1); }
 

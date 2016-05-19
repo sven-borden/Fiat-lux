@@ -28,4 +28,8 @@ void printListPhoton(void);
 void delListPhoton(void); 
 /*Retourn le nombre de photons*/
 int nbPhot(void);
+/*met a jour la position des photons*/
+void updatePhoton(void);
+/*Supprime les photos hors fenetre*/
+void delOutside(double, double, double, double);
 #endif

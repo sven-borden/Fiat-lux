@@ -64,6 +64,8 @@ void modeleDraw()
 
 void modeleUpdate()
 {
+	updateProjecteur();
+	updatePhoton();
 	modeleDraw();
 }
 
@@ -96,9 +98,9 @@ void modeleDestroyEntity(void)
 	printf("Destroy Entity NOT IMPLEMENTED YET\n");
 }
 
-void modeleDestroyExtPhot(void)
+void modeleDestroyExtPhot(double xmin, double xmax, double ymin, double ymax)
 {
-	printf("Destroy all photons not on screen NOT IMPLEMENTED YET\n");
+	delOutside(xmin, xmax, ymin, ymax);
 }
 
 void modeleSuccess(){ error_success(); }

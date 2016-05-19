@@ -34,4 +34,7 @@ int interReflecteur(void);
 int reflInterAbs(void);
 /*Vérifie les intersections entre refl et proj*/
 int reflInterProj(void);
+/*Trouve le reflecteur le plus proche en intersection
+ *retourne NULL si aucune intersection*/
+POINT * reflProche(VECTOR);
 #endif
