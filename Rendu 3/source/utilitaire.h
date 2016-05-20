@@ -23,9 +23,6 @@ struct Vector
 {
 	POINT ptDeb;
 	POINT ptFin;
-	double norme;
-	double normeX;
-	double normeY;
 };
 
 //retourne la norme d'un vecteur

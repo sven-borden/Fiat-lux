@@ -34,12 +34,20 @@ double utilitaireDistance2Points(POINT a, POINT b)
 
 double utilitaireProduitVectoriel(VECTOR v, VECTOR w)
 {
-	return v.normeX * w.normeY - v.normeY * w.normeX;
+	double x1 = v.ptFin.x - v.ptDeb.x;
+	double y1 = v.ptFin.y - v.ptDeb.y;
+	double x2 = w.ptFin.x - w.ptDeb.x;
+	double y2 = w.ptFin.y - w.ptDeb.y;
+	return x1*y2-x2*y1;
 }
 
 double utilitaireProduitScalaire(VECTOR v, VECTOR w)
 {
-	return v.normeX * w.normeX + v.normeY * w.normeY; 
+	double x1 = v.ptFin.x - v.ptDeb.x;
+	double y1 = v.ptFin.y - v.ptDeb.y;
+	double x2 = w.ptFin.x - w.ptDeb.x;
+	double y2 = w.ptFin.y - w.ptDeb.y;
+	return x1*x2 + y1*y2; 
 }
 
 POINT * utilitaireIntersection(VECTOR v1, VECTOR v2)

@@ -179,8 +179,6 @@ void updateProjecteur()
 {
 	PROJECTEUR *p = list;
 	int i = 0;
-	const double d = VPHOT*DELTA_T;
-	//double dx = 0; double dy = 0;//decalage des photons en x et y
 	double portionX = 0; double portionY = 0;
 	POINT pt;
 	while(p)
@@ -188,9 +186,6 @@ void updateProjecteur()
 		/*crées les NBPH sur chaque proj*/
 		portionX = (cos(p->alpha+M_PI/2)*(NBPH)*EPSIL_PROJ)/NBPH;
 		portionY = (sin(p->alpha+M_PI/2)*(NBPH)*EPSIL_PROJ)/NBPH;
-	//	dx = cos(p->alpha)*d;
-	//	dy = sin(p->alpha)*d;
-	//	printf("dy %lf\tportionY %lf\n", dy, portionY);	
 		for(i = 0; i < NBPH; i++)
 		{
 			pt.x = portionX*i + p->pos.x;
