@@ -154,7 +154,6 @@ int interReflecteur(void)
 	REFLECTEUR *r2 = list;
 	VECTOR v1, v2;
 	POINT * pt = NULL;
-	int id1=n-1, id2=n-1;
 	while(r1 != NULL)
 	{
 		v1.ptDeb.x = r1->a.x;
@@ -162,7 +161,6 @@ int interReflecteur(void)
 		v1.ptFin.x = r1->b.x;
 		v1.ptFin.y = r1->b.y;
 		r2 = r1->next;
-		id2 = id1 - 1;
 		while(r2 != NULL)
 		{
 			v2.ptDeb.x = r2->a.x;
@@ -172,15 +170,13 @@ int interReflecteur(void)
 			pt = utilitaireIntersection(v1, v2);
 			if(pt != NULL)
 			{
-				error_lecture_intersection(ERR_REFLECTEUR, id1,
-					ERR_REFLECTEUR, id2);
+				error_lecture_intersection(ERR_REFLECTEUR, r1->id,
+					ERR_REFLECTEUR, r2->id);
 				return NO;
 			}
 			r2 = r2->next;
-			id2--;
 		}
 		r1 = r1->next;
-		id1--;
 	}
 	return OK;
 }
@@ -189,17 +185,15 @@ int reflInterAbs(void)
 {
 	REFLECTEUR * r = list;
 	VECTOR a;
-	int id = n-1;
 	while(r != NULL)
 	{
 		a.ptDeb.x = r->a.x;
 		a.ptDeb.y = r->a.y;
 		a.ptFin.x = r->b.x;
 		a.ptFin.y = r->b.y;
-		if(absorbeurExt(a, id, REFL_VAL) == NO)
+		if(absorbeurExt(a, r->id, REFL_VAL) == NO)
 			return NO;
 		r = r->next;
-		id--;
 	}
 	return OK;
 }

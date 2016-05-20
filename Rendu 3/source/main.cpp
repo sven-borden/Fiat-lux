@@ -17,7 +17,9 @@ namespace
 	int mainWin;
 	int width, height;
 	GLfloat ratio, xMin, xMax, yMin, yMax;
-
+	
+	short actionSelect, entitySelect;
+	
 	char *editLoadContent = (char*) "file.txt";
 	char *editSaveContent = (char*) "save.txt";
 	char buttonStartText[10] = "Start!";
@@ -136,6 +138,9 @@ void zoomIn(double, double, double, double);
 
 int main(int argc, char *argv[])
 {
+	actionSelect = SELECTION_VAL;
+	entitySelect = PROJECTEUR_VAL;
+
 	int success = ERROR;
 	int mode = MODE_ERROR;
 	if(argc == NB_ARG)
@@ -386,13 +391,9 @@ void mouseClick(int button, int state, int x, int y)
 		if(leftButtonDown == true)
 			return;
 		if(state == GLUT_DOWN)
-			if(rightButtonDown == false)
-			{
-				if(radiogroupAction->get_int_val() == SELECTION_VAL)
-					printf("Selection\n");
-				else
-					printf("sim_elem_create\n");
-			}
+		{
+			rightButtonDown = true;
+		}
 		if(state == GLUT_UP)
 			if(rightButtonDown == true)
 				rightButtonDown = false;
@@ -405,8 +406,16 @@ void motionClick(int x, int y)
 	double _x, _y;
 	_x = ((double)x/width)*(xMax - xMin) + xMin;
 	_y = ((double)(height - y)/height)*(yMax - yMin) + yMin;
-	if(leftButtonDown == true)
+	
+	if(leftButtonDown)
 		relachX = _x; relachY = _y;
+	if(rightButtonDown && actionSelect == SELECTION_VAL)
+	{
+		switch(entitySelect)
+		{
+
+		}
+	}
 }
 
 void updateGLUI()
@@ -579,6 +588,7 @@ void actionPressed(int val)
 	{
 		case SELECTION_VAL:
 			printf("Selection selected\n");
+			
 			break;
 		case CREATION_VAL:
 			printf("Creation selected\n");

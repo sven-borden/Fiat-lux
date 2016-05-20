@@ -126,7 +126,6 @@ int projecteurExt(VECTOR v, int idV)
 	PROJECTEUR * p = list;
 	VECTOR vp;
 	POINT *inter;
-	int idP = n-1;
 	while(p != NULL)
 	{
 		vp.ptDeb.x = p->pos.x;
@@ -137,11 +136,10 @@ int projecteurExt(VECTOR v, int idV)
 		inter = utilitaireIntersection(v, vp);
 		if(inter != NULL)
 		{
-			error_lecture_intersection(ERR_PROJECTEUR, idP, ERR_REFLECTEUR, idV);
+			error_lecture_intersection(ERR_PROJECTEUR, p->id, ERR_REFLECTEUR, idV);
 			return NO;
 		}
 		p = p->next;
-		idP--;
 	}
 	return OK;
 }
@@ -150,7 +148,6 @@ int projInterAbs(void)
 {
 	PROJECTEUR *p = list;
 	VECTOR v;
-	int id = n-1;
 	while(p != NULL)
 	{
 		v.ptDeb.x = p->pos.x;
@@ -158,10 +155,9 @@ int projInterAbs(void)
 		v.ptFin.x = (cos(p->alpha+M_PI/2)*(NBPH-1)*EPSIL_PROJ) + p->pos.x;
 		v.ptFin.y = (sin(p->alpha+M_PI/2)*(NBPH-1)*EPSIL_PROJ) + p->pos.y;
 
-		if(absorbeurExt(v, id, PROJ_VAL) == NO)
+		if(absorbeurExt(v, p->id, PROJ_VAL) == NO)
 			return NO;
 		p = p->next;
-		id--;
 	}	
 	return OK;
 }

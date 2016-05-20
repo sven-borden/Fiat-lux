@@ -146,7 +146,7 @@ int absorbeurExt(VECTOR vE, int idE, int entity)
 {
 	ABSORBEUR *a = list;
 	VECTOR vA;
-	int idA = n-1, i = 1;
+	int i = 1;
 	POINT* pt = NULL;
 
 	while(a != NULL)
@@ -164,20 +164,19 @@ int absorbeurExt(VECTOR vE, int idE, int entity)
 				if(entity == PROJ)
 				{
 					error_lecture_intersection(ERR_PROJECTEUR, idE,
-						ERR_ABSORBEUR, idA);
+						ERR_ABSORBEUR, a->id);
 					return NO;
 				}
 				if(entity == REFL)
 				{
 					error_lecture_intersection(ERR_REFLECTEUR, idE,
-						ERR_ABSORBEUR, idA);
+						ERR_ABSORBEUR, a->id);
 					return NO;
 					
 				}
 			}
 		}
 		a = a->next;
-		idA--;
 	}
 	return OK;
 }
