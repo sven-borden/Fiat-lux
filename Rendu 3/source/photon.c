@@ -27,10 +27,12 @@ struct Photon
 {
 	POINT pos;	/*position du photon*/
 	double alpha;	/*angle du photon*/
+	unsigned int id;
 	PHOTON * next;	/*Pointeur sur le suivant*/
 };
 
 static int n = 0;
+static unsigned int lastId = 0;
 static PHOTON * list = NULL;
 
 int photonSet(char line[MAX_LINE])
@@ -56,12 +58,14 @@ int addPhoton(POINT _pt, double _alpha)
 		p->pos.x = _pt.x;
 		p->pos.y = _pt.y;
 		p->alpha = _alpha;
+		p->id = lastId;
 		if(list != NULL)
 			p->next = list;
 		else
 			p->next = NULL;
 		list = p;
 		n++;
+		lastId++;
 	}
 	else
 	{
@@ -73,7 +77,29 @@ int addPhoton(POINT _pt, double _alpha)
 
 int delPhoton(int _id)
 {
-	/*TODO*/
+	PHOTON *p = list;
+	
+	if(p)
+	{
+		if(p->id == _id)
+		{
+			list = list->next;
+			free(p);
+		}
+		else
+		{
+			PHOTON *prec = p;
+			while((prec->next && prec->next->id != _id))
+				prec = prec->next;
+			if(prec->next)
+			{
+				PHOTON * del = prec->next;
+				prec->next = prec->next->next;
+				free(del);
+				del = NULL;
+			}
+		}
+	}
 	n--;
 	return OK;
 }
@@ -182,7 +208,7 @@ void check(PHOTON * pOld, PHOTON *p, VECTOR v)
 	if(prefl == NULL)//seulement un abso
 	{
 		//supprime
-		suppression(&pOld, &p);
+		delPhoton(p->id);
 		return;
 	}
 	if(pabso == NULL)//seulement refl
@@ -200,14 +226,13 @@ void check(PHOTON * pOld, PHOTON *p, VECTOR v)
 	double dRefl = fabs(utilitaireDistance2Points(refl, v.ptDeb));
 	double dAbso = fabs(utilitaireDistance2Points(abso, v.ptDeb));
 
-	dRefl < dAbso ? reflection(v) : suppression(&pOld, &p);
+	dRefl < dAbso ? reflection(v) : delPhoton(p->id);
 	
 	return;
 }
 
 void updatePhoton()
 {
-	printf("%s\n", __func__);
 	PHOTON *p = list, *pOld = list;
 	double futureX = 0;
 	double futureY = 0;/*les deux futures positions*/

@@ -26,6 +26,7 @@ typedef struct Absorbeur ABSORBEUR;
 struct Absorbeur
 {
 	int nbPt;
+	unsigned int id;
 	POINT tabPt[MAX_PT];
 	ABSORBEUR * next;
 };
@@ -37,7 +38,7 @@ void printListAbsorbeur(void);
 void delListAbsorbeur(void);
 
 static int absorbeurDistanceRequise(POINT, POINT);
-
+static unsigned int lastId = 0;
 static int n = 0;
 static ABSORBEUR * list;
 
@@ -95,6 +96,7 @@ int addAbsorbeur(int _nb, POINT tab[_nb])
 	{
 		int i = 0;
 		a->nbPt = _nb;
+		a->id = lastId;
 		for(; i < _nb; i++)
 		{
 			a->tabPt[i].x = tab[i].x;
@@ -105,6 +107,7 @@ int addAbsorbeur(int _nb, POINT tab[_nb])
 		else
 			a->next = NULL;
 		list = a;
+		lastId++;
 		n++;
 	}
 	else

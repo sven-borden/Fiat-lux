@@ -28,10 +28,12 @@ struct Reflecteur
 {
 	POINT a;
 	POINT b;
+	unsigned int id;
 	REFLECTEUR * next;
 };
 
 static int n = 0;
+static unsigned int lastId = 0;
 static REFLECTEUR * list;
 
 static int reflecteurDistanceRequise(POINT, POINT);
@@ -66,11 +68,13 @@ int addReflecteur(POINT _ptA, POINT _ptB)
 		r->a.y = _ptA.y;
 		r->b.x = _ptB.x;
 		r->b.y = _ptB.y;
+		r->id  = lastId;
 		if(list != NULL)
 			r->next = list;
 		else
 			r->next = NULL;
 		list = r;
+		lastId++;
 		n++;
 	}
 	else

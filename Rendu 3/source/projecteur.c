@@ -29,10 +29,12 @@ struct Projecteur
 {
 	POINT pos;
 	double alpha;
+	unsigned int id;
 	PROJECTEUR * next;
 };
 
 static int n = 0;
+static unsigned int lastId = 0;
 static PROJECTEUR * list;
 
 int projecteurSet(char line[MAX_LINE])
@@ -58,12 +60,15 @@ int addProjecteur(POINT _pt, double _alpha)
 		p->pos.x = _pt.x;
 		p->pos.y = _pt.y;
 		p->alpha = _alpha;
+		p->id 	 = lastId;
 		if(list != NULL)
 			p->next = list;
 		else
 			p->next = NULL;
 		list = p;
+		lastId++;
 		n++;
+		
 	}	
 	else
 	{
