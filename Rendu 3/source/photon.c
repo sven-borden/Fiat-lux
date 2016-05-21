@@ -89,7 +89,7 @@ int delPhoton(int _id)
 		else
 		{
 			PHOTON *prec = p;
-			while((prec->next && prec->next->id != _id))
+			while(prec->next && prec->next->id != _id)
 				prec = prec->next;
 			if(prec->next)
 			{
@@ -142,13 +142,13 @@ void printListPhoton(void)
 
 void delOutside(double xmin, double xmax, double ymin, double ymax)
 {
-	PHOTON *p = list, *pOld = list, *pNext = list->next;
+	PHOTON *p = list;
 	while(p)
 	{
 		if(p->pos.x < xmin || p->pos.x > xmax
 			||p->pos.y < ymin || p->pos.y > ymax)
-			;//suppression(&p);
-		p = p->next;
+			delPhoton(p->id);
+			p = p->next;
 	}
 }
 
@@ -169,28 +169,6 @@ int nbPhot(void) { return n; }
 void reflection(VECTOR v)
 {
 	
-}
-
-void suppression(PHOTON ** pOld, PHOTON ** p)
-{
-	return;
-	if(!*p || !*pOld)
-		return;
-	/*si entete*/
-	if(*p == list)
-	{
-		list = list->next;
-		free(*p);
-		*p = list;
-		*pOld = *p;
-		return;
-	}
-
-	/*reste*/
-	(*pOld)->next = (*p)->next;
-	free(*p);
-	*p = *pOld;
-	return;
 }
 
 void check(PHOTON * pOld, PHOTON *p, VECTOR v)

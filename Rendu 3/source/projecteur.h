@@ -22,12 +22,18 @@ int delProjecteur(int);
 void writeProjecteur(FILE *);
 /*Dessine les projecteurs*/
 void drawProj(void);
+/*Selectionne le projecteur le plus proche*/
+void selectProjecteur(double, double);
+/*Deselectionne tout*/
+void unselectProj(void);
 /*Print en console la liste des projecteurs*/
 void printListProjecteur(void);
 /*Supprime la liste complète des projecteurs*/
 void delListProjecteur(void);
 /*Retourne le nombre de projecteurs*/
 int nbProj(void);
+/*Supprime l'entité selectionnée*/
+void projDelSelect(void);
 /*Vérifie les intersections entre projecteur et refl*/
 int projecteurExt(VECTOR, int);
 /*Vérifie les projecteur avec les absorbeurs*/

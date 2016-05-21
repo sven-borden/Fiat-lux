@@ -22,12 +22,18 @@ int delReflecteur(int);
 void writeReflecteur(FILE *);
 /*Dessine les reflecteurs*/
 void drawRefl(void);
+/*Selectionne le reflecteur le plus proche*/
+void selectReflecteur(double, double);
+/*Deselectionne tout*/
+void unselectRefl(void);
 /*Print en console la liste des reflecteurs*/
 void printListReflecteur(void);
 /*Supprime la liste complète des reflecteurs*/
 void delListReflecteur(void);
 /*Retourne le nombre de reflecteurs*/
 int nbRefl(void);
+/*Supprimer l'entité selectionnée*/
+void reflDelSelect(void);
 /*Vérifie les intersection entre reflecteurs*/
 int interReflecteur(void);
 /*Vérifie les intersections entre refl et abs*/

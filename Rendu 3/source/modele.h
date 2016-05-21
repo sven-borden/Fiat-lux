@@ -20,6 +20,12 @@ void modeleDestroy(void);
 void modeleWrite(char*);
 /*Dessine la simulation a l'etat actuel*/
 void modeleDraw(void);
+/*Choisi la selection*/
+void modeleSelect(int8_t, double, double);
+/*Deslectionne tout*/
+void modeleUnselect(void);
+/*Creation manuelle*/
+void modeleCreation(short, short, POINT[]);
 /*Met a jour la simulation*/
 void modeleUpdate(void);
 /*Les 4 fonctions retournent le nombre d'entité de chaque type*/
@@ -28,7 +34,7 @@ int modeleNbRefl(void);
 int modeleNbAbso(void);
 int modeleNbProj(void);
 /*Detruit les entité (renduFinal)*/
-void modeleDestroyEntity(void);
+void modeleDestroyEntity(short entity);
 /*Detruit les photons hors fenetres (renduFinal)*/
 void modeleDestroyExtPhot(double, double, double, double);
 /*Retourne lecture success*/

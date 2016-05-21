@@ -21,13 +21,35 @@
 #define MEDIUM_LINE	1.
 #define FAT_LINE	2.
 #define HUGE_LINE	3.
-
+#define SELECT		1
 static float	white[]	= {1.,1.,1.},
 				green[]	= {0.,1.,0.},
 				red[]	= {1.,0.,0.},
 				blue[]	= {0.,0.,1.},
 				violet[]= {1.,0.,1.},
-				turquoise[]={0.,1.,1.};
+				turquoise[]={0.,1.,1.},
+				yellow[]= {1.,0.66,0.005};
+
+void graphicColor(short color)
+{
+	switch(color)
+	{	
+		case WHITE:	glColor3fv(white);
+			break;
+		case GREEN:	glColor3fv(green);
+			break;
+		case RED:	glColor3fv(red);
+			break;
+		case BLUE:	glColor3fv(blue);
+			break;
+		case VIOLET: glColor3fv(violet);
+			break;
+		case TURQUOISE: glColor3fv(turquoise);
+			break;
+		case YELLOW: glColor3fv(yellow);
+			break;
+	}
+}
 
 void graphicDrawPhoton(POINT pt, double alpha)
 {
@@ -38,7 +60,7 @@ void graphicDrawPhoton(POINT pt, double alpha)
 	double diam = EPSIL_PROJ/2;
 	
 	glLineWidth(BASIC_LINE);
-	glColor3fv(violet);
+	graphicColor(VIOLET);
 	glBegin(GL_LINE_LOOP);
 
 	for(; i < sides; i++)
@@ -48,43 +70,52 @@ void graphicDrawPhoton(POINT pt, double alpha)
 	}
 	glEnd();
 	
-	glColor3fv(white);
+	graphicColor(WHITE);
 	return ;
 }
 
-void graphicDrawAbsorbeur(int nb, POINT tab[MAX_PT])
+void graphicDrawAbsorbeur(int nb, POINT tab[MAX_PT], int8_t selected)
 {
 	int i = 0;
 	glLineWidth(FAT_LINE);
-	glColor3fv(blue);	
+	if(selected == SELECT)
+		graphicColor(YELLOW);
+	else
+		graphicColor(BLUE);
 	glBegin(GL_LINE_STRIP);
 	
 	for(;i < nb; i++)
 		glVertex2f(tab[i].x, tab[i].y);
 	glEnd();
 	
-	glColor3fv(white);
+	graphicColor(WHITE);
 	return ;	
 }
 
-void graphicDrawReflecteur(POINT a, POINT b)
+void graphicDrawReflecteur(POINT a, POINT b, int8_t selected)
 {
 	glLineWidth(MEDIUM_LINE);
-	glColor3fv(red);
+	if(selected == SELECT)
+		graphicColor(YELLOW);
+	else
+		graphicColor(RED);
 	glBegin(GL_LINES);
 	
 	glVertex2d(a.x, a.y);
 	glVertex2d(b.x, b.y);
 	
 	glEnd();
-	glColor3fv(blue);
+	graphicColor(WHITE);
 	return ;
 }
 
-void graphicDrawProjecteur(POINT a, double alpha)
+void graphicDrawProjecteur(POINT a, double alpha, int8_t selected)
 {
 	glLineWidth(MEDIUM_LINE);
-	glColor3fv(green);
+	if(selected == SELECT)
+		graphicColor(YELLOW);
+	else
+		graphicColor(GREEN);
 
 	POINT b;
 	b.x = (cos(alpha + PISURDEUX)*(NBPH-1)*EPSIL_PROJ) + a.x;
@@ -97,7 +128,7 @@ void graphicDrawProjecteur(POINT a, double alpha)
 
 	glEnd();
 
-	glColor3fv(white);
+	graphicColor(WHITE);
 	return ;
 }
 

@@ -11,14 +11,22 @@
 #include <string.h>
 #include <GL/glui.h>
 #include <GL/glut.h>
-
+extern "C"
+{
+	#include "constantes.h"
+	#include "graphic.h"
+	#include "modele.h"
+	#include "utilitaire.h"
+}
 namespace
 {
 	int mainWin;
 	int width, height;
 	GLfloat ratio, xMin, xMax, yMin, yMax;
-	
-	short actionSelect, entitySelect;
+	double y_dmax, x_dmax;	
+	short actionSelect, entitySelect, mode;
+	short counterClick = 0;
+	POINT tabPoint[MAX_PT];
 	
 	char *editLoadContent = (char*) "file.txt";
 	char *editSaveContent = (char*) "save.txt";
@@ -52,12 +60,7 @@ namespace
 	GLUI_RadioGroup * radiogroupEntity;;
 }
 
-extern "C"
-{
-	#include "constantes.h"
-	#include "graphic.h"
-	#include "modele.h"
-}
+
 
 #define NB_ARG  	3
 #define SUCCESS		1
@@ -65,8 +68,9 @@ extern "C"
 #define MODE_ERROR	0
 #define MODE_VERIF	1
 #define MODE_GRAPH	2
+#define MODE_FINAL	3
 #define CREATE_WIN	1
-#define MAX_BUTTON	10
+#define MAX_CLICK	6
 
 /*GLUI control CallBack*/
 #define BUTTON_LOAD_ID 			11
@@ -135,6 +139,13 @@ void motionClick(int, int);
 void keyNormalClick(unsigned char, int, int);
 /*Faire le zoom*/
 void zoomIn(double, double, double, double);
+/*Initialise pour graphic*/
+void initGraph(void);
+/*Initialise pour Final*/
+void initFinal(void);
+/*Annule la création*/
+void cancelCreation(void);
+
 
 int main(int argc, char *argv[])
 {
@@ -142,7 +153,7 @@ int main(int argc, char *argv[])
 	entitySelect = PROJECTEUR_VAL;
 
 	int success = ERROR;
-	int mode = MODE_ERROR;
+	mode = MODE_ERROR;
 	if(argc == NB_ARG)
 	{
 		editLoadContent = argv[2];
@@ -152,47 +163,88 @@ int main(int argc, char *argv[])
 			mode = MODE_VERIF;
 		if(strcmp(argv[1], "Graphic") == 0)
 			mode = MODE_GRAPH;
+		if(strcmp(argv[1], "Final") == 0)
+			mode = MODE_FINAL;
 		success = call(mode, argv[2]);
 	}
 	else
 	{
-		mode = MODE_GRAPH;
+		mode = MODE_FINAL;
 	}
-	if(mode == MODE_ERROR)
-		if(success)
-		{
-			modeleSuccess();
-			return EXIT_SUCCESS;
-		}
-		else
-			return EXIT_FAILURE;
-	if(mode == MODE_VERIF)
-		if(success)
-			return EXIT_SUCCESS;
-		else
-			return EXIT_FAILURE;
-	if(mode == MODE_GRAPH)
+	glutInit(&argc, argv);
+	switch(mode)
 	{
-		if(!success)
-			modeleDestroy();
-		glutInit(&argc, argv);
-		glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-		glutInitWindowSize(INIT_WIDTH, INIT_HEIGHT);
-		ratio = (GLfloat)INIT_WIDTH / (GLfloat)INIT_HEIGHT;
-		mainWin = glutCreateWindow("Project");
-		glClearColor(1.,1.,1.,0.);
-		
-		glutIdleFunc(idle);
-		glutDisplayFunc(display_cb);//si la fenetre bouge
-		glutReshapeFunc(reshape_cb);//si la taille change
-		glutMouseFunc(mouseClick);
-		glutMotionFunc(motionClick);	
-		glutKeyboardFunc(keyNormalClick);	
-		createGLUI();
-		modeleDraw();
-		glutMainLoop();
+		case MODE_ERROR:
+			if(success)
+			{
+				modeleSuccess();
+				return EXIT_SUCCESS;
+			}
+			else
+				return EXIT_FAILURE;
+			break;
+		case MODE_VERIF:
+			if(success)
+				return EXIT_SUCCESS;
+			else
+				return EXIT_FAILURE;
+			break;
+		case MODE_GRAPH:
+			if(!success)	modeleDestroy();
+			initGraph();
+			break;
+		case MODE_FINAL:
+			if(!success)	modeleDestroy();;
+			initFinal();
+			break;
 	}
 	return EXIT_SUCCESS;
+}
+
+void initFinal(void)
+{
+	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+	glutInitWindowSize(INIT_WIDTH, INIT_HEIGHT);
+	ratio = (GLfloat)INIT_WIDTH / (GLfloat)INIT_HEIGHT;
+	mainWin = glutCreateWindow("Project");
+	glClearColor(1.,1.,1.,0.);
+	
+	glutIdleFunc(idle);
+	glutDisplayFunc(display_cb);//si la fenetre bouge
+	glutReshapeFunc(reshape_cb);//si la taille change
+	glutMouseFunc(mouseClick);
+	glutMotionFunc(motionClick);	
+	glutKeyboardFunc(keyNormalClick);	
+	createGLUI();
+	width = INIT_WIDTH; height = INIT_HEIGHT;
+	xMin = X_MIN; xMax = X_MAX; yMin = Y_MIN; yMax = Y_MAX;
+	x_dmax = y_dmax = DMAX;
+	reshape_cb(width, height);
+	modeleDraw();
+	glutMainLoop();
+}
+
+void initGraph(void)
+{
+	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+	glutInitWindowSize(INIT_WIDTH, INIT_HEIGHT);
+	ratio = (GLfloat)INIT_WIDTH / (GLfloat)INIT_HEIGHT;
+	mainWin = glutCreateWindow("Project");
+	glClearColor(1.,1.,1.,0.);
+	
+	glutIdleFunc(idle);
+	glutDisplayFunc(display_cb);//si la fenetre bouge
+	glutReshapeFunc(reshape_cb);//si la taille change
+	glutMouseFunc(mouseClick);
+	glutMotionFunc(motionClick);	
+	glutKeyboardFunc(keyNormalClick);	
+	createGLUI();
+	width = INIT_WIDTH; height = INIT_HEIGHT;
+	xMin = X_MIN; xMax = X_MAX; yMin = Y_MIN; yMax = Y_MAX;
+	x_dmax = y_dmax = DMAX;
+	reshape_cb(width, height);
+	modeleDraw();
+	glutMainLoop();
 }
 
 void idle(void)
@@ -224,35 +276,33 @@ void redrawAll(void)
 
 void reshape_cb(int x, int y)
 {
-	double _w = width, _h = height;
-
-	if(x < EPSIL_CREATION)
-		x = EPSIL_CREATION;
-	if(y < EPSIL_CREATION)
-		y = EPSIL_CREATION;
+	double add;
 	glViewport(0, 0, x, y);
-	width = x;	height = y;
-
-
-	if(height == 0)
+	width = x;
+	if(y == 0)
 		height = 1;
-	
-	ratio = (GLfloat) width / (GLfloat) height;
-	
-	if(ratio <= 1.)
+	else
+		height = y;
+	double aspect_ratio = (double)width/height;
+	if(aspect_ratio <= x_dmax/y_dmax)
 	{
-		xMin = X_MIN;	xMax = X_MAX;
-		yMin = Y_MIN / ratio;
-		yMax = Y_MAX / ratio;
+		add = ((xMax - xMin) / 2 - x_dmax);
+		xMin += add;
+		xMax -= add;
+		add = x_dmax / aspect_ratio - (yMax - yMin) / 2;
+		yMin -= add;
+		yMax += add;
 	}
 	else
 	{
-		xMin = X_MIN * ratio;
-		xMax = X_MAX * ratio;
-		yMin = Y_MIN;	yMax = Y_MAX;
+		add = ((yMax-yMin) / 2 - y_dmax);
+		xMin += add;
+		xMax -= add;
+		add = y_dmax * aspect_ratio - (xMax - xMin) / 2;
+		xMin -= add;
+		xMax += add;
 	}
 	glutPostRedisplay();
-
 }
 
 void display_cb() 
@@ -268,9 +318,10 @@ void keyNormalClick(unsigned char key, int x, int y)
 		case 'r'://reset zoom
 			xMin = X_MIN;	yMin = Y_MIN;
 			xMax = X_MAX;	yMax = Y_MAX;
+			reshape_cb(width, height);
 			break;
 		case 'd':
-			modeleDestroyEntity();
+			modeleDestroyEntity(entitySelect);
 			break;
 		case 'k':
 			modeleDestroyExtPhot(xMin, xMax, yMin, yMax);
@@ -337,6 +388,7 @@ int call(int mode, char* fileName)
 			success = modele_verification_rendu2();
 			break;
 		case MODE_GRAPH:
+		case MODE_FINAL:
 			success = modeleLecture(fileName);
 			if(success != SUCCESS)
 				break;
@@ -373,8 +425,7 @@ void mouseClick(int button, int state, int x, int y)
 			if(leftButtonDown == true)//button relaché
 			{
 				leftButtonDown = false;
-				relachX = _x; relachY = _y;
-				
+				relachX = _x; relachY = _y;		
 				VECTOR diagonale;
 				diagonale.ptDeb.x = clickX;
 				diagonale.ptDeb.y = clickY;
@@ -384,20 +435,31 @@ void mouseClick(int button, int state, int x, int y)
 					zoomIn(clickX, clickY, relachX, relachY);
 			}
 		}
-		
 	}
 	if(button == GLUT_RIGHT_BUTTON)
 	{
-		if(leftButtonDown == true)
-			return;
 		if(state == GLUT_DOWN)
 		{
 			rightButtonDown = true;
+			if(actionSelect == SELECTION_VAL)
+				modeleSelect(entitySelect, _x, _y);
 		}
 		if(state == GLUT_UP)
 			if(rightButtonDown == true)
+			{
+				tabPoint[counterClick].x = _x;
+				tabPoint[counterClick].y = _y;
+				counterClick++;
+				if(actionSelect ==	CREATION_VAL)
+					if(entitySelect != ABSORBEUR_VAL)
+						if(counterClick == 2)
+						{
+							modeleCreation(entitySelect, counterClick, 
+								tabPoint);
+							counterClick = 0;
+						}	
 				rightButtonDown = false;
-				
+			}
 	}
 }
 
@@ -411,10 +473,7 @@ void motionClick(int x, int y)
 		relachX = _x; relachY = _y;
 	if(rightButtonDown && actionSelect == SELECTION_VAL)
 	{
-		switch(entitySelect)
-		{
-
-		}
+		modeleSelect(entitySelect, _x, _y);
 	}
 }
 
@@ -567,48 +626,62 @@ void loadFile(char const *name)
 void startPressed(void) 
 {
 	if(simulationRunning == false)
-	{	
 		buttonStart->set_name(buttonStopText);
-	}
 	else
-	{
-		printf("STOP\n");
 		buttonStart->set_name(buttonStartText);
-	}
 	simulationRunning = !simulationRunning;
 }
 
-void stepPressed(void) { printf("Step by one\n"); modeleUpdate();}
+void stepPressed(void) { modeleUpdate();}
 
 void exitPressed(void) { exit(1); }
 
 void actionPressed(int val)
-{
-	switch(val)
+{	
+	if(actionSelect != val)
 	{
-		case SELECTION_VAL:
-			printf("Selection selected\n");
-			
-			break;
-		case CREATION_VAL:
-			printf("Creation selected\n");
-			break;
+		modeleUnselect();
+		cancelCreation();
 	}
+	actionSelect = val;
+
+	if(mode == MODE_GRAPH)
+		switch(val)
+		{
+			case SELECTION_VAL:
+				printf("Selection selected\n");
+			
+				break;
+			case CREATION_VAL:
+				printf("Creation selected\n");
+				break;
+		}
 }
 
 void entityPressed(int val)
 {
-
-	switch(val)
+	if(entitySelect != val)
 	{
-		case PROJECTEUR_VAL:
-			printf("Selected Projecteur\n");
-			break;
-		case REFLECTEUR_VAL:
-			printf("Selected Reflecteur\n");
-			break;
-		case ABSORBEUR_VAL:
-			printf("Selected Absorbeur\n");
-			break;
+		modeleUnselect();
+		cancelCreation();
 	}
+	entitySelect = val;
+	if(mode == MODE_GRAPH)
+		switch(val)
+		{
+			case PROJECTEUR_VAL:
+				printf("Selected Projecteur\n");
+				break;
+			case REFLECTEUR_VAL:
+				printf("Selected Reflecteur\n");
+				break;
+			case ABSORBEUR_VAL:
+				printf("Selected Absorbeur\n");
+				break;
+		}
+}
+
+void cancelCreation(void)
+{
+	counterClick = 0;
 }

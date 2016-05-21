@@ -15,12 +15,15 @@
 #include "utilitaire.h"
 #include "absorbeur.h"
 
-#define OK      1
-#define NO      0
-#define MIN_PT  2
-#define PROJ	1
-#define REFL	0
-#define PHOT	2
+#define OK      	1
+#define NO      	0
+#define MIN_PT  	2
+#define PROJ		1
+#define REFL		0
+#define PHOT		2
+#define SELECT		1
+#define UNSELECT 	0
+#define NONE		65535
 typedef struct Absorbeur ABSORBEUR;
 
 struct Absorbeur
@@ -31,15 +34,11 @@ struct Absorbeur
 	ABSORBEUR * next;
 };
 
-int absorbeurSet(char[]);
-int addAbsorbeur(int, POINT[]);
-int delAbsorbeur(int);
-void printListAbsorbeur(void);
-void delListAbsorbeur(void);
 
 static int absorbeurDistanceRequise(POINT, POINT);
 static unsigned int lastId = 0;
 static int n = 0;
+static unsigned int idSelected = NONE;
 static ABSORBEUR * list;
 
 int absorbeurSet(char line[MAX_LINE])
@@ -120,7 +119,29 @@ int addAbsorbeur(int _nb, POINT tab[_nb])
 
 int delAbsorbeur(int _id)
 {
-	/*NOT IMPLEMENTED YET*/
+	ABSORBEUR *a = list;
+	
+	if(a)
+	{
+		if(a->id == _id)
+		{
+			list = list->next;
+			free(a);
+		}
+		else
+		{
+			ABSORBEUR *prec = a;
+			while(prec->next && prec->next->id != _id)
+				prec = prec->next;
+			if(prec->next)
+			{
+				ABSORBEUR *del = prec->next;
+				prec->next = prec->next->next;
+				free(del);
+				del = NULL;
+			}
+		}
+	}	
 	n--;
 	return OK;
 }
@@ -214,9 +235,43 @@ void drawAbso(void)
 	ABSORBEUR *a = list;
 	while(a != NULL)
 	{
-		graphicDrawAbsorbeur(a->nbPt, a->tabPt);
+		if(a->id == idSelected)
+			graphicDrawAbsorbeur(a->nbPt, a->tabPt, SELECT);
+		else
+			graphicDrawAbsorbeur(a->nbPt, a->tabPt, UNSELECT);
 		a = a->next;
 	}
+}
+
+void selectAbsorbeur(double x, double y)
+{
+	ABSORBEUR *a = list;
+	POINT pt;	pt.x = x;	pt.y = y;
+	unsigned int tmpId = 0;
+	int i = 0;
+	double norme, normeMin = NONE;
+	while(a)
+	{
+		for(i = 0; i < a->nbPt; i++)
+		{
+			norme = utilitaireDistance2Points(a->tabPt[i], pt);
+			if(norme < normeMin)
+			{
+				normeMin = norme;
+				tmpId = a->id;
+			}
+		}
+		a = a->next;
+	}
+	idSelected = tmpId;
+}
+
+void unselectAbso(void){	idSelected = NONE;	}
+
+void absoDelSelect(void)
+{
+	delAbsorbeur(idSelected);
+	idSelected = NONE;
 }
 
 void printListAbsorbeur(void)
@@ -254,7 +309,6 @@ static int absorbeurDistanceRequise(POINT _a, POINT _b)
 	if(utilitaireDistance2Points(_a, _b) < EPSIL_CREATION)
 		return NO;
 	else
-		return OK;
-}
+		return OK;}
 
 int nbAbso(void) { return n; }

@@ -22,6 +22,10 @@
 #define NO      	0
 #define NB_ELEM 	4
 #define REFL_VAL	0
+#define SELECT		1
+#define UNSELECT	0
+#define NONE		65353
+
 typedef struct Reflecteur REFLECTEUR;
 
 struct Reflecteur
@@ -34,6 +38,7 @@ struct Reflecteur
 
 static int n = 0;
 static unsigned int lastId = 0;
+static unsigned int idSelected = NONE;
 static REFLECTEUR * list;
 
 static int reflecteurDistanceRequise(POINT, POINT);
@@ -87,7 +92,29 @@ int addReflecteur(POINT _ptA, POINT _ptB)
 
 int delReflecteur(int _id)
 {
-	/*TODO*/
+	REFLECTEUR *r = list;
+
+	if(r)
+	{
+		if(r->id == _id)
+		{
+			list = list->next;
+			free(r);
+		}	
+		else
+		{
+			REFLECTEUR *prec = r;
+			while(prec->next && prec->next->id != _id)
+				prec = prec->next;
+			if(prec->next)
+			{
+				REFLECTEUR * del = prec->next;
+				prec->next = prec->next->next;
+				free(del);
+				del = NULL;
+			}
+		}
+	}
 	n--;
 	return OK;
 }
@@ -109,10 +136,46 @@ void drawRefl(void)
 	REFLECTEUR *r = list;
 	while(r != NULL)
 	{
-		graphicDrawReflecteur(r->a, r->b);
+		if(r->id == idSelected)
+			graphicDrawReflecteur(r->a, r->b, SELECT);
+		else
+			graphicDrawReflecteur(r->a, r->b, UNSELECT);
 		r = r->next;
 	}
 }	
+
+void selectReflecteur(double x, double y)
+{
+	REFLECTEUR *r = list;
+	POINT pt;	pt.x = x;	pt.y = y;
+	unsigned int tmpId = 0;
+	double norme, normeMin = NONE;
+	while(r)
+	{
+		norme = utilitaireDistance2Points(r->a, pt);
+		if(norme < normeMin)
+		{
+			normeMin = norme;
+			tmpId = r->id;
+		}
+		norme = utilitaireDistance2Points(r->b, pt);
+		if(norme < normeMin)
+		{
+			normeMin = norme;
+			tmpId = r->id;
+		}
+		r = r->next;
+	}	
+	idSelected = tmpId;
+}
+
+void unselectRefl(void){	idSelected = NONE;	}
+
+void reflDelSelect(void)
+{
+	delReflecteur(idSelected);
+	idSelected = NONE;
+}
 
 void printListReflecteur(void)
 {

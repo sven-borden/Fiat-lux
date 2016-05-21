@@ -6,6 +6,7 @@
     Description:Module de simulation du projet de Programation II MT 
 */
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -22,6 +23,10 @@
 
 #define SUCCESS		1
 #define ERROR		0
+
+#define PROJECTEUR_VAL	0
+#define REFLECTEUR_VAL	1
+#define ABSORBEUR_VAL	2
 
 int modeleLecture(char* fileName)
 {
@@ -52,6 +57,56 @@ void modeleDestroy(void)
 	delListAbsorbeur();
 	delListProjecteur();
 	delListReflecteur();
+}
+
+void modeleSelect(int8_t val, double x, double y)
+{
+	switch(val)
+	{
+		case PROJECTEUR_VAL:
+			selectProjecteur(x, y);
+			unselectRefl();
+			unselectAbso();
+			break;
+		case REFLECTEUR_VAL:
+			selectReflecteur(x, y);
+			unselectProj();
+			unselectAbso();
+			break;
+		case ABSORBEUR_VAL:
+			selectAbsorbeur(x, y);
+			unselectProj();
+			unselectRefl();
+			break;
+	}
+}
+
+void modeleCreation(short val, short nbPt, POINT tab[MAX_PT])
+{
+	double alpha;
+	switch(val)
+	{
+		case PROJECTEUR_VAL:
+			alpha = asin((tab[1].y - tab[0].y)/
+						utilitaireDistance2Points(tab[1], tab[0]));
+			if(nbPt == 2)
+				addProjecteur(tab[0], alpha);
+			break;
+		case REFLECTEUR_VAL:
+			if(nbPt == 2)
+				addReflecteur(tab[0], tab[1]);
+			break;
+		case ABSORBEUR_VAL:
+			break; 
+	}
+	return ;
+}
+
+void modeleUnselect(void)
+{
+	unselectProj();
+	unselectRefl();
+	unselectAbso();
 }
 
 void modeleDraw()
@@ -93,9 +148,20 @@ void modeleWrite(char * nom)
 	fclose(file);
 }
 
-void modeleDestroyEntity(void)
+void modeleDestroyEntity(short entity)
 {
-	printf("Destroy Entity NOT IMPLEMENTED YET\n");
+	switch(entity)
+	{
+		case PROJECTEUR_VAL:
+			projDelSelect();
+			break;
+		case REFLECTEUR_VAL:
+			reflDelSelect();
+			break;
+		case ABSORBEUR_VAL:
+			absoDelSelect();
+			break;
+	}
 }
 
 void modeleDestroyExtPhot(double xmin, double xmax, double ymin, double ymax)

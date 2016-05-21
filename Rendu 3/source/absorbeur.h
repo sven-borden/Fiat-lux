@@ -20,6 +20,10 @@ int addAbsorbeur(int, POINT[]);
 int delAbsorveur(int);
 /*Ecrit dans un fichier la liste des absorbeurs*/
 void writeAbsorbeur(FILE *);
+/*Selection l'absorbeur le plus proche*/
+void selectAbsorbeur(double, double);
+/*Deslectionne les absorbeurs*/
+void unselectAbso(void);
 /*Dessine les absorbeurs*/
 void drawAbso(void);
 /*Print en console la liste des absorbeurs*/
@@ -28,6 +32,8 @@ void printListAbsorbeur(void);
 void delListAbsorbeur(void);
 /*Retourne le nombre d'absorbeurs*/
 int nbAbso(void);
+/*Supprime l'entité selectionnée*/
+void absoDelSelect(void);
 /*Vérifie les intersection entre absorbeur et un vecteur*/
 int absorbeurExt(VECTOR, int, int);
 /*Calcule le point de contact pour les photons*/
