@@ -198,14 +198,15 @@ void reflection(VECTOR v, PHOTON *p)
 	v.ptDeb.x = v.ptFin.x;	v.ptDeb.y = v.ptFin.y;
 	v.ptFin.x = v.ptDeb.x + resultx;
 	v.ptFin.y = v.ptDeb.y + resulty;	
-	p->alpha = tan(resultx/resulty);
+//	p->alpha = tan(resultx/resulty);
+	p->alpha = p->alpha+M_PI/2;
 	printf("alpha %lf\n", p->alpha);
-	//check(p, v);
+	check(p, v);
 }
 
 void check(PHOTON *p, VECTOR v)
 {
-	POINT *prefl, *pabso;
+	POINT *prefl = NULL, *pabso = NULL;
 	POINT refl, abso;
 	prefl = reflProche(v);
 	pabso = absoProche(v);
@@ -222,7 +223,7 @@ void check(PHOTON *p, VECTOR v)
 	}
 	if(pabso == NULL)//seulement refl
 	{
-		printf("PHOTON %d croise un reflecteuri\n", p->id);
+		printf("PHOTON %d croise un reflecteur\n", p->id);
 		reflection(v, p);
 		return;
 	}
