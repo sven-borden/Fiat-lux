@@ -18,6 +18,8 @@ int projecteurSet(char[]);
 int addProjecteur(POINT, double);
 /*Supprime un projecteur de la liste*/
 int delProjecteur(int);
+/*Supprime le dernier element entré*/
+void delProjTete(void);
 /*Ecrit dans un fichier la liste des projecteurs*/
 void writeProjecteur(FILE *);
 /*Dessine les projecteurs*/
@@ -36,8 +38,6 @@ int nbProj(void);
 void projDelSelect(void);
 /*Vérifie les intersections entre projecteur et refl*/
 int projecteurExt(VECTOR, int);
-/*Vérifie pour un proj manuel les intersections*/
-int manualProj(POINT, POINT, double);
 /*Vérifie les projecteur avec les absorbeurs*/
 int projInterAbs(void);
 /*Appelle une fonction qui crée les photons de chaque projecteurs*/

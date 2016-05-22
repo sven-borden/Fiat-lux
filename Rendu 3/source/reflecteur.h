@@ -18,6 +18,8 @@ int reflecteurSet(char[]);
 int addReflecteur(POINT, POINT);
 /*Supprime un reflecteur de la liste*/
 int delReflecteur(int);
+/*Supprime le dernier element entré*/
+void delReflTete(void);
 /*Ecrit dans un fichier la liste des reflecteurs*/
 void writeReflecteur(FILE *);
 /*Dessine les reflecteurs*/
@@ -40,8 +42,6 @@ int interReflecteur(void);
 int reflInterAbs(void);
 /*Vérifie les intersections entre refl et proj*/
 int reflInterProj(void);
-/*Pour un manuel reflecteur donné, vérifie les inter*/
-int manualRefl(POINT, POINT);
 /*Trouve le reflecteur le plus proche en intersection
  *retourne NULL si aucune intersection*/
 POINT * reflProche(VECTOR);

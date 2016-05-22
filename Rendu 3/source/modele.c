@@ -98,19 +98,30 @@ void modeleCreation(short val, short nbPt, POINT tab[MAX_PT])
 					alpha = alpha-(2*((-M_PI/2)+alpha));;
 			}
 			if(nbPt == 2)
-				if(manualProj(tab[0], tab[1], alpha))
-					addProjecteur(tab[0], alpha);
+				addProjecteur(tab[0], alpha);
 			break;
 		case REFLECTEUR_VAL:
 			if(nbPt == 2)
-				if(manualRefl(tab[0], tab[1]))
-					addReflecteur(tab[0], tab[1]);
+				addReflecteur(tab[0], tab[1]);
 			break;
 		case ABSORBEUR_VAL:
 			if(nbPt >= 2)
-				if(manualAbso(nbPt, tab))
-					addAbsorbeur(nbPt, tab);
+				addAbsorbeur(nbPt, tab);
 			break; 
+	}
+	if(modele_verification_rendu2() != ERROR)
+		return;
+	switch(val)
+	{
+		case PROJECTEUR_VAL:
+			delProjTete();
+			break;
+		case REFLECTEUR_VAL:
+			delReflTete();
+			break;
+		case ABSORBEUR_VAL:
+			delAbsoTete();
+			break;
 	}
 	return ;
 }

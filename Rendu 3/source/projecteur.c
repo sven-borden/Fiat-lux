@@ -113,6 +113,11 @@ int delProjecteur(int _id)
 	return OK;
 }
 
+void delProjTete(void)
+{
+	delProjecteur(list->id);
+}
+
 void drawProj(void)
 {
 	PROJECTEUR *p = list;
@@ -186,11 +191,6 @@ void printListProjecteur(void)
 		i++;
 	}
 	return ;
-}
-
-int manualProj(POINT a, POINT b, double alpha)
-{
-	return OK;
 }
 
 int projecteurExt(VECTOR v, int idV)

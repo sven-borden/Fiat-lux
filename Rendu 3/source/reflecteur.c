@@ -120,6 +120,11 @@ int delReflecteur(int _id)
 	return OK;
 }
 
+void delReflTete(void)
+{
+	delReflecteur(list->id);
+}
+
 void writeReflecteur(FILE *file)
 {
 	REFLECTEUR *r = list;
@@ -310,10 +315,6 @@ VECTOR getReflecteur(int _id)
 		}
 		r = r->next;
 	}
-}
-int manualRefl(POINT a, POINT b)
-{
-	return OK;
 }
 
 int reflInterProj(void)

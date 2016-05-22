@@ -146,6 +146,11 @@ int delAbsorbeur(int _id)
 	return OK;
 }
 
+void delAbsoTete(void)
+{
+	delAbsorbeur(list->id);
+}
+
 void writeAbsorbeur(FILE *file)
 {
 	int i = 0;
@@ -161,11 +166,6 @@ void writeAbsorbeur(FILE *file)
 		a = a->next;
 	}
 	fprintf(file, "FIN_LISTE\n\n");
-}
-
-int manualAbso(int nb, POINT * tab)
-{
-	return OK;
 }
 
 int absorbeurExt(VECTOR vE, int idE, int entity)
