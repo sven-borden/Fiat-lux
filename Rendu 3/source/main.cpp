@@ -486,6 +486,8 @@ void mouseClick(int button, int state, int x, int y)
 	}
 	if(button == GLUT_RIGHT_BUTTON)
 	{
+		if(simulationRunning)
+			return;
 		if(state == GLUT_DOWN)
 		{
 			rightButtonDown = true;

@@ -4,7 +4,7 @@
 
 CC      = gcc
 CFLAGS  = -Wall
-CFILES  = main.cpp absorbeur.c error.c graphic.c lecture.c modele.c photon.c projecteur.c reflecteur.c utilitaire.c
+CFILES  = ../source/main.cpp ../source/absorbeur.c ../source/error.c ../source/graphic.c ../source/lecture.c ../source/modele.c ../source/photon.c ../source/projecteur.c ../source/reflecteur.c ../source/utilitaire.c
 OFILES = $(CFILES:.c=.o) 
 
 rendu3.x: $(OFILES)
