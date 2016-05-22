@@ -168,38 +168,53 @@ void delListPhoton(void)
 
 int nbPhot(void) { return n; }
 
-void reflection(VECTOR v, PHOTON *p)
+void reflection(VECTOR v, PHOTON *p, POINT inter)
 {
-	double vx = v.ptFin.x - v.ptDeb.x;
-	double vy = v.ptFin.y - v.ptDeb.y;
+	double vx = inter.x - v.ptDeb.x;
+	double vy = inter.y - v.ptDeb.y;
+	double norme = utilitaireNormeVector(v);
+	double normeL1 = utilitaireDistance2Points(v.ptDeb, inter);
+	double normeL2 = norme - normeL1;
+
+	double uvx = vx/normeL1;
+	double uvy = vy/normeL1;
+
+
 	VECTOR r = getReflecteur(getLastId());
 	double rx = r.ptFin.x - r.ptDeb.x;
 	double ry = r.ptFin.y - r.ptDeb.y;
-
+	double normeR = utilitaireNormeVector(r);
+	double urx = rx/normeR;
+	double ury = ry/normeR;
+	
 	double nx1, ny1;
 	double nx2, ny2;
-	//vecteurs normaux 
-	utilitaireSwap(&rx, &ry);
-	nx1 = -rx;	ny1 = ry;
-	nx2 = rx;	ny2 = -ry;
+	//vecteurs normaux au reflecteur 
+	nx1 = -ury;	ny1 = urx;
+	nx2 = ury;	ny2 = -urx;
 
-	//on peut avoir deux reflections possible
+	//On peut avoir deux reflections possible
 	double resultx, resulty;
-	resultx = (-2*(vx*nx1+vy*ny1)*nx1 + vx);
-	resulty = (-2*(vx*nx1+vy*ny1)*ny1 + vy);
+	resultx = (-2*(uvx*nx1+uvy*ny1)*nx1 + uvx);
+	resulty = (-2*(uvx*nx1+uvy*ny1)*ny1 + uvy);
 	printf("vx %lf, vy %lf, rx %lf, ry %lf\n", vx, vy, rx, ry);
 	printf("nx1 %lf, ny1 %lf, nx2 %lf, ny2 %lf\n", nx1,ny1,nx2,ny2);
-	printf("PS : %lf\n", resultx*vx+resulty*vy);
-	if(resultx*vx+resulty*vy > 0.)
+	printf("PS : %lf\n", resultx*uvx+resulty*uvy);
+	printf("Resultx %lf\tResulty %lf\n", resultx, resulty);
+	if(resultx*uvx+resulty*uvy > 0.)
 	{
-		resultx = (-2*(vx*nx2+vy*ny2)*nx2 + vx);
-		resulty = (-2*(vx*nx2+vy*ny2)*ny2 + vy);
+		resultx = (-2*(uvx*nx2+uvy*ny2)*nx2 + uvx);
+		resulty = (-2*(uvx*nx2+uvy*ny2)*ny2 + uvy);
+		printf("PS 2: %lf\n", resultx*uvx+resulty*uvy);
+		printf("Resultx %lf\tResulty %lf\n", resultx, resulty);
 	}
+	resultx *= normeL2;
+	resulty *= normeL2;
+
 	v.ptDeb.x = v.ptFin.x;	v.ptDeb.y = v.ptFin.y;
 	v.ptFin.x = v.ptDeb.x + resultx;
 	v.ptFin.y = v.ptDeb.y + resulty;	
-//	p->alpha = tan(resultx/resulty);
-	p->alpha = p->alpha+M_PI/2;
+	p->alpha = atan2(resulty, resultx);
 	printf("alpha %lf\n", p->alpha);
 	check(p, v);
 }
@@ -223,11 +238,11 @@ void check(PHOTON *p, VECTOR v)
 	}
 	if(pabso == NULL)//seulement refl
 	{
-		printf("PHOTON %d croise un reflecteur\n", p->id);
-		reflection(v, p);
+		refl.x = prefl->x;
+		refl.y = prefl->y;
+		reflection(v, p, refl);
 		return;
 	}
-	printf("PHOTON %d croise les deux entités\n", p->id);
 	//les deux
 	refl.x = prefl->x;
 	refl.y = prefl->y;
@@ -237,18 +252,18 @@ void check(PHOTON *p, VECTOR v)
 	double dRefl = fabs(utilitaireDistance2Points(refl, v.ptDeb));
 	double dAbso = fabs(utilitaireDistance2Points(abso, v.ptDeb));
 
-	dRefl < dAbso ? reflection(v, p) : delPhoton(p->id);
+	dRefl < dAbso ? reflection(v, p, refl) : delPhoton(p->id);
 	
 	return;
 }
 
 void updatePhoton()
 {
-	PHOTON *p = list, *pOld = list;
+	PHOTON *p = list;
 	double futureX = 0;
 	double futureY = 0;/*les deux futures positions*/
 	VECTOR v;
-	while(p && pOld)
+	while(p)
 	{
 		futureX = p->pos.x + cos(p->alpha)*DELTA_T*VPHOT;
 		futureY = p->pos.y + sin(p->alpha)*DELTA_T*VPHOT;
@@ -258,7 +273,6 @@ void updatePhoton()
 		v.ptFin.y = futureY;
 		check(p, v);
 		resetLastReflect();
-		pOld = p;
 		p = p->next;
 	}
 }

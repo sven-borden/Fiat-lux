@@ -506,12 +506,10 @@ void mouseClick(int button, int state, int x, int y)
 								tabPoint);
 							counterClick = 0;
 						}	
-				if(counterClick == 6)
+				if(counterClick == MAX_CLICK)
 				{
 					modeleCreation(entitySelect, counterClick, tabPoint);
 					counterClick = 0;
-					actionSelect == SELECTION_VAL;
-					radiogroupAction->set_int_val(0);
 				}
 				rightButtonDown = false;
 			}
