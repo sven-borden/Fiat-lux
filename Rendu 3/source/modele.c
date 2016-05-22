@@ -1,8 +1,8 @@
 /*
     Fichier:    modele.c
     Auteur:     Alix Nepveux & Sven Borden
-    Date :      20 mars 2016
-    Version:    1.1
+    Date :      22 mai 2016
+    Version:    2.1
     Description:Module de simulation du projet de Programation II MT 
 */
 
@@ -27,6 +27,8 @@
 #define PROJECTEUR_VAL	0
 #define REFLECTEUR_VAL	1
 #define ABSORBEUR_VAL	2
+
+#define MIN_PT		2
 
 int modeleLecture(char* fileName)
 {
@@ -97,15 +99,15 @@ void modeleCreation(short val, short nbPt, POINT tab[MAX_PT])
 				else//cadran 3
 					alpha = alpha-(2*((-M_PI/2)+alpha));;
 			}
-			if(nbPt == 2)
+			if(nbPt == MIN_PT)
 				addProjecteur(tab[0], alpha);
 			break;
 		case REFLECTEUR_VAL:
-			if(nbPt == 2)
+			if(nbPt == MIN_PT)
 				addReflecteur(tab[0], tab[1]);
 			break;
 		case ABSORBEUR_VAL:
-			if(nbPt >= 2)
+			if(nbPt >= MIN_PT)
 				addAbsorbeur(nbPt, tab);
 			break; 
 	}

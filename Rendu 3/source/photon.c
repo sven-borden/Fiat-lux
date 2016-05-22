@@ -1,7 +1,7 @@
 /*
     Fichier:    photon.c
     Auteur:     Alix Nepveux & Sven Borden
-    Date :      20 avril 2016
+    Date :      20 mai 2016
     Version:    1.1
     Description:Module photon qui gere la structure photon
 */

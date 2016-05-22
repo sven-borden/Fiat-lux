@@ -1,7 +1,7 @@
 /*
     Fichier:   	photon.h
     Auteur:     Alix Nepveux & Sven Borden
-    Date :      20 avril 2016
+    Date :      30 avril 2016
     Version:    1.1
     Description:Module photon qui gere la structure photon 
 */
@@ -28,7 +28,7 @@ void printListPhoton(void);
 void delListPhoton(void); 
 /*Retourn le nombre de photons*/
 int nbPhot(void);
-/*met a jour la position des photons*/
+/*Met a jour la position des photons*/
 void updatePhoton(void);
 /*Supprime les photos hors fenetre*/
 void delOutside(double, double, double, double);

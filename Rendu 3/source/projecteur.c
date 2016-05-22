@@ -1,8 +1,8 @@
 /*
     Fichier:    projecteur.c
     Auteur:     Alix Nepveux & Sven Borden
-    Date :      20 avril 2016
-    Version:    1.1
+    Date :      20 mai 2016
+    Version:    1.5
     Description:Module projecteur qui gere la structure
 */
 /* identité :

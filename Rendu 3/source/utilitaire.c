@@ -1,8 +1,8 @@
 /*
     Fichier:    utilitaire.c
     Auteur:     Alix Nepveux & Sven Borden
-    Date :      16 mars 2016
-    Version:    0.9
+    Date :      16 avril2016
+    Version:    1.1
     Description:Module de base qui contient des fonctions basique
                 et des structures simples 
 */

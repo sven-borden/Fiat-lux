@@ -1,7 +1,7 @@
 /*
 	Fichiers:	projecteur.h
 	Autheurs:	Alix Nepveux & Sven Borden
-	Date:		10 Avril 2016
+	Date:		10 Mai 2016
 	Version:	1.1
 	Description:Module projecteur qui gere la structure
 */

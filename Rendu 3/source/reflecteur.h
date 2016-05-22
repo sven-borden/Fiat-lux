@@ -1,7 +1,7 @@
 /*
     Fichier:    reflecteur.h
     Auteur:     Alix Nepveux & Sven Borden
-    Date :      20 avril 2016
+    Date :      20 mai 2016
     Version:    1.1
     Description:Module reflecteur qui gere la structure 
 */
@@ -45,7 +45,7 @@ int reflInterProj(void);
 /*Trouve le reflecteur le plus proche en intersection
  *retourne NULL si aucune intersection*/
 POINT * reflProche(VECTOR);
-/*remet les compteurs à zero*/
+/*Remet les compteurs à zero*/
 void resetLastReflect(void);
 /*Retourne le id du dernier reflecteur d'intersection*/
 int getLastId(void);

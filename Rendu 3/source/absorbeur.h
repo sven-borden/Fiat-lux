@@ -1,8 +1,8 @@
 /*
     Fichier:    absorbeur.h
     Auteur:     Alix Nepveux & Sven Borden
-    Date :      16 mars 2016
-    Version:    0.9
+    Date :      20 mai 2016
+    Version:    1.3
     Description:Module absorbeur qui gere cette structure  
 */
 

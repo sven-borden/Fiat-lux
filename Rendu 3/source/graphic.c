@@ -1,8 +1,8 @@
 /*
 	Fichier:	graphic.c
 	Auteurs:	Alix Nepveux & Sven Borden
-	Date:		20 avril 2016
-	Version:	1.1
+	Date:		19 mai2016
+	Version:	1.5
 	Description:	Module qui dessine les entités
 */
 
