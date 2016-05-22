@@ -183,15 +183,11 @@ void reflection(VECTOR v, PHOTON *p)
 	double rx = r.ptFin.x - r.ptDeb.x;
 	double ry = r.ptFin.y - r.ptDeb.y;
 	double normer = utilitaireNormeVector(r);
-	printf("\n\n\n%lf, %lf\n",r.ptFin.x, r.ptFin.y);
 	double nx1, ny1;
 	double nx2, ny2;
 	//vecteurs normaux 
 	nx1 = -ry/normer;	ny1 = rx/normer;
 	nx2 = ry/normer;	ny2 = -rx/normer;
-		printf("vx %lf, vy %lf, rx %lf, ry %lf\n", vx, vy, rx, ry);
-	printf("nx1 %lf, ny1 %lf, nx2 %lf, ny2 %lf\n", nx1,ny1,nx2,ny2);
-	
 	//on peut avoir deux reflections possible
 	double wx, wy;
 	if(uvx*nx1+uvy*ny1 > 0.)
@@ -201,18 +197,12 @@ void reflection(VECTOR v, PHOTON *p)
 	wx = normeL2*(uvx-2*(uvx*nx1+uvy*ny1)*nx1);
 	wy = normeL2*(uvy-2*(uvx*nx1+uvy*ny1)*ny1);
 	
-printf("PS : %lf\n", wx*uvx+wy*uvy);
-	printf("wx %lf\twy %lf\n", wx, wy);
-	
 	v.ptDeb.x = ptTmp.x;	v.ptDeb.y = ptTmp.y;
 	v.ptFin.x = v.ptDeb.x + wx;
 	v.ptFin.y = v.ptDeb.y + wy;	
 	p->alpha = atan2(wy, wx);
-	printf("alpha %lf\n", p->alpha);
 	p->pos.x = v.ptFin.x;
 	p->pos.y = v.ptFin.y;
-	printf("PX %lf, PY %lf\n", p->pos.x, p->pos.y);
-	//check(p, v);
 }
 
 void check(PHOTON *p, VECTOR v)
