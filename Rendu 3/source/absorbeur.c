@@ -163,6 +163,11 @@ void writeAbsorbeur(FILE *file)
 	fprintf(file, "FIN_LISTE\n\n");
 }
 
+int manualAbso(int nb, POINT * tab)
+{
+	return OK;
+}
+
 int absorbeurExt(VECTOR vE, int idE, int entity)
 {
 	ABSORBEUR *a = list;

@@ -36,6 +36,8 @@ int nbProj(void);
 void projDelSelect(void);
 /*Vérifie les intersections entre projecteur et refl*/
 int projecteurExt(VECTOR, int);
+/*Vérifie pour un proj manuel les intersections*/
+int manualProj(POINT, POINT, double);
 /*Vérifie les projecteur avec les absorbeurs*/
 int projInterAbs(void);
 /*Appelle une fonction qui crée les photons de chaque projecteurs*/

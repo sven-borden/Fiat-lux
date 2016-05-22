@@ -37,6 +37,7 @@ struct Reflecteur
 };
 
 static int n = 0;
+static unsigned int lastReflectionId = NONE;
 static unsigned int lastId = 0;
 static unsigned int idSelected = NONE;
 static REFLECTEUR * list;
@@ -282,17 +283,37 @@ POINT * reflProche(VECTOR v)
 			pt.x = point->x;
 			pt.y = point->y;
 			normeTmp = fabs(utilitaireDistance2Points(pt, v.ptDeb));
-			if(normeTmp < normeMin && pt.x < v.ptDeb.x-EPSIL_CONTACT
-				&& pt.x > v.ptDeb.x+EPSIL_CONTACT)
+			if(normeTmp < normeMin)
 			{
 				normeMin = normeTmp;
 				pointProche = point;
+				lastReflectionId = r->id;	
 			}
 		}
 		r = r->next;
 	}
-
 	return pointProche;
+}
+int getLastId(void) { return lastReflectionId; }
+void resetLastReflect(void){ lastReflectionId = NONE; }
+VECTOR getReflecteur(int _id)
+{
+	REFLECTEUR *r = list;
+	while(r)
+	{		
+		if(r->id == _id)
+		{
+			VECTOR v;	
+			v.ptDeb = r->a;
+			v.ptFin = r->b;
+			return v;
+		}
+		r = r->next;
+	}
+}
+int manualRefl(POINT a, POINT b)
+{
+	return OK;
 }
 
 int reflInterProj(void)

@@ -1,0 +1,23 @@
+# Fiat Lux! 2015-16
+#
+# F07 : cas réflexion multiple avec 2 réflecteurs et 1 photon (premier step)
+#
+
+#projecteur
+0
+FIN_LISTE
+
+#reflecteur
+2
+-0.007 -0.009 0.012 0.01
+-0.007 -0.005 0.008 0.01
+FIN_LISTE
+
+#absorbeur
+0
+FIN_LISTE
+
+#photon
+1
+0 0 0
+FIN_LISTE

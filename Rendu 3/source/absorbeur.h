@@ -34,6 +34,8 @@ void delListAbsorbeur(void);
 int nbAbso(void);
 /*Supprime l'entité selectionnée*/
 void absoDelSelect(void);
+/*Pour un ajout manuel, vérifie les intersections*/
+int manualAbso(int, POINT*);
 /*Vérifie les intersection entre absorbeur et un vecteur*/
 int absorbeurExt(VECTOR, int, int);
 /*Calcule le point de contact pour les photons*/

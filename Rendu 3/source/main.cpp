@@ -101,6 +101,10 @@ namespace
 #define Y_MAX	DMAX
 #define INIT_WIDTH	400
 #define INIT_HEIGHT	600
+#define GLUI_X 450
+#define GLUI_Y 20
+#define GLUT_X 20
+#define GLUT_Y 20
 
 /*Fonction qui crée le GLUI */
 void createGLUI();
@@ -137,6 +141,8 @@ void mouseClick(int , int, int, int);
 void motionClick(int, int);
 /*Gère le clavier*/
 void keyNormalClick(unsigned char, int, int);
+/*Gère les touches autres du clavier*/
+void keySpecialClick(int, int, int);
 /*Faire le zoom*/
 void zoomIn(double, double, double, double);
 /*Initialise pour graphic*/
@@ -205,6 +211,7 @@ void initFinal(void)
 {
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowSize(INIT_WIDTH, INIT_HEIGHT);
+	glutInitWindowPosition(GLUT_X, GLUT_Y);
 	ratio = (GLfloat)INIT_WIDTH / (GLfloat)INIT_HEIGHT;
 	mainWin = glutCreateWindow("Project");
 	glClearColor(1.,1.,1.,0.);
@@ -228,6 +235,7 @@ void initGraph(void)
 {
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowSize(INIT_WIDTH, INIT_HEIGHT);
+	glutInitWindowPosition(GLUT_X, GLUT_Y);
 	ratio = (GLfloat)INIT_WIDTH / (GLfloat)INIT_HEIGHT;
 	mainWin = glutCreateWindow("Project");
 	glClearColor(1.,1.,1.,0.);
@@ -238,6 +246,7 @@ void initGraph(void)
 	glutMouseFunc(mouseClick);
 	glutMotionFunc(motionClick);	
 	glutKeyboardFunc(keyNormalClick);	
+	glutSpecialFunc(keySpecialClick);
 	createGLUI();
 	width = INIT_WIDTH; height = INIT_HEIGHT;
 	xMin = X_MIN; xMax = X_MAX; yMin = Y_MIN; yMax = Y_MAX;
@@ -270,7 +279,9 @@ void redrawAll(void)
 	modeleDraw();
 	if(leftButtonDown == true)
 		graphicDrawZoom(clickX,relachX,clickY,relachY);
-	
+	if(counterClick > 1 && entitySelect == ABSORBEUR_VAL &&
+		actionSelect == CREATION_VAL)
+		graphicDrawAbsorbeur(counterClick, tabPoint, 0);	
 	glutSwapBuffers();
 }
 
@@ -302,6 +313,7 @@ void reshape_cb(int x, int y)
 		xMin -= add;
 		xMax += add;
 	}
+	ratio = aspect_ratio;
 	glutPostRedisplay();
 }
 
@@ -318,6 +330,7 @@ void keyNormalClick(unsigned char key, int x, int y)
 		case 'r'://reset zoom
 			xMin = X_MIN;	yMin = Y_MIN;
 			xMax = X_MAX;	yMax = Y_MAX;
+			x_dmax = y_dmax = DMAX;
 			reshape_cb(width, height);
 			break;
 		case 'd':
@@ -326,7 +339,41 @@ void keyNormalClick(unsigned char key, int x, int y)
 		case 'k':
 			modeleDestroyExtPhot(xMin, xMax, yMin, yMax);
 			break;
+		case 's':
+			stepPressed();
+			break;
+		case 32://espace
+			startPressed();
+			break;
+		case 27:
+			exitPressed();
+			break;
 	}
+}
+
+void keySpecialClick(int k, int x, int y)
+{
+	switch(k)
+	{
+		case GLUT_KEY_UP:
+			yMin += y_dmax/10;
+			yMax += y_dmax/10;
+			break;
+		case GLUT_KEY_DOWN:
+			yMin -= y_dmax/10;
+			yMax -= y_dmax/10;
+			break;
+		case GLUT_KEY_RIGHT:
+			xMin += x_dmax/10;
+			xMax += x_dmax/10;
+			break;
+		case GLUT_KEY_LEFT:
+			xMin -= x_dmax/10;
+			xMax -= x_dmax/10;
+			break;
+	}
+	glutPostRedisplay();
+	return;
 }
 
 void zoomIn(double x1, double y1, double x2, double y2)
@@ -341,6 +388,7 @@ void zoomIn(double x1, double y1, double x2, double y2)
 
 	double _w = fabs(x1 - x2);
 	double _h = fabs(y1 - y2);
+	x_dmax = _w / 2;	y_dmax = _h / 2;
 	double diag = sqrt((_w*_w) + (_h*_h));
 	if(diag <= EPSIL_CREATION)
 		return;	
@@ -458,6 +506,13 @@ void mouseClick(int button, int state, int x, int y)
 								tabPoint);
 							counterClick = 0;
 						}	
+				if(counterClick == 6)
+				{
+					modeleCreation(entitySelect, counterClick, tabPoint);
+					counterClick = 0;
+					actionSelect == SELECTION_VAL;
+					radiogroupAction->set_int_val(0);
+				}
 				rightButtonDown = false;
 			}
 	}
@@ -488,7 +543,7 @@ void updateGLUI()
 
 void createGLUI()
 {
-	GLUI *glui = GLUI_Master.create_glui((char *) "Projet PROG");
+	GLUI *glui = GLUI_Master.create_glui((char *) "Fiat-lux", 0, GLUI_X, GLUI_Y);
 	//PANEL FILE
 	GLUI_Panel * panelFile = glui->add_panel((char*)"FILE",
 		GLUI_PANEL_EMBOSSED);
@@ -640,6 +695,8 @@ void actionPressed(int val)
 {	
 	if(actionSelect != val)
 	{
+		if(counterClick > 1 && entitySelect == ABSORBEUR_VAL)
+			modeleCreation(entitySelect, counterClick, tabPoint);
 		modeleUnselect();
 		cancelCreation();
 	}
@@ -662,6 +719,8 @@ void entityPressed(int val)
 {
 	if(entitySelect != val)
 	{
+		if(counterClick > 1 && entitySelect == ABSORBEUR_VAL)
+			modeleCreation(entitySelect, counterClick, tabPoint);
 		modeleUnselect();
 		cancelCreation();
 	}

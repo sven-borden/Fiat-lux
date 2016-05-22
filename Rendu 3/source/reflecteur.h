@@ -40,7 +40,15 @@ int interReflecteur(void);
 int reflInterAbs(void);
 /*Vérifie les intersections entre refl et proj*/
 int reflInterProj(void);
+/*Pour un manuel reflecteur donné, vérifie les inter*/
+int manualRefl(POINT, POINT);
 /*Trouve le reflecteur le plus proche en intersection
  *retourne NULL si aucune intersection*/
 POINT * reflProche(VECTOR);
+/*remet les compteurs à zero*/
+void resetLastReflect(void);
+/*Retourne le id du dernier reflecteur d'intersection*/
+int getLastId(void);
+/*Retourne le Vecteur d'un reflecteur selon l'id*/
+VECTOR getReflecteur(int);
 #endif

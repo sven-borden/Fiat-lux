@@ -85,6 +85,8 @@ int addProjecteur(POINT _pt, double _alpha)
 
 int delProjecteur(int _id)
 {
+	if(n == 0)
+		return OK;
 	PROJECTEUR *p = list;
 	if(p)
 	{
@@ -184,6 +186,11 @@ void printListProjecteur(void)
 		i++;
 	}
 	return ;
+}
+
+int manualProj(POINT a, POINT b, double alpha)
+{
+	return OK;
 }
 
 int projecteurExt(VECTOR v, int idV)

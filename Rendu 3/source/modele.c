@@ -87,16 +87,29 @@ void modeleCreation(short val, short nbPt, POINT tab[MAX_PT])
 	switch(val)
 	{
 		case PROJECTEUR_VAL:
+			/*cherche pour les 4 tableaux*/
 			alpha = asin((tab[1].y - tab[0].y)/
-						utilitaireDistance2Points(tab[1], tab[0]));
+							utilitaireDistance2Points(tab[1], tab[0]));
+			if(tab[1].x -tab[0].x < 0.)
+			{
+				if(tab[1].y - tab[0].y >= 0.)//cadran 2
+					alpha = alpha+(2*((M_PI/2)-alpha));
+				else//cadran 3
+					alpha = alpha-(2*((-M_PI/2)+alpha));;
+			}
 			if(nbPt == 2)
-				addProjecteur(tab[0], alpha);
+				if(manualProj(tab[0], tab[1], alpha))
+					addProjecteur(tab[0], alpha);
 			break;
 		case REFLECTEUR_VAL:
 			if(nbPt == 2)
-				addReflecteur(tab[0], tab[1]);
+				if(manualRefl(tab[0], tab[1]))
+					addReflecteur(tab[0], tab[1]);
 			break;
 		case ABSORBEUR_VAL:
+			if(nbPt >= 2)
+				if(manualAbso(nbPt, tab))
+					addAbsorbeur(nbPt, tab);
 			break; 
 	}
 	return ;

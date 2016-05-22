@@ -59,7 +59,7 @@ POINT * utilitaireIntersection(VECTOR v1, VECTOR v2)
 	
 	double v1x = v1.ptFin.x - v1.ptDeb.x;
 	if(v1x == 0)
-		v1x = 1e-08;
+		v1x = EPSILON_ZERO;
 	double v1y = v1.ptFin.y - v1.ptDeb.y;
 	double v2x = v2.ptFin.x - v2.ptDeb.x;
 	double v2y = v2.ptFin.y - v2.ptDeb.y;
