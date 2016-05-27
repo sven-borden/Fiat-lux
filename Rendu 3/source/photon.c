@@ -219,6 +219,7 @@ void check(PHOTON *p, VECTOR v)
 	}
 	if(prefl == NULL)//seulement un abso
 	{
+		printf("SUPPRIME\n");
 		delPhoton(p->id);
 		return;
 	}
